@@ -13,14 +13,12 @@ namespace vstm {
 	{
 		while (!m_window.IsClosed())
 		{
-			glfwPollEvents();
-			if (m_window.KeyPressed(GLFW_KEY_Z))
-			{
-				VSTM_CON_LOGINFO("Pressed up");
-			}
+			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+			glClear(GL_COLOR_BUFFER_BIT);
+
 			m_window.Update();
+			glfwPollEvents();
 		}
-	
 	}
 
 }

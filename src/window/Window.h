@@ -18,14 +18,18 @@ namespace vstm {
 
 	public:
 		void Update();
+		void Fill(float r, float g, float b, float a);
+		void SetFocus();
 		bool IsClosed();
 		bool KeyPressed(int key);
 		bool KeyHeld(int key);
 
 	private:
-		void OnKeyPressed(int key);
+		void OnKeyPress(int key);
 		void OnKeyHeld(int key);
 		void OnKeyRelease(int key);
+
+		void InitOpengl(int width, int height);
 
 	private:
 		static constexpr int keyCodes = 348;
