@@ -12,6 +12,7 @@ namespace vstm {
 		Logger() = default;
 
 	public:
+		static void Init();
 		static std::shared_ptr<spdlog::logger> Console();
 		static std::shared_ptr<spdlog::logger> Trace();
 		static std::shared_ptr<spdlog::logger> Debug();
@@ -25,7 +26,7 @@ namespace vstm {
 }
 
 
-#define VSTM_CON_LOGINFO(...) vstm::Logger::Console()->info([__VA_ARGS__)
+#define VSTM_CON_LOGINFO(...) vstm::Logger::Console()->info(__VA_ARGS__)
 #define VSTM_CON_LOGWARN(...) vstm::Logger::Console()->warn(__VA_ARGS__)
 #define VSTM_CON_LOGERROR(...) vstm::Logger::Console()->error(__VA_ARGS__)
 #define VSTM_CON_LOGCRITICAL(...) vstm::Logger::Console()->critical(__VA_ARGS__)

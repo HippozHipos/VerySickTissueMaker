@@ -11,6 +11,14 @@ namespace vstm {
 		spdlog::rotating_logger_mt("VSTM Debug", "logs/VSTMDebug.txt", 1024 * 1024, 5);
 
 
+	void Logger::Init()
+	{
+		const char* pattern = "[%D] [%H:%M:%S] [%n] [Thread %t]\n%v";
+		s_console.get()->set_pattern(pattern);
+		s_trace_file.get()->set_pattern(pattern);
+		s_debug_file.get()->set_pattern(pattern);
+	}
+
 	std::shared_ptr<spdlog::logger> Logger::Console()
 	{
 		return spdlog::get("VSTM Console");

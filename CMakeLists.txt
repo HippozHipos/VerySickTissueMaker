@@ -59,6 +59,6 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 
 )
 
-add_executable(${PROJECT_NAME} ${source_files})
+add_executable(${PROJECT_NAME} ${source_files} )
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glad spdlog OpenGL::GL glfw)

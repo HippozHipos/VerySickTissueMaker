@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[])
 {
-	spdlog::set_pattern("[%D] [%H:%M:%S] [%n] [Thread %t]\n%v");
+	vstm::Logger::Init();
 	VSTM_TRACE_LOGINFO("----------------------- START --------------------------\n");
 	VSTM_DEBUG_LOGINFO("----------------------- START --------------------------\n");
 	glfwSetErrorCallback(vstm::LogGLFWError);
