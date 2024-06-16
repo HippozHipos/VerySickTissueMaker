@@ -41,6 +41,7 @@ namespace vstm {
 			{
 				case Error::WINDOW_CONSTRUCTION_FAILED: WindowConstructionFailed();
 			}
+			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code : {}\nError description: {}\n", error.Errorcode(), error.What());
 		}
 		m_errors.clear();
 	}
@@ -57,8 +58,7 @@ namespace vstm {
 
 	void ErrorHandler::WindowConstructionFailed()
 	{
-		ErrorMessasgeBox("Couldn't create window", "Window construction failed\nApplication closed");
-		VSTM_DEBUG_LOGCRITICAL("Window creation failed\n");
+		ErrorMessasgeBox("Couldn't create window", "Window construction failed.\nApplication closed.");
 		m_actions.push_back(TerminateApplication);
 	}
 

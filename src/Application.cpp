@@ -16,6 +16,10 @@ namespace vstm {
 		HanldeErrorActions();
 		while (!m_window.IsClosed() && m_running)
 		{
+			if (m_window.MouseButtonPressed(GLFW_MOUSE_BUTTON_RIGHT))
+			{
+				VSTM_CON_LOGINFO("Mouse pressed");
+			}
 			m_window.Fill(1, 0, 0, 1);
 			m_window.Update();
 			glfwPollEvents();

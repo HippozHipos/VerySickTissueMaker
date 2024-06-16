@@ -4,9 +4,8 @@
 #include "util/Error.h"
 #include "util/Logger.h"
 
-
+// Callbacks
 namespace vstm {
-
 	void keyCallback(GLFWwindow* glfwwindow, int key, int scancode, int action, int mods)
 	{
 		vstm::Window* window = reinterpret_cast<vstm::Window*>(glfwGetWindowUserPointer(glfwwindow));
@@ -15,9 +14,33 @@ namespace vstm {
 			window->OnKeyPress(key);
 			window->OnKeyHeld(key);
 		}
-		if (window && action == GLFW_RELEASE)
+		else //(window && action == GLFW_RELEASE)
 		{
 			window->OnKeyRelease(key);
+		}
+	}
+
+	void mouseButtonCallback(GLFWwindow* glfwwindow, int button, int action, int mods)
+	{
+		vstm::Window* window = reinterpret_cast<vstm::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		if (window && action == GLFW_PRESS)
+		{
+			window->OnMousePress(button);
+			window->OnMouseHeld(button);
+		}
+		else //(window && action == GLFW_RELEASE)
+		{
+			window->OnMouseRelease(button);
+		}
+	}
+
+	void mousePositionCallback(GLFWwindow* glfwwindow, double xpos, double ypos)
+	{
+		vstm::Window* window = reinterpret_cast<vstm::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		if (window)
+		{
+			window->m_mouseX = xpos;
+			window->m_mouseY = ypos;
 		}
 	}
 
@@ -25,6 +48,10 @@ namespace vstm {
 	{
 		glViewport(0, 0, width, height);
 	}
+}
+
+
+namespace vstm {
 	
 	Window::Window(int width, int height, const char* title,
 		GLFWmonitor* monitor, GLFWwindow* share)
@@ -34,7 +61,8 @@ namespace vstm {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		m_pwindow = nullptr; glfwCreateWindow(width, height, title, monitor, share);
+
+		m_pwindow = glfwCreateWindow(width, height, title, monitor, share);
 		
 		if (m_pwindow == nullptr)
 		{
@@ -44,6 +72,8 @@ namespace vstm {
 		}
 
 		glfwSetKeyCallback(m_pwindow, keyCallback);
+		glfwSetMouseButtonCallback(m_pwindow, mouseButtonCallback);
+		glfwSetCursorPosCallback(m_pwindow, mousePositionCallback);
 		glfwSetWindowUserPointer(m_pwindow, reinterpret_cast<void*>(this));
 		InitOpengl(width, height);
 	}
@@ -57,6 +87,7 @@ namespace vstm {
 	void Window::Update()
 	{
 		m_keys_pressed.reset();
+		m_mouse_pressed.reset();
 		glfwSwapBuffers(m_pwindow);
 	}
 
@@ -86,6 +117,26 @@ namespace vstm {
 		return m_keys_held[key];
 	}
 
+	double Window::GetMouseX()
+	{
+		return m_mouseX;
+	}
+
+	double Window::GetMouseY()
+	{
+		return m_mouseY;
+	}
+
+	bool Window::MouseButtonPressed(int button)
+	{
+		return m_mouse_pressed[button];
+	}
+
+	bool Window::MouseButtonHeld(int button)
+	{
+		return m_mouse_held[button];
+	}
+
 	void Window::OnKeyPress(int key)
 	{
 		m_keys_pressed[key] = true;
@@ -99,6 +150,21 @@ namespace vstm {
 	void Window::OnKeyRelease(int key)
 	{
 		m_keys_held[key] = false;
+	}
+
+	void Window::OnMousePress(int button)
+	{
+		m_mouse_pressed[button] = true;
+	}
+
+	void Window::OnMouseHeld(int button)
+	{
+		m_mouse_held[button] = true;
+	}
+
+	void Window::OnMouseRelease(int button)
+	{
+		m_mouse_held[button] = false;
 	}
 
 	void Window::InitOpengl(int width, int height)
