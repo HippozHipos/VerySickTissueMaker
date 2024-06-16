@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 
 #include "Window.h"
+#include "util/Error.h"
 #include "util/Logger.h"
 
 
@@ -33,12 +34,11 @@ namespace vstm {
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-		m_pwindow = glfwCreateWindow(width, height, title, monitor, share);
+		m_pwindow = nullptr; glfwCreateWindow(width, height, title, monitor, share);
 		
 		if (m_pwindow == nullptr)
 		{
-			VSTM_DEBUG_LOGCRITICAL("glfwCreateWindow failed\n");
+			ErrorHandler::AddError(Error::WINDOW_CONSTRUCTION_FAILED, "Couldn't construct window");
 			glfwTerminate();
 			return;
 		}

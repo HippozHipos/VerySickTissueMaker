@@ -4,16 +4,18 @@
 
 namespace vstm {
 
-	class TissueMaker
+	class Application
 	{
 	public:
-		TissueMaker();
-		~TissueMaker() = default;
+		Application();
+		~Application() = default;
 
 	public:
+		void HanldeErrorActions();
 		void Run();
 
 	private:
+		bool m_running = true;
 		Window m_window;
 	};
 
