@@ -6,13 +6,12 @@
 
 namespace vstm {
 
-
-
 	class Window
 	{
 		friend void keyCallback(GLFWwindow*, int, int, int, int);
 		friend void mouseButtonCallback(GLFWwindow*, int, int, int);
 		friend void mousePositionCallback(GLFWwindow*, double, double);
+		friend void scrollWheelCallback(GLFWwindow*, double, double);
 	public:
 		Window() = default;
 		Window(int width, int height, const char* title,
@@ -54,8 +53,14 @@ namespace vstm {
 		static constexpr int buttonCodes = 5;
 		std::bitset<keyCodes> m_mouse_pressed;
 		std::bitset<keyCodes> m_mouse_held;
-		double m_mouseX = 0;
-		double m_mouseY = 0;
+		double m_mousex = 0;
+		double m_mousey = 0;
+		double m_scrollx = 0;
+		double m_scrolly = 0;
+
+		// Considering getting the delta of mouse scrolling, which is the rate of each scrolling movement.
+		double m_delta_scrollx = 0;
+		double m_delta_scrolly = 0;
 
 		GLFWwindow* m_pwindow;
 	};

@@ -39,8 +39,18 @@ namespace vstm {
 		vstm::Window* window = reinterpret_cast<vstm::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window)
 		{
-			window->m_mouseX = xpos;
-			window->m_mouseY = ypos;
+			window->m_mousex = xpos;
+			window->m_mousey = ypos;
+		}
+	}
+
+	void scrollWheelCallback(GLFWwindow* glfwwindow, double xoffset, double yoffset)
+	{
+		vstm::Window* window = reinterpret_cast<vstm::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		if (window)
+		{
+			window->m_scrollx = xoffset;
+			window->m_scrolly = yoffset;
 		}
 	}
 
@@ -74,6 +84,7 @@ namespace vstm {
 		glfwSetKeyCallback(m_pwindow, keyCallback);
 		glfwSetMouseButtonCallback(m_pwindow, mouseButtonCallback);
 		glfwSetCursorPosCallback(m_pwindow, mousePositionCallback);
+		glfwSetScrollCallback(m_pwindow, scrollWheelCallback);
 		glfwSetWindowUserPointer(m_pwindow, reinterpret_cast<void*>(this));
 		InitOpengl(width, height);
 	}
@@ -119,12 +130,12 @@ namespace vstm {
 
 	double Window::GetMouseX()
 	{
-		return m_mouseX;
+		return m_mousex;
 	}
 
 	double Window::GetMouseY()
 	{
-		return m_mouseY;
+		return m_mousey;
 	}
 
 	bool Window::MouseButtonPressed(int button)
