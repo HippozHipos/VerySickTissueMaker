@@ -29,6 +29,8 @@ namespace vstm {
 		
 		double GetMouseX();
 		double GetMouseY();
+		double GetScrollX();
+		double GetScrollY();
 
 
 		bool MouseButtonPressed(int button);
@@ -57,10 +59,6 @@ namespace vstm {
 		double m_mousey = 0;
 		double m_scrollx = 0;
 		double m_scrolly = 0;
-
-		// Considering getting the delta of mouse scrolling, which is the rate of each scrolling movement.
-		double m_delta_scrollx = 0;
-		double m_delta_scrolly = 0;
 
 		GLFWwindow* m_pwindow;
 	};

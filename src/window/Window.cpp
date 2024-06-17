@@ -138,6 +138,20 @@ namespace vstm {
 		return m_mousey;
 	}
 
+	double Window::GetScrollX()
+	{
+		double scrollx = m_scrollx;
+		m_scrolly = 0.0f;
+		return scrollx;
+	}
+
+	double Window::GetScrollY()
+	{
+		double scrollx = m_scrolly;
+		m_scrolly = 0.0f;
+		return scrollx;
+	}
+
 	bool Window::MouseButtonPressed(int button)
 	{
 		return m_mouse_pressed[button];
