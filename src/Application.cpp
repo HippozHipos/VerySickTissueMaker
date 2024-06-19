@@ -63,6 +63,7 @@ namespace rend {
 		glShaderSource(vertex_shader, 1, &vertex_shader_string, NULL); // Bind the vertex shader/Attach the shader source code to the shader object and compile the shader: 
 		glCompileShader(vertex_shader);
 	}
+
 	// V for vertex
 	void runVShaders()
 	{
@@ -77,11 +78,16 @@ namespace rend {
 		fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragment_shader, 1, &fragment_shader_string, NULL);
 		glCompileShader(fragment_shader);
+	}
+
+	void runFShaders()
+	{
+		genFShaders();
 		glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
 		ivCheck(fragment_shader, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED");
 	}
 
-	void runFShaders()
+	void genShaderProgram()
 	{
 		shader_program = glCreateProgram();
 		// Link the shaders
@@ -92,11 +98,10 @@ namespace rend {
 
 	void runShaderProgram()
 	{
-		genFShaders();
-		runFShaders();
+		genShaderProgram();
 		glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
 		ivCheck(shader_program, "ERROR::SHADER::PROGRAM::LINKING_FAILED");
-		// Use the program
+		// run the shader program
 		glUseProgram(shader_program);
 	}
 
@@ -125,6 +130,7 @@ namespace vstm {
 
 			// Shader start
 			rend::runVShaders();
+			rend::runFShaders();
 			rend::runShaderProgram();
 			rend::deleteShaders();
 			// Shader end
