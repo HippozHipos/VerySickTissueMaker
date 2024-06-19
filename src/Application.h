@@ -11,7 +11,7 @@ namespace vstm {
 		~Application() = default;
 
 	public:
-		void HanldeErrorActions();
+		void HandleErrorActions();
 		void Run();
 
 	private:

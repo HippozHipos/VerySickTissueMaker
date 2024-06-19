@@ -141,14 +141,14 @@ namespace vstm {
 	double Window::GetScrollX()
 	{
 		double scrollx = m_scrollx;
-		m_scrolly = 0.0f;
+		m_scrolly = 0.0;
 		return scrollx;
 	}
 
 	double Window::GetScrollY()
 	{
 		double scrollx = m_scrolly;
-		m_scrolly = 0.0f;
+		m_scrolly = 0.0;
 		return scrollx;
 	}
 
