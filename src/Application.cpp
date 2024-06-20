@@ -12,6 +12,7 @@ namespace rend {
 	unsigned int vertex_shader;
 	unsigned int fragment_shader;
 	unsigned int VBO;
+	unsigned int VAO;
 	unsigned int shader_program;
 
 	const char* vertex_shader_string = "#version 330 core\n"
@@ -39,7 +40,7 @@ namespace rend {
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 512, NULL, info_log);
-			VSTM_CON_LOGERROR(err_string, " : {}\n", info_log);
+			VSTM_CON_LOGERROR("%s : %d\n", err_string, info_log);
 		}
 	}
 
@@ -48,12 +49,19 @@ namespace rend {
 	// functions don't work on input, they work on ANY object that is bound. This includes but not limited to colours, buffers (VBO, VAO), objects...etc.
 	void genBuffers() 
 	{
+		// -1. bind Vertex Array Object - this will hold all the attribute pointers pointing to VBO data.
+		// Consider this to "contain" VBO's, despite it not doing so in practice.
+		glGenVertexArrays(1, &VAO);
+		// 0. copy our vertices array in a buffer for OpenGL to use
 		glGenBuffers(1, &VBO);															// Make n number of buffer(s) and assign id to buffer
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);												// Binds the VBO
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);		// Copy data into the bound VBO in the gpu
 																						//		GL_STREAM_DRAW  : the data is set only once and used by the GPU at most a few times.
 																						//		GL_STATIC_DRAW  : the data is set only once and used many times.
 																						//		GL_DYNAMIC_DRAW : the data is changed a lot and used many times.
+		// 1. then set the vertex attributes pointers
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
 	}
 
 	// V for vertex
@@ -67,7 +75,6 @@ namespace rend {
 	// V for vertex
 	void runVShaders()
 	{
-		genBuffers();
 		genVShaders();
 		glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
 		ivCheck(vertex_shader, "ERROR::SHADER::VERTEX::COMPILATION_FAILED");
@@ -101,8 +108,14 @@ namespace rend {
 		genShaderProgram();
 		glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
 		ivCheck(shader_program, "ERROR::SHADER::PROGRAM::LINKING_FAILED");
-		// run the shader program
+	}
+	
+	void useProgram()
+	{
+		// run the shader program and bind VAO
 		glUseProgram(shader_program);
+		glBindVertexArray(VAO);
+		glDrawArrays(GL_TRIANGLES, 0, 3); // TRIANGLE!!!
 	}
 
 	void deleteShaders()
@@ -124,15 +137,18 @@ namespace vstm {
 	{
 		ErrorHandler::Handle();
 		HandleErrorActions();
+
+		rend::genBuffers();
+		rend::runVShaders();
+		rend::runFShaders();
+		rend::runShaderProgram();
+
 		while (!m_window.IsClosed() && m_running)
 		{
 			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
 
 			// Shader start
-			rend::runVShaders();
-			rend::runFShaders();
-			rend::runShaderProgram();
-			rend::deleteShaders();
+			rend::useProgram();
 			// Shader end
 			
 			m_window.Update();
@@ -140,6 +156,7 @@ namespace vstm {
 			ErrorHandler::Handle();
 			HandleErrorActions();
 		}
+		rend::deleteShaders();
 	}
 
 	void Application::HandleErrorActions()
