@@ -9,120 +9,112 @@ namespace rend {
 
 	int  success;
 	char info_log[512];
-	unsigned int vertex_shader;
-	unsigned int fragment_shader;
-	unsigned int VBO;
-	unsigned int VAO;
-	unsigned int shader_program;
+	unsigned int vertexShader;
+	unsigned int fragmentShader;
+	unsigned int shaderProgram;
+	unsigned int VBO, VAO;
 
-	const char* vertex_shader_string = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
+
+	const char* vertexShaderSource = "#version 330 core\n"
+		"layout (location = 1 in vec3 aPos;\n"
 		"void main()\n"
 		"{\n"
-		"gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+		"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
 		"}\0";
 
-	const char* fragment_shader_string = "#version 330 core\n"
+	const char* fragmentShaderSource = "#version 330 core\n"
 		"out vec4 FragColor;\n"
 		"void main()\n"
 		"{\n"
-		"FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-		"}\0";
+		"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+		"}\n\0";
 
-	static float vertices[] = {
-	-0.5f, -0.5f, 0.0f,
-	 0.5f, -0.5f, 0.0f,
-	 0.0f,  0.5f, 0.0f
+	float vertices[] = {
+	-0.5f, -0.5f, 0.0f, // left  
+	 0.5f, -0.5f, 0.0f, // right 
+	 0.0f,  0.5f, 0.0f  // top   
 	};
 
-	void ivCheck(unsigned int shader, const char* err_string)
+	void shitMain()
 	{
+		// build and compile our shader program
+		// ------------------------------------
+		// vertex shader
+		vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+		glCompileShader(vertexShader);
+
+		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 		if (!success)
 		{
-			glGetShaderInfoLog(shader, 512, NULL, info_log);
-			VSTM_CON_LOGERROR("%s : %d\n", err_string, info_log);
+			glGetShaderInfoLog(vertexShader, 512, NULL, info_log);
+			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << info_log << std::endl;
 		}
-	}
 
+		// fragment shader
+		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+		glCompileShader(fragmentShader);
+		// check for shader compile errors
+		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+		if (!success)
+		{
+			glGetShaderInfoLog(fragmentShader, 512, NULL, info_log);
+			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << info_log << std::endl;
+		}
 
-	// Opengl is a state machine;
-	// functions don't work on input, they work on ANY object that is bound. This includes but not limited to colours, buffers (VBO, VAO), objects...etc.
-	void genBuffers() 
-	{
-		// -1. bind Vertex Array Object - this will hold all the attribute pointers pointing to VBO data.
-		// Consider this to "contain" VBO's, despite it not doing so in practice.
+		// link shaders
+		shaderProgram = glCreateProgram();
+		glAttachShader(shaderProgram, vertexShader);
+		glAttachShader(shaderProgram, fragmentShader);
+		glLinkProgram(shaderProgram);
+		// check for linking errors
+		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+		if (!success) 
+		{
+			glGetProgramInfoLog(shaderProgram, 512, NULL, info_log);
+			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << info_log << std::endl;
+		}
+
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+
 		glGenVertexArrays(1, &VAO);
-		// 0. copy our vertices array in a buffer for OpenGL to use
-		glGenBuffers(1, &VBO);															// Make n number of buffer(s) and assign id to buffer
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);												// Binds the VBO
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);		// Copy data into the bound VBO in the gpu
-																						//		GL_STREAM_DRAW  : the data is set only once and used by the GPU at most a few times.
-																						//		GL_STATIC_DRAW  : the data is set only once and used many times.
-																						//		GL_DYNAMIC_DRAW : the data is changed a lot and used many times.
-		// 1. then set the vertex attributes pointers
+		glGenBuffers(1, &VBO);
+		// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+		glBindVertexArray(VAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
+
+		// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+		// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
+		// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
+		glBindVertexArray(0);
 	}
 
-	// V for vertex
-	void genVShaders()
+	void renderLoop()
 	{
-		vertex_shader = glCreateShader(GL_VERTEX_SHADER); // Create vertex shader
-		glShaderSource(vertex_shader, 1, &vertex_shader_string, NULL); // Bind the vertex shader/Attach the shader source code to the shader object and compile the shader: 
-		glCompileShader(vertex_shader);
+		// draw our first triangle
+		glUseProgram(shaderProgram);
+		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+		// glBindVertexArray(0); // no need to unbind it every time 
+
 	}
 
-	// V for vertex
-	void runVShaders()
+	void deleshit()
 	{
-		genVShaders();
-		glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
-		ivCheck(vertex_shader, "ERROR::SHADER::VERTEX::COMPILATION_FAILED");
+		glDeleteVertexArrays(1, &VAO);
+		glDeleteBuffers(1, &VBO);
+		glDeleteProgram(shaderProgram);
 	}
 
-	void genFShaders()
-	{
-		fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragment_shader, 1, &fragment_shader_string, NULL);
-		glCompileShader(fragment_shader);
-	}
-
-	void runFShaders()
-	{
-		genFShaders();
-		glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
-		ivCheck(fragment_shader, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED");
-	}
-
-	void genShaderProgram()
-	{
-		shader_program = glCreateProgram();
-		// Link the shaders
-		glAttachShader(shader_program, vertex_shader);
-		glAttachShader(shader_program, fragment_shader);
-		glLinkProgram(shader_program);
-	}
-
-	void runShaderProgram()
-	{
-		genShaderProgram();
-		glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
-		ivCheck(shader_program, "ERROR::SHADER::PROGRAM::LINKING_FAILED");
-	}
-	
-	void useProgram()
-	{
-		// run the shader program and bind VAO
-		glUseProgram(shader_program);
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3); // TRIANGLE!!!
-	}
-
-	void deleteShaders()
-	{
-		glDeleteShader(vertex_shader);
-		glDeleteShader(fragment_shader);
-	}
 }
 
 namespace vstm {
@@ -138,25 +130,24 @@ namespace vstm {
 		ErrorHandler::Handle();
 		HandleErrorActions();
 
-		rend::genBuffers();
-		rend::runVShaders();
-		rend::runFShaders();
-		rend::runShaderProgram();
+		rend::shitMain();
 
 		while (!m_window.IsClosed() && m_running)
 		{
 			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
 
 			// Shader start
-			rend::useProgram();
+			rend::renderLoop();
 			// Shader end
+
+
 			
 			m_window.Update();
 			glfwPollEvents();
 			ErrorHandler::Handle();
 			HandleErrorActions();
 		}
-		rend::deleteShaders();
+		rend::deleshit();
 	}
 
 	void Application::HandleErrorActions()
