@@ -56,6 +56,8 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 			src/util/*.cpp
 			src/window/*.h
 			src/window/*.cpp
+			src/renderer/*.h
+			src/renderer/*.cpp
 
 )
 

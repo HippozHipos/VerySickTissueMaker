@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "util/Logger.h"
 #include "util/Error.h"
+#include "renderer/Renderer.h"
 
 namespace rend {
 
@@ -15,19 +16,19 @@ namespace rend {
 	unsigned int VBO, VAO;
 
 
-	const char* vertexShaderSource = "#version 330 core\n"
+	/*const char* vertexShaderSource = "#version 330 core\n"
 		"layout (location = 1 in vec3 aPos;\n"
 		"void main()\n"
 		"{\n"
 		"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-		"}\0";
+		"}\0";*/
 
-	const char* fragmentShaderSource = "#version 330 core\n"
+	/*const char* fragmentShaderSource = "#version 330 core\n"
 		"out vec4 FragColor;\n"
 		"void main()\n"
 		"{\n"
 		"   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-		"}\n\0";
+		"}\n\0";*/
 
 	float vertices[] = {
 	-0.5f, -0.5f, 0.0f, // left  
@@ -37,6 +38,10 @@ namespace rend {
 
 	void shitMain()
 	{
+		vstm::Renderer renderer{};
+		const char* vertexShaderSource = renderer.VertexShaderSource().c_str();
+		const char* fragmentShaderSource = renderer.FragmentShaderSource().c_str();
+
 		// build and compile our shader program
 		// ------------------------------------
 		// vertex shader
