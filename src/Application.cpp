@@ -1,18 +1,8 @@
-#include <iostream>
-#include <glad/glad.h>
-
 #include "Application.h"
 #include "util/Logger.h"
 #include "util/Error.h"
-#include "renderer/Renderer.h"
 
 namespace rend {
-
-	int  success;
-	char info_log[512];
-	unsigned int vertexShader;
-	unsigned int fragmentShader;
-	unsigned int shaderProgram;
 	unsigned int VBO, VAO, EBO;
 
 	float vertices[] = {
@@ -29,52 +19,6 @@ namespace rend {
 
 	void shitMain()
 	{
-		vstm::Renderer renderer{};
-		const char* vertexShaderSource = renderer.VertexShaderSource().c_str();
-		const char* fragmentShaderSource = renderer.FragmentShaderSource().c_str();
-
-		// build and compile our shader program
-		// ------------------------------------
-		// vertex shader
-		vertexShader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-		glCompileShader(vertexShader);
-
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vertexShader, 512, NULL, info_log);
-			std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << info_log << std::endl;
-		}
-
-		// fragment shader
-		fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-		glCompileShader(fragmentShader);
-		// check for shader compile errors
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(fragmentShader, 512, NULL, info_log);
-			std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << info_log << std::endl;
-		}
-
-		// link shaders
-		shaderProgram = glCreateProgram();
-		glAttachShader(shaderProgram, vertexShader);
-		glAttachShader(shaderProgram, fragmentShader);
-		glLinkProgram(shaderProgram);
-		// check for linking errors
-		glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-		if (!success) 
-		{
-			glGetProgramInfoLog(shaderProgram, 512, NULL, info_log);
-			std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << info_log << std::endl;
-		}
-
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
-
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 		glGenBuffers(1, &EBO);
@@ -102,7 +46,6 @@ namespace rend {
 	void renderLoop()
 	{
 		// draw our first triangle
-		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		// glBindVertexArray(0); // no need to unbind it every time 
@@ -113,7 +56,6 @@ namespace rend {
 	{
 		glDeleteVertexArrays(1, &VAO);
 		glDeleteBuffers(1, &VBO);
-		glDeleteProgram(shaderProgram);
 	}
 
 }

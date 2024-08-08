@@ -1,6 +1,9 @@
 #pragma once
 
 #include <string>
+#include <memory>
+
+#include "Shaders.h"
 
 namespace vstm {
 
@@ -25,6 +28,8 @@ namespace vstm {
 
 		std::string m_vertex_shader_source;
 		std::string m_fragment_shader_source;
+
+		std::unique_ptr<Shaders> m_shaders;
 	};
 
 }

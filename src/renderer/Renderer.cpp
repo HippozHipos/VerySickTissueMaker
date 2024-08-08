@@ -11,6 +11,8 @@ namespace vstm {
 	{
 		LoadShaderSource(m_vertex_shader_source_path, m_vertex_shader_source);
 		LoadShaderSource(m_fragment_shader_source_path, m_fragment_shader_source);
+		m_shaders = std::make_unique<Shaders>(VertexShaderSource(), FragmentShaderSource());
+		m_shaders->Use();
 	}
 
 	const std::string& Renderer::VertexShaderSource()
