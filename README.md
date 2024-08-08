@@ -1,4 +1,7 @@
 # VerySickTissueMaker
+For a research internship to do with 3D printing cells.
+Aims to be like Unreal or Unitys Level editor, but for cells.
+
 
 ## src directory
 Source contains the main driver code for this program. 
