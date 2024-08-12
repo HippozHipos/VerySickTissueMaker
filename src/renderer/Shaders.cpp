@@ -7,13 +7,13 @@ namespace vstm {
         GLuint vertexShader = compileShader(GL_VERTEX_SHADER, vertexSource);
         GLuint fragmentShader = compileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
-        programID = glCreateProgram();
-        glAttachShader(programID, vertexShader);
-        glAttachShader(programID, fragmentShader);
-        glLinkProgram(programID);
+        m_program_id = glCreateProgram();
+        glAttachShader(m_program_id, vertexShader);
+        glAttachShader(m_program_id, fragmentShader);
+        glLinkProgram(m_program_id);
 
         GLint success;
-        glGetProgramiv(programID, GL_LINK_STATUS, &success);
+        glGetProgramiv(m_program_id, GL_LINK_STATUS, &success);
         if (!success) 
         {
             GLchar infoLog[512];
@@ -27,17 +27,22 @@ namespace vstm {
 
 	Shaders::~Shaders()
 	{
-		glDeleteProgram(programID);
+		glDeleteProgram(m_program_id);
 	}
 
 	void Shaders::Use() const
 	{
-		glUseProgram(programID);
+		glUseProgram(m_program_id);
 	}
 
 	GLuint Shaders::GetID() const
 	{
-		return programID;
+		return m_program_id;
+	}
+
+	void Shaders::SetFloat(const std::string& name, float value) const
+	{
+		glUniform1f(glGetUniformLocation(m_program_id, name.c_str()), value);
 	}
 
 	GLuint Shaders::compileShader(GLenum type, const std::string& source)

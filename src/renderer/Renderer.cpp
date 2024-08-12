@@ -14,6 +14,7 @@ namespace vstm {
 		m_shaders = std::make_unique<Shaders>(VertexShaderSource(), FragmentShaderSource());
 		m_shaders->Use();
 		m_vertex_array.Bind();
+		m_shaders->SetFloat("x", 1);
 	}
 
 	const std::string& Renderer::VertexShaderSource()

@@ -15,12 +15,13 @@ namespace vstm {
     public: 
         void Use() const;
         GLuint GetID() const;
+        void SetFloat(const std::string& name, float value) const;
 
     private:
         GLuint compileShader(GLenum type, const std::string& source);
 
     private:
-        GLuint programID;
+        GLuint m_program_id;
 
     };
 

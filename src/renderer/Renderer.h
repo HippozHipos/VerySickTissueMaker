@@ -8,8 +8,6 @@
 
 namespace vstm {
 
-	
-	//NOTE: Should eventually make vertex and fragment shader classes but its fine for now.
 	class Renderer
 	{
 	public:
