@@ -13,6 +13,7 @@ namespace vstm {
 		LoadShaderSource(m_fragment_shader_source_path, m_fragment_shader_source);
 		m_shaders = std::make_unique<Shaders>(VertexShaderSource(), FragmentShaderSource());
 		m_shaders->Use();
+		m_vertex_array.Bind();
 	}
 
 	const std::string& Renderer::VertexShaderSource()
@@ -38,4 +39,15 @@ namespace vstm {
 		source = oss.str();
 	}
 
+	void Renderer::Render()
+	{
+		m_vertex_array.Bind();
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
+
+	void Renderer::DeleteLater()
+	{
+		m_vertex_array.SetupLayout<float>(3);
+		m_vertex_array.AddLayout();
+	}
 }

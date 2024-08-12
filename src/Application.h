@@ -19,7 +19,7 @@ namespace vstm {
 	private:
 		bool m_running = true;
 		Window m_window;
-		vstm::Renderer renderer{};
+		vstm::Renderer m_renderer{};
 	};
 
 }

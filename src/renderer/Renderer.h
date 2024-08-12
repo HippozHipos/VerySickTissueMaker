@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "Shaders.h"
+#include "VertexArray.h"
 
 namespace vstm {
 
@@ -18,6 +19,10 @@ namespace vstm {
 	public:
 		const std::string& VertexShaderSource();
 		const std::string& FragmentShaderSource();
+		void Render();
+
+		//NOTE: This function is only here to make it work for now. It setsup layout of vertex buffer.
+		void DeleteLater();
 
 	private:
 		void LoadShaderSource(const char* path, std::string& source);
@@ -30,6 +35,8 @@ namespace vstm {
 		std::string m_fragment_shader_source;
 
 		std::unique_ptr<Shaders> m_shaders;
+		VertexArray m_vertex_array{};
+
 	};
 
 }
