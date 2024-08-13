@@ -4,7 +4,9 @@
 #include <memory>
 
 #include "Shaders.h"
-#include "VertexArray.h"
+#include "buffers/VertexArray.h"
+
+#include "camera/Camera.h"
 
 namespace vstm {
 
@@ -26,6 +28,8 @@ namespace vstm {
 		void LoadShaderSource(const char* path, std::string& source);
 
 	private:
+		PerspectiveCamera m_camera{ glm::radians(45.0f), 600.0f / 600.0f, 0.1f, 100.0f };
+
 		const char* m_vertex_shader_source_path = "../../../assets/shaders/vertex_shader.shader";
 		const char* m_fragment_shader_source_path = "../../../assets/shaders/fragment_shader.shader";
 

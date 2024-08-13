@@ -1,9 +1,9 @@
 #include "Application.h"
 #include "util/Logger.h"
 #include "util/Error.h"
-#include "Renderer/VertexBuffer.h"
-#include "Renderer/IndexBuffer.h"
-#include "Renderer/VertexArray.h"
+#include "renderer/buffers/VertexBuffer.h"
+#include "renderer/buffers/IndexBuffer.h"
+#include "renderer/buffers/VertexArray.h"
 
 namespace rend {
 
@@ -46,7 +46,6 @@ namespace rend {
 		3, 2, 6,
 		6, 7, 3
 	};
-
 
 
 	void setup(vstm::Renderer& renderer)

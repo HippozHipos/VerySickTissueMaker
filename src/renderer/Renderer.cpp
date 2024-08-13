@@ -20,20 +20,8 @@ namespace vstm {
 		m_shaders->Use();
 		m_vertex_array.Bind();
 
-		m_shaders->SetMat4f(
-			"projection",
-			glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f)
-		);
-
-		m_shaders->SetMat4f(
-			"rotation",
-			glm::rotate(glm::mat4(1.0f), glm::radians(-45.0f), glm::vec3(1.0f, 1.0f, 0.0f))
-		);
-		
-		m_shaders->SetMat4f(
-			"translation",
-			glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f))
-		);
+		m_shaders->SetMat4f("projection", m_camera.GetProjection());
+		m_camera.Position.z = -5; m_camera.Rotation.y = 0.5f;
 	}
 
 	const std::string& Renderer::VertexShaderSource()
@@ -62,6 +50,8 @@ namespace vstm {
 	void Renderer::Render()
 	{
 		m_vertex_array.Bind();
+		m_shaders->SetMat4f("rotation", m_camera.GetRotation());
+		m_shaders->SetMat4f("translation", m_camera.GetTranslation());
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 	}
 

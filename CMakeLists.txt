@@ -61,11 +61,15 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 			src/util/*.cpp
 			src/window/*.h
 			src/window/*.cpp
-			src/Renderer/*.h
-			src/Renderer/*.cpp
+			src/renderer/*.h
+			src/renderer/*.cpp
+				src/renderer/buffers/*.h
+				src/renderer/buffers/*.cpp
+				src/renderer/camera/*.h
+				src/renderer/camera/*.cpp
 
 )
 
-add_executable(${PROJECT_NAME} ${source_files})
+add_executable(${PROJECT_NAME} ${source_files} "src/renderer/camera/Camera.h")
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glad spdlog OpenGL::GL glfw)
