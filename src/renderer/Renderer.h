@@ -20,7 +20,7 @@ namespace vstm {
 		void Render();
 
 		//NOTE: This function is only here to make it work for now. It setsup layout of vertex buffer.
-		void DeleteLater();
+		void SetLayout();
 
 	private:
 		void LoadShaderSource(const char* path, std::string& source);

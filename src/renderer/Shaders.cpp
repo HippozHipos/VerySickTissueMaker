@@ -1,3 +1,5 @@
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Shaders.h"
 
 namespace vstm {
@@ -43,6 +45,11 @@ namespace vstm {
 	void Shaders::SetFloat(const std::string& name, float value) const
 	{
 		glUniform1f(glGetUniformLocation(m_program_id, name.c_str()), value);
+	}
+
+	void Shaders::SetMat4f(const std::string& name, glm::mat4 value, bool transpose) const
+	{
+		glUniformMatrix4fv(glGetUniformLocation(m_program_id, name.c_str()), 1, transpose, glm::value_ptr(value));
 	}
 
 	GLuint Shaders::compileShader(GLenum type, const std::string& source)

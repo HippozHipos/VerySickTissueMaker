@@ -3,7 +3,6 @@
 #include "Application.h"
 #include "Renderer/OpenglError.h"
 #include "glad/glad.h"
-#include "glm/glm.hpp"
 
 int main(int argc, char* argv[])
 {
