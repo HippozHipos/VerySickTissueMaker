@@ -14,36 +14,58 @@ namespace vstm {
 		PerspectiveCamera(float fovy, float aspect, float near, float far)
 		{
 			m_projection = glm::perspective(fovy, aspect, near, far);
-			m_position = GetTranslation();
-			m_rotation = GetRotation();
 		};
 
 	public:
-		const glm::mat4& GetProjection()
+		const glm::mat4& GetProjectionMatrix()
 		{
 			return m_projection;
 		}
 
-		glm::mat4 GetTranslation()
+		glm::mat4 GetViewMatrix()
 		{
-			return glm::translate(glm::mat4(1.0f), Position);
+			m_right = glm::normalize(glm::cross(m_forward, m_world_up));
+			return glm::lookAt(Position, Position + m_forward, 
+				glm::normalize(glm::cross(m_right, m_forward)));
 		}
 
-		glm::mat4 GetRotation()
+		void SetWorldUp(const glm::vec3& up)
 		{
-			return  glm::rotate(glm::mat4(1.0f), Rotation.x, glm::vec3(1.0f, 0.0f, 0.0f)) *
-					glm::rotate(glm::mat4(1.0f), Rotation.y, glm::vec3(0.0f, 1.0f, 0.0f)) *
-					glm::rotate(glm::mat4(1.0f), Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+			m_world_up = up;
+		}
+
+		void UpdateVectors()
+		{
+			m_forward.x = cos(glm::radians(Rotation.z)) * cos(glm::radians(Rotation.y));
+			m_forward.y = sin(glm::radians(Rotation.y));
+			m_forward.z = sin(glm::radians(Rotation.z)) * cos(glm::radians(Rotation.y));
+			m_forward = glm::normalize(m_forward);
+
+			if (Rotation.y > 89.0f)
+				Rotation.y = 89.0f;
+			if (Rotation.y < -89.0f)
+				Rotation.y = -89.0f;
+		}
+
+		const glm::vec3& GetForwardVector()
+		{
+			return m_forward;
 		}
 
 	public:
-		glm::vec3 Position{ 0.0f, 0.0f, 0.0f, };
-		glm::vec3 Rotation{ 0.0f, 0.0f, 0.0f };
+		glm::vec3 Position{ 0.0f, 0.0f, -5.0f, };
+		glm::vec3 Rotation{ 0.0f, 0.0f, 90.0f };
 
 	private:
 		glm::mat4 m_position;
 		glm::mat4 m_rotation;
 		glm::mat4 m_projection;
+
+
+		glm::vec3 m_world_up{ 0.0f, 1.0f, 0.0f };
+		glm::vec3 m_right{ 0.0f, 0.0f, 0.0f };
+
+		glm::vec3 m_forward{ 0.0f, 0.0f, 0.0f };
 	};
 
 }
