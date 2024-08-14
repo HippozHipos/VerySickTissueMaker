@@ -20,6 +20,7 @@ namespace vstm {
 		const std::string& VertexShaderSource();
 		const std::string& FragmentShaderSource();
 		void Render();
+		PerspectiveCamera& GetCamera();
 
 		//NOTE: This function is only here to make it work for now. It setsup layout of vertex buffer.
 		void SetLayout();

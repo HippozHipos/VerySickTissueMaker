@@ -52,6 +52,47 @@ namespace vstm {
 			return m_forward;
 		}
 
+		void ProcessKeyboardMovement(float deltaTime, int forwardKey, int backKey, int leftKey, int rightKey)
+		{
+			float velocity = m_movement_speed * deltaTime;
+			if (forwardKey)
+				Position += m_forward * velocity;
+			if (backKey)
+				Position -= m_forward * velocity;
+			if (rightKey)
+				Position += m_right * velocity;
+			if (leftKey)
+				Position -= m_right * velocity;
+		}
+
+		void ProcessMouseMovement(float xoffset, float yoffset, bool constrain_pitch = true)
+		{
+			xoffset *= m_mouse_sensitivity;
+			yoffset *= m_mouse_sensitivity;
+
+			Rotation.z += xoffset;
+			Rotation.y += yoffset;
+
+			if (constrain_pitch)
+			{
+				if (Rotation.y > 89.0f)
+					Rotation.y = 89.0f;
+				if (Rotation.y < -89.0f)
+					Rotation.y = -89.0f;
+			}
+
+			UpdateVectors();
+		}
+
+		void ProcessMouseScroll(float yoffset)
+		{
+			m_zoom -= (float)yoffset;
+			if (m_zoom < 1.0f)
+				m_zoom = 1.0f;
+			if (m_zoom > 45.0f)
+				m_zoom = 45.0f;
+		}
+
 	public:
 		glm::vec3 Position{ 0.0f, 0.0f, -5.0f, };
 		glm::vec3 Rotation{ 0.0f, 0.0f, 90.0f };
@@ -61,10 +102,14 @@ namespace vstm {
 		glm::mat4 m_rotation;
 		glm::mat4 m_projection;
 
+		// Camera settings
+		float m_movement_speed = 2.5f;
+		float m_mouse_sensitivity = 0.1f;
+		float m_zoom = 45.0f;
+
 
 		glm::vec3 m_world_up{ 0.0f, 1.0f, 0.0f };
 		glm::vec3 m_right{ 0.0f, 0.0f, 0.0f };
-
 		glm::vec3 m_forward{ 0.0f, 0.0f, 0.0f };
 	};
 

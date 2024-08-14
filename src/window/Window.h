@@ -36,6 +36,8 @@ namespace vstm {
 		bool MouseButtonPressed(int button);
 		bool MouseButtonHeld(int button);
 
+		GLFWwindow* GetGLFWWindow();
+
 	private:
 		void OnKeyPress(int key);
 		void OnKeyHeld(int key);

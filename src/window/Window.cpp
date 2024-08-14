@@ -204,4 +204,9 @@ namespace vstm {
 		glfwSetFramebufferSizeCallback(m_pwindow, FrameBufferSizeCallback);
 	}
 
+	GLFWwindow* Window::GetGLFWWindow() 
+	{ 
+		return m_pwindow; 
+	}
+
 }

@@ -18,8 +18,13 @@ namespace vstm {
 
 	private:
 		bool m_running = true;
+		void ProcessInput(double deltaTime);
+		void CaptureMouse(GLFWwindow* window);
+		double m_lastX, m_lastY;
+		int m_screenWidth, m_screenHeight;
+		bool m_firstMouse;
 		Window m_window;
-		vstm::Renderer m_renderer{};
+		Renderer m_renderer{};
 	};
 
 }

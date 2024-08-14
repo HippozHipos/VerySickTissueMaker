@@ -23,6 +23,11 @@ namespace vstm {
 		m_shaders->SetMat4f("projection", m_camera.GetProjectionMatrix());
 	}
 
+	PerspectiveCamera& Renderer::GetCamera() 
+	{ 
+		return m_camera; 
+	}
+
 	const std::string& Renderer::VertexShaderSource()
 	{
 		return m_vertex_shader_source;
