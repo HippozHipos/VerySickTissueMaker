@@ -54,17 +54,21 @@ namespace vstm {
 		}
 	}
 
-	void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
+	void frameBufferSizeCallback(GLFWwindow* glfwwindow, int width, int height)
 	{
+		vstm::Window* window = reinterpret_cast<vstm::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		glViewport(0, 0, width, height);
+		window->m_width = width;
+		window->m_height = height;
 	}
 }
 
-
+// Actual Window functions
 namespace vstm {
 	
 	Window::Window(int width, int height, const char* title,
 		GLFWmonitor* monitor, GLFWwindow* share)
+		: m_width{ static_cast<double>( width ) }, m_height{ (double) static_cast<double>( height ) } 
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
 		glfwInit();
@@ -152,6 +156,33 @@ namespace vstm {
 		return scrollx;
 	}
 
+	inline double Window::GetWidth()
+	{
+		return m_width;
+	}
+
+	inline double Window::GetHeight()
+	{
+		return m_height;
+	}
+
+	void Window::GetCursorPos(double& xpos, double& ypos)
+	{
+		glfwGetCursorPos(m_pwindow, &xpos, &ypos);
+	}
+
+	void Window::CenterCursorPos(double& last_xpos, double& last_ypos)
+	{
+		last_xpos = GetWidth() / 2.0;
+		last_ypos = GetHeight() / 2.0;
+		glfwSetCursorPos(m_pwindow, last_xpos, last_ypos);
+	}
+
+	void Window::SetCursorPos(double& last_xpos, double& last_ypos)
+	{
+		glfwSetCursorPos(m_pwindow, last_xpos, last_ypos);
+	}
+
 	bool Window::MouseButtonPressed(int button)
 	{
 		return m_mouse_pressed[button];
@@ -201,7 +232,7 @@ namespace vstm {
 			return;
 		}
 		glViewport(0, 0, width, height);
-		glfwSetFramebufferSizeCallback(m_pwindow, FrameBufferSizeCallback);
+		glfwSetFramebufferSizeCallback(m_pwindow, frameBufferSizeCallback);
 	}
 
 	GLFWwindow* Window::GetGLFWWindow() 

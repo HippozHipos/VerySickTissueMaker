@@ -70,25 +70,17 @@ namespace rend {
 namespace vstm {
 
 	Application::Application() :
-		m_window{ 600, 600, "Very sick tissue maker", nullptr, nullptr }
+		m_window{ 600, 600, "Very sick tissue maker", nullptr, nullptr }, m_firstMouse{ true }
 	{
 		VSTM_TRACE_LOGINFO("TissueMaker constructed");
 
 		// This removes the visibility of the cursor
 		//glfwSetInputMode(m_window.GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-		// Get the primary monitor's video mode - for compatability across multiple setups:
-		// i.e. Different resolutions, multiple monitors ...etc.
-		GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-		const GLFWvidmode* mode = glfwGetVideoMode(primaryMonitor);
-
-		m_screenWidth = mode->width;
-		m_screenHeight = mode->height;
-
 		// Set initial cursor position to the center of the screen
-		m_lastX = m_screenWidth / 2.0;
-		m_lastY = m_screenHeight / 2.0;
-		glfwSetCursorPos(m_window.GetGLFWWindow(), m_lastX, m_lastY);
+		m_lastX = m_window.GetWidth() / 2.0;
+		m_lastY = m_window.GetHeight() / 2.0;
+		m_window.SetCursorPos(m_lastX, m_lastY);
 	}
 
 	void Application::Run()
@@ -123,45 +115,28 @@ namespace vstm {
 
 	void Application::ProcessInput(double deltaTime)
 	{
-		GLFWwindow* window = m_window.GetGLFWWindow();
-
 		// Keyboard input
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		if (m_window.KeyHeld(GLFW_KEY_W)) {
 			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 1, 0, 0, 0);
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			VSTM_CON_LOGINFO("{}", m_window.KeyHeld(GLFW_KEY_W));
+		}
+		if (m_window.KeyHeld(GLFW_KEY_S))
 			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 0, 1, 0, 0);
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		if (m_window.KeyHeld(GLFW_KEY_A))
 			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 0, 0, 1, 0);
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		if (m_window.KeyHeld(GLFW_KEY_D))
 			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 0, 0, 0, 1);
 
 		// Mouse input
-		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
+		float xoffset = m_window.GetMouseX()- m_lastX;
+		float yoffset = m_lastY - m_window.GetMouseY(); // Reversed since y-coordinates go from bottom to top
 
-		if (m_firstMouse)
-		{
-			m_lastX = xpos;
-			m_lastY = ypos;
-			m_firstMouse = false;
-		}
-
-		float xoffset = xpos - m_lastX;
-		float yoffset = m_lastY - ypos; // Reversed since y-coordinates go from bottom to top
-
-		m_lastX = xpos;
-		m_lastY = ypos;
+		m_lastX = m_window.GetMouseX();
+		m_lastY = m_window.GetMouseY();
 
 		m_renderer.GetCamera().ProcessMouseMovement(xoffset, yoffset);
 		// Reset the cursor to the centre of the screen
-		CaptureMouse(window);
-	}
-
-	void Application::CaptureMouse(GLFWwindow* window)
-	{
-		m_lastX = m_screenWidth / 2.0;
-		m_lastY = m_screenHeight / 2.0;
-		glfwSetCursorPos(window, m_lastX, m_lastY);
+		m_window.CenterCursorPos(m_lastX, m_lastY);
 	}
 
 	void Application::HandleErrorActions()

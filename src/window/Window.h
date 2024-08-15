@@ -12,6 +12,7 @@ namespace vstm {
 		friend void mouseButtonCallback(GLFWwindow*, int, int, int);
 		friend void mousePositionCallback(GLFWwindow*, double, double);
 		friend void scrollWheelCallback(GLFWwindow*, double, double);
+		friend void frameBufferSizeCallback(GLFWwindow*, int, int);
 	public:
 		Window() = default;
 		Window(int width, int height, const char* title,
@@ -32,6 +33,12 @@ namespace vstm {
 		double GetScrollX();
 		double GetScrollY();
 
+		inline double GetWidth();
+		inline double GetHeight();
+
+		void GetCursorPos(double& xpos, double& ypos);
+		void CenterCursorPos(double& last_xpos, double& last_ypos);
+		void SetCursorPos(double& last_xpos, double& last_ypos);
 
 		bool MouseButtonPressed(int button);
 		bool MouseButtonHeld(int button);
@@ -61,6 +68,9 @@ namespace vstm {
 		double m_mousey = 0;
 		double m_scrollx = 0;
 		double m_scrolly = 0;
+
+		double m_width;
+		double m_height;
 
 		GLFWwindow* m_pwindow;
 	};

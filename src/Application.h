@@ -21,7 +21,6 @@ namespace vstm {
 		void ProcessInput(double deltaTime);
 		void CaptureMouse(GLFWwindow* window);
 		double m_lastX, m_lastY;
-		int m_screenWidth, m_screenHeight;
 		bool m_firstMouse;
 		Window m_window;
 		Renderer m_renderer{};
