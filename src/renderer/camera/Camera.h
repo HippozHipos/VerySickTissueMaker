@@ -24,9 +24,7 @@ namespace vstm {
 
 		glm::mat4 GetViewMatrix()
 		{
-			m_right = glm::normalize(glm::cross(m_forward, m_world_up));
-			return glm::lookAt(Position, Position + m_forward, 
-				glm::normalize(glm::cross(m_right, m_forward)));
+			return glm::lookAt(Position, Position + m_forward, m_up);
 		}
 
 		void SetWorldUp(const glm::vec3& up)
@@ -41,10 +39,8 @@ namespace vstm {
 			m_forward.z = sin(glm::radians(Rotation.z)) * cos(glm::radians(Rotation.y));
 			m_forward = glm::normalize(m_forward);
 
-			if (Rotation.y > 89.0f)
-				Rotation.y = 89.0f;
-			if (Rotation.y < -89.0f)
-				Rotation.y = -89.0f;
+			m_right = glm::normalize(glm::cross(m_forward, m_world_up));
+			m_up = glm::normalize(glm::cross(m_right, m_forward));
 		}
 
 		const glm::vec3& GetForwardVector()
@@ -52,7 +48,7 @@ namespace vstm {
 			return m_forward;
 		}
 
-		void ProcessKeyboardMovement(float deltaTime, int forwardKey, int backKey, int leftKey, int rightKey)
+		void ProcessKeyboardMovement(float deltaTime, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey)
 		{
 			float velocity = m_movement_speed * deltaTime;
 			if (forwardKey)
@@ -63,6 +59,10 @@ namespace vstm {
 				Position += m_right * velocity;
 			if (leftKey)
 				Position -= m_right * velocity;
+			if (upKey)
+				Position -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
+			if (downKey)
+				Position += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
 		}
 
 		void ProcessMouseMovement(float xoffset, float yoffset, bool constrain_pitch = true)
@@ -111,6 +111,7 @@ namespace vstm {
 		glm::vec3 m_world_up{ 0.0f, 1.0f, 0.0f };
 		glm::vec3 m_right{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 m_forward{ 0.0f, 0.0f, 0.0f };
+		glm::vec3 m_up{ 0.0f, 0.0f, 0.0f };
 	};
 
 }

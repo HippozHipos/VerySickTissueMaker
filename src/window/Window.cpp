@@ -14,7 +14,7 @@ namespace vstm {
 			window->OnKeyPress(key);
 			window->OnKeyHeld(key);
 		}
-		else //(window && action == GLFW_RELEASE)
+		else if (window && action == GLFW_RELEASE)
 		{
 			window->OnKeyRelease(key);
 		}
@@ -28,7 +28,7 @@ namespace vstm {
 			window->OnMousePress(button);
 			window->OnMouseHeld(button);
 		}
-		else //(window && action == GLFW_RELEASE)
+		else if (window && action == GLFW_RELEASE)
 		{
 			window->OnMouseRelease(button);
 		}
@@ -68,7 +68,7 @@ namespace vstm {
 	
 	Window::Window(int width, int height, const char* title,
 		GLFWmonitor* monitor, GLFWwindow* share)
-		: m_width{ static_cast<double>( width ) }, m_height{ (double) static_cast<double>( height ) } 
+		: m_width{ static_cast<double>( width ) }, m_height{ static_cast<double>( height ) } 
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
 		glfwInit();

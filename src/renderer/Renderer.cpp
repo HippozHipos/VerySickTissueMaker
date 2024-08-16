@@ -12,7 +12,6 @@ namespace vstm {
 	Renderer::Renderer()
 	{
 		//REMINDER: THIS LINE FOR WIREFRAME
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		LoadShaderSource(m_vertex_shader_source_path, m_vertex_shader_source);
 		LoadShaderSource(m_fragment_shader_source_path, m_fragment_shader_source);
 
@@ -21,6 +20,7 @@ namespace vstm {
 		m_vertex_array.Bind();
 
 		m_shaders->SetMat4f("projection", m_camera.GetProjectionMatrix());
+		m_shaders->SetInt("tex0", 0);
 	}
 
 	PerspectiveCamera& Renderer::GetCamera() 
@@ -62,6 +62,9 @@ namespace vstm {
 	void Renderer::SetLayout()
 	{
 		m_vertex_array.SetupLayout<float>(3);
+		m_vertex_array.SetupLayout<float>(4);
+		m_vertex_array.SetupLayout<float>(2);
+
 		m_vertex_array.AddLayout();
 	}
 }

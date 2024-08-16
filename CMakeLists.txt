@@ -12,6 +12,7 @@ set(GLFW_INCLUDES	"3rdParty/glfw/include")
 set(GLAD_INCLUDES	"3rdParty/glad/include")
 set(SPDLOG_INCLUDES  "3rdParty/spdlog/include")
 set(GLM_INCLUDES	"3rdParty/glm")
+set(STB_INCLUDES	"3rdParty/stb")
 
 if(RELEASE_WITH_DEBUG)
     add_definitions(-DRELEASE_WITH_DEBUG)
@@ -43,6 +44,7 @@ include_directories(${GLFW_INCLUDES})
 include_directories(${GLAD_INCLUDES})
 include_directories(${SPDLOG_INCLUDES})
 include_directories(${GLM_INCLUDES})
+include_directories(${STB_INCLUDES})
 
 #
 #						end compile 3rdParty
@@ -70,6 +72,6 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 
 )
 
-add_executable(${PROJECT_NAME} ${source_files} "src/renderer/camera/Camera.h")
+add_executable(${PROJECT_NAME} ${source_files})
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glad spdlog OpenGL::GL glfw)

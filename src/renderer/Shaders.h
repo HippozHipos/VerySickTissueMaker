@@ -17,6 +17,7 @@ namespace vstm {
         void Use() const;
         GLuint GetID() const;
         void SetFloat(const std::string& name, float value) const;
+        void SetInt(const std::string& name, int value) const;
         void SetMat4f(const std::string& name, glm::mat4 value, bool transpose = false) const;
 
     private:

@@ -17,6 +17,9 @@ namespace vstm {
 		void Run();
 
 	private:
+		int width, height, colorchannels;
+		unsigned char* image;
+
 		bool m_running = true;
 		void ProcessInput(double deltaTime);
 		void CaptureMouse(GLFWwindow* window);

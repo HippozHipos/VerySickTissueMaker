@@ -1,10 +1,12 @@
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
 #include "Application.h"
 #include "util/Logger.h"
 #include "util/Error.h"
 #include "renderer/buffers/VertexBuffer.h"
 #include "renderer/buffers/IndexBuffer.h"
 #include "renderer/buffers/VertexArray.h"
-
 #include "timer/timer.h"
 
 namespace rend {
@@ -12,14 +14,14 @@ namespace rend {
 	// Vertex data for a cube
 	float vertices[] = {
 		// Positions          
-		-0.5f, -0.5f, -0.5f,  // Vertex 0
-		 0.5f, -0.5f, -0.5f,  // Vertex 1
-		 0.5f,  0.5f, -0.5f,  // Vertex 2
-		-0.5f,  0.5f, -0.5f,  // Vertex 3
-		-0.5f, -0.5f,  0.5f,  // Vertex 4
-		 0.5f, -0.5f,  0.5f,  // Vertex 5
-		 0.5f,  0.5f,  0.5f,  // Vertex 6
-		-0.5f,  0.5f,  0.5f   // Vertex 7
+		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,// Vertex 0
+		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,// Vertex 1
+		 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,// Vertex 2
+		-0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,// Vertex 3
+		-0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,// Vertex 4
+		 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,// Vertex 5
+		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,// Vertex 6
+		-0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f // Vertex 7
 	};
 
 	// Indices for drawing the cube using element array
@@ -81,6 +83,23 @@ namespace vstm {
 		m_lastX = m_window.GetWidth() / 2.0;
 		m_lastY = m_window.GetHeight() / 2.0;
 		m_window.SetCursorPos(m_lastX, m_lastY);
+
+		//TEXTURE
+		image = stbi_load("C:\\Users\\Rahul\\Downloads\\932907c8781d7feee6b4d11d332c0086.png", &width, &height, &colorchannels, 0);
+		stbi_set_flip_vertically_on_load(true);
+		GLuint textureid;
+		glGenTextures(1, &textureid);
+		glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, textureid);
+
+		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, 0, image);
+		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 
 	void Application::Run()
@@ -116,16 +135,10 @@ namespace vstm {
 	void Application::ProcessInput(double deltaTime)
 	{
 		// Keyboard input
-		if (m_window.KeyHeld(GLFW_KEY_W)) {
-			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 1, 0, 0, 0);
-			VSTM_CON_LOGINFO("{}", m_window.KeyHeld(GLFW_KEY_W));
-		}
-		if (m_window.KeyHeld(GLFW_KEY_S))
-			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 0, 1, 0, 0);
-		if (m_window.KeyHeld(GLFW_KEY_A))
-			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 0, 0, 1, 0);
-		if (m_window.KeyHeld(GLFW_KEY_D))
-			m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 0, 0, 0, 1);
+		m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 
+			m_window.KeyHeld(GLFW_KEY_W), m_window.KeyHeld(GLFW_KEY_S),
+			m_window.KeyHeld(GLFW_KEY_A), m_window.KeyHeld(GLFW_KEY_D),
+			m_window.KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window.KeyHeld(GLFW_KEY_SPACE));
 
 		// Mouse input
 		float xoffset = m_window.GetMouseX()- m_lastX;
