@@ -52,7 +52,6 @@ include_directories(${STB_INCLUDES})
 
 #set includes for the tissue maker files
 include_directories("src")
-include_directories("3rdparty/glfw/include")
 
 file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 	*.h

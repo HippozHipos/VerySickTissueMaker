@@ -1,7 +1,8 @@
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
-
 #include "Application.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include "util/Logger.h"
 #include "util/Error.h"
 #include "renderer/buffers/VertexBuffer.h"
@@ -13,7 +14,7 @@ namespace rend {
 
 	// Vertex data for a cube
 	float vertices[] = {
-		// Positions          
+		// Positions x,y,z then colours r,g,b then text coords        
 		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,// Vertex 0
 		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,// Vertex 1
 		 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,// Vertex 2
@@ -85,21 +86,29 @@ namespace vstm {
 		m_window.SetCursorPos(m_lastX, m_lastY);
 
 		//TEXTURE
-		image = stbi_load("C:\\Users\\Rahul\\Downloads\\932907c8781d7feee6b4d11d332c0086.png", &width, &height, &colorchannels, 0);
 		stbi_set_flip_vertically_on_load(true);
-		GLuint textureid;
-		glGenTextures(1, &textureid);
-		glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, textureid);
+		m_image = stbi_load("C:\\Users\\Rahul\\Downloads\\932907c8781d7feee6b4d11d332c0086.png", &m_width, &m_height, &m_colorchannels, 0);
 
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		if (m_image)
+		{
+			glGenTextures(1, &m_textureid);
+			glBindTexture(GL_TEXTURE_2D, m_textureid);
 
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, 0, image);
-		glGenerateMipmap(GL_TEXTURE_2D);
+			GLenum format = (m_colorchannels == 4) ? GL_RGBA : GL_RGB;
+			glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_image);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+			stbi_image_free(m_image);
+		}
+		else
+		{
+			VSTM_DEBUG_LOGERROR("Failed to load texture");
+		}
 	}
 
 	void Application::Run()
@@ -121,6 +130,10 @@ namespace vstm {
 			double deltaTime = timer.getDeltaTime();
 
 			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
+
+			// Bind the texture before rendering
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, m_textureid);
 			
 			ProcessInput(deltaTime);
 			m_renderer.Render();

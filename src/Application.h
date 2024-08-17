@@ -17,12 +17,13 @@ namespace vstm {
 		void Run();
 
 	private:
-		int width, height, colorchannels;
-		unsigned char* image;
-
-		bool m_running = true;
 		void ProcessInput(double deltaTime);
-		void CaptureMouse(GLFWwindow* window);
+
+	private:
+		int m_width, m_height, m_colorchannels;
+		unsigned char* m_image;
+		GLuint m_textureid;
+		bool m_running = true;
 		double m_lastX, m_lastY;
 		bool m_firstMouse;
 		Window m_window;
