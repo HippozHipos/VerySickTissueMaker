@@ -58,8 +58,8 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 	*.cpp
 		src/*.h
 		src/*.cpp
-			src/util/*.h
-			src/util/*.cpp
+			src/diagnostics/*.h
+			src/diagnostics/*.cpp
 			src/window/*.h
 			src/window/*.cpp
 			src/renderer/*.h

@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Renderer.h"
-#include "util/Logger.h"
+#include "diagnostics/Logger.h"
 
 namespace vstm {
 

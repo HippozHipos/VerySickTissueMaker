@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
-#include "util/Logger.h"
+#include "diagnostics/Logger.h"
 
 namespace vstm {
 

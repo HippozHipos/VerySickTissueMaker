@@ -1,7 +1,7 @@
-#include "util/Logger.h"
-#include "util/GlfwError.h"
+#include "diagnostics/Logger.h"
+#include "diagnostics/GlfwError.h"
 #include "Application.h"
-#include "Renderer/OpenglError.h"
+#include "diagnostics/OpenglError.h"
 #include "glad/glad.h"
 
 int main(int argc, char* argv[])

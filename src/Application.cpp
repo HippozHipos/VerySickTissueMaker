@@ -3,8 +3,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include "util/Logger.h"
-#include "util/Error.h"
+#include "diagnostics/Logger.h"
+#include "diagnostics/Error.h"
 #include "renderer/buffers/VertexBuffer.h"
 #include "renderer/buffers/IndexBuffer.h"
 #include "renderer/buffers/VertexArray.h"

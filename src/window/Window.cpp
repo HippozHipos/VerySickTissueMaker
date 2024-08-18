@@ -1,8 +1,8 @@
 #include <glad/glad.h>
 
 #include "Window.h"
-#include "util/Error.h"
-#include "util/Logger.h"
+#include "diagnostics/Error.h"
+#include "diagnostics/Logger.h"
 
 // Callbacks
 namespace vstm {

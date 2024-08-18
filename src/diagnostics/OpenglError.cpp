@@ -1,5 +1,5 @@
 #include "OpenglError.h"
-#include "util/Logger.h"
+#include "diagnostics/Logger.h"
 
 #include <iostream>
 
