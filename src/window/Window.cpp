@@ -2,6 +2,7 @@
 
 #include "Window.h"
 #include "diagnostics/Error.h"
+#include "diagnostics/Openglerror.h"
 #include "diagnostics/Logger.h"
 
 // Callbacks
@@ -73,7 +74,7 @@ namespace vstm {
 		VSTM_TRACE_LOGINFO("Window constructed");
 		glfwInit();
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		m_pwindow = glfwCreateWindow(width, height, title, monitor, share);
@@ -85,11 +86,12 @@ namespace vstm {
 			return;
 		}
 
+		glfwSetWindowUserPointer(m_pwindow, reinterpret_cast<void*>(this));
 		glfwSetKeyCallback(m_pwindow, keyCallback);
 		glfwSetMouseButtonCallback(m_pwindow, mouseButtonCallback);
 		glfwSetCursorPosCallback(m_pwindow, mousePositionCallback);
 		glfwSetScrollCallback(m_pwindow, scrollWheelCallback);
-		glfwSetWindowUserPointer(m_pwindow, reinterpret_cast<void*>(this));
+		glfwSetFramebufferSizeCallback(m_pwindow, frameBufferSizeCallback);
 		InitOpengl(width, height);
 	}
 
@@ -110,6 +112,7 @@ namespace vstm {
 	{
 		glClearColor(r, g, b, a);
 		glClear(GL_COLOR_BUFFER_BIT);
+		CheckOpenGLError("Window::Fill");
 	}
 
 	void Window::SetFocus()
@@ -232,7 +235,7 @@ namespace vstm {
 			return;
 		}
 		glViewport(0, 0, width, height);
-		glfwSetFramebufferSizeCallback(m_pwindow, frameBufferSizeCallback);
+		CheckOpenGLError("Window::InitOpengl");
 	}
 
 	GLFWwindow* Window::GetGLFWWindow() 

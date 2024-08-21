@@ -5,6 +5,7 @@
 
 #include "Renderer.h"
 #include "diagnostics/Logger.h"
+#include "diagnostics/OpenglError.h"
 
 namespace vstm {
 
@@ -19,11 +20,13 @@ namespace vstm {
 		m_shaders->Use();
 		m_vertex_array.Bind();
 
-		m_shaders->SetMat4f("projection", m_camera.GetProjectionMatrix());
 		m_shaders->SetInt("tex0", 0);
+		m_shaders->SetMat4f("projection", m_camera.GetProjectionMatrix());
 	
 		// Enable depth testing
 		glEnable(GL_DEPTH_TEST);
+
+		CheckOpenGLError("Renderer::Renderer");
 	}
 
 	PerspectiveCamera& Renderer::GetCamera() 
@@ -64,6 +67,8 @@ namespace vstm {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+
+		CheckOpenGLError("Renderer::Render");
 	}
 
 	void Renderer::SetLayout()
@@ -73,5 +78,7 @@ namespace vstm {
 		m_vertex_array.SetupLayout<float>(2);  // Texture coordinates (u, v)
 
 		m_vertex_array.AddLayout();
+
+		CheckOpenGLError("Renderer::SetLayout");
 	}
 }

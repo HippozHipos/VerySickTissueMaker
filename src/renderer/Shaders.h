@@ -21,7 +21,7 @@ namespace vstm {
         void SetMat4f(const std::string& name, glm::mat4 value, bool transpose = false) const;
 
     private:
-        GLuint compileShader(GLenum type, const std::string& source);
+        GLuint CompileShader(GLenum type, const std::string& source);
 
     private:
         GLuint m_program_id;

@@ -8,6 +8,7 @@
 #include "renderer/buffers/VertexBuffer.h"
 #include "renderer/buffers/IndexBuffer.h"
 #include "renderer/buffers/VertexArray.h"
+#include "diagnostics/OpenglError.h"
 #include "timer/timer.h"
 
 namespace rend {
@@ -73,7 +74,7 @@ namespace rend {
 namespace vstm {
 
 	Application::Application() :
-		m_window{ 600, 600, "Very sick tissue maker", nullptr, nullptr }, m_firstMouse{ true }
+		m_window{ 600, 600, "Very sick tissue maker" }, m_firstMouse{ true }
 	{
 		VSTM_TRACE_LOGINFO("TissueMaker constructed");
 
@@ -87,7 +88,9 @@ namespace vstm {
 
 		//TEXTURE
 		stbi_set_flip_vertically_on_load(true);
-		m_image = stbi_load("C:\\Users\\Rahul\\Downloads\\932907c8781d7feee6b4d11d332c0086.png", &m_width, &m_height, &m_colorchannels, 0);
+		m_image = stbi_load(
+			"../../../assets/images/cover.thumb256.png"
+			, &m_width, &m_height, &m_colorchannels, 0);
 
 		if (m_image)
 		{
@@ -171,7 +174,7 @@ namespace vstm {
 		{
 			switch (ErrorHandler::GetAction(i))
 			{
-			case ErrorHandler::TerminateApplication: m_running = false;
+				case ErrorHandler::TerminateApplication: m_running = false;
 
 			}
 		}
