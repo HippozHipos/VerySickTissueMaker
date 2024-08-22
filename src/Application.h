@@ -4,6 +4,8 @@
 
 #include "Window/Window.h"
 
+#include "renderer/Texture.h"
+
 namespace vstm {
 
 	class Application
@@ -20,14 +22,12 @@ namespace vstm {
 		void ProcessInput(double deltaTime);
 
 	private:
-		int m_width, m_height, m_colorchannels;
-		unsigned char* m_image;
-		GLuint m_textureid;
 		bool m_running = true;
 		double m_lastX, m_lastY;
-		bool m_firstMouse;
 		Window m_window;
 		Renderer m_renderer{};
+
+		//TextureManager m_texture_manager;
 	};
 
 }

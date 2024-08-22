@@ -1,14 +1,12 @@
 #include "Application.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
 #include "diagnostics/Logger.h"
 #include "diagnostics/Error.h"
 #include "renderer/buffers/VertexBuffer.h"
 #include "renderer/buffers/IndexBuffer.h"
 #include "renderer/buffers/VertexArray.h"
 #include "diagnostics/OpenglError.h"
+
 #include "timer/timer.h"
 
 namespace rend {
@@ -74,7 +72,7 @@ namespace rend {
 namespace vstm {
 
 	Application::Application() :
-		m_window{ 600, 600, "Very sick tissue maker" }, m_firstMouse{ true }
+		m_window{ 600, 600, "Very sick tissue maker" }
 	{
 		VSTM_TRACE_LOGINFO("TissueMaker constructed");
 
@@ -86,32 +84,12 @@ namespace vstm {
 		m_lastY = m_window.GetHeight() / 2.0;
 		m_window.SetCursorPos(m_lastX, m_lastY);
 
-		//TEXTURE
-		stbi_set_flip_vertically_on_load(true);
-		m_image = stbi_load(
-			"../../../assets/images/cover.thumb256.png"
-			, &m_width, &m_height, &m_colorchannels, 0);
-
-		if (m_image)
-		{
-			glGenTextures(1, &m_textureid);
-			glBindTexture(GL_TEXTURE_2D, m_textureid);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-			GLenum format = (m_colorchannels == 4) ? GL_RGBA : GL_RGB;
-			glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_image);
-			glGenerateMipmap(GL_TEXTURE_2D);
-
-			stbi_image_free(m_image);
-		}
-		else
-		{
-			VSTM_DEBUG_LOGERROR("Failed to load texture");
-		}
+		/*m_texture_manager.Load("cat", "../../../assets/images/cover.thumb256.png");
+		Texture& cat = m_texture_manager.Get("cat");
+		cat.SetParameters(GL_TEXTURE_WRAP_S, GL_REPEAT);
+		cat.SetParameters(GL_TEXTURE_WRAP_T, GL_REPEAT);
+		cat.SetParameters(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		cat.SetParameters(GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
 	}
 
 	void Application::Run()
@@ -136,7 +114,6 @@ namespace vstm {
 
 			// Bind the texture before rendering
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, m_textureid);
 			
 			ProcessInput(deltaTime);
 			m_renderer.Render();
