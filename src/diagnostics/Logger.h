@@ -41,6 +41,6 @@ namespace vstm {
 #define VSTM_DEBUG_LOGCRITICAL(...) vstm::Logger::Debug()->critical(__VA_ARGS__)
 
 #define VSTM_CD_LOGINFO(...)     vstm::Logger::Console()->info(__VA_ARGS__); vstm::Logger::Debug()->info(__VA_ARGS__)
-#define VSTM_CD_LOGWARN(...)     vstm::Logger::Console()->warn(__VA_ARGS__); vstm::Logger::Console()->warn(__VA_ARGS__)
-#define VSTM_CD_LOGERROR(...)    vstm::Logger::Console()->error(__VA_ARGS__); vstm::Logger::Console()->error(__VA_ARGS__)
-#define VSTM_CD_LOGCRITICAL(...) vstm::Logger::Console()->critical(__VA_ARGS__); vstm::Logger::Console()->critical(__VA_ARGS__)
+#define VSTM_CD_LOGWARN(...)     vstm::Logger::Console()->warn(__VA_ARGS__); vstm::Logger::Debug()->warn(__VA_ARGS__)
+#define VSTM_CD_LOGERROR(...)    vstm::Logger::Console()->error(__VA_ARGS__); vstm::Logger::Debug()->error(__VA_ARGS__)
+#define VSTM_CD_LOGCRITICAL(...) vstm::Logger::Console()->critical(__VA_ARGS__); vstm::Logger::Debug()->critical(__VA_ARGS__)

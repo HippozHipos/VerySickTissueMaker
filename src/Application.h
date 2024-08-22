@@ -4,6 +4,8 @@
 
 #include "Window/Window.h"
 
+#include "renderer/Texture.h"
+
 namespace vstm {
 
 	class Application
@@ -24,6 +26,8 @@ namespace vstm {
 		double m_lastX, m_lastY;
 		Window m_window;
 		Renderer m_renderer{};
+
+		TextureManager m_texture_manager;
 	};
 
 }

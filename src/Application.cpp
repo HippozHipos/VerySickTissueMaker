@@ -82,6 +82,8 @@ namespace vstm {
 		m_lastX = m_window.GetWidth() / 2.0;
 		m_lastY = m_window.GetHeight() / 2.0;
 		m_window.SetCursorPos(m_lastX, m_lastY);
+
+		Texture& cat = m_texture_manager.Load("cat", "../../../assets/images/cover.thumb256.png");
 	}
 
 	void Application::Run()
@@ -103,9 +105,6 @@ namespace vstm {
 			double deltaTime = timer.getDeltaTime();
 
 			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
-
-			// Bind the texture before rendering
-			glActiveTexture(GL_TEXTURE0);
 			
 			ProcessInput(deltaTime);
 			m_renderer.Render();
