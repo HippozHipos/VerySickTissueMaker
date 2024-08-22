@@ -23,7 +23,7 @@ namespace vstm {
 
 	Texture::~Texture()
 	{
-		if (!m_data)
+		if (m_data)
 			stbi_image_free(m_data);
 	}
 
@@ -39,7 +39,7 @@ namespace vstm {
 		{
 			GenerateMipMap();
 		}
-		CheckOpenGLError("Texture::Texture(const std::string&, bool)");
+		CheckOpenGLError();
 	}
 
 	void Texture::Load(unsigned char* data, bool genMipmap)
@@ -54,7 +54,7 @@ namespace vstm {
 		{
 			GenerateMipMap();
 		}
-		CheckOpenGLError("Texture::Texture(unsigned char*, bool)");
+		CheckOpenGLError();
 	}
 
 	unsigned char* Texture::GetRawData()
@@ -90,13 +90,13 @@ namespace vstm {
 	void Texture::GenerateMipMap()
 	{
 		glGenerateMipmap(GL_TEXTURE_2D);
-		CheckOpenGLError("Texture::GenerateMipMap");
+		CheckOpenGLError();
 	}
 
 	void Texture::Bind()
 	{
 		glBindTexture(GL_TEXTURE_2D, m_texture_id);
-		CheckOpenGLError("Texture::Bind");
+		CheckOpenGLError();
 	}
 
 	TextureManager::TextureManager()

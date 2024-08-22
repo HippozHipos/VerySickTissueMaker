@@ -8,7 +8,7 @@ namespace vstm {
 	VertexArray::VertexArray()
 	{
 		glGenVertexArrays(1, &m_buffer);
-		CheckOpenGLError("VertexArray::VertexArray");
+		CheckOpenGLError();
 	}
 
 	VertexArray::~VertexArray()
@@ -19,19 +19,19 @@ namespace vstm {
 	void VertexArray::Destroy()
 	{
 		glDeleteVertexArrays(1, &m_buffer);
-		CheckOpenGLError("VertexArray::Destroy");
+		CheckOpenGLError();
 	}
 
 	void VertexArray::Bind()
 	{
 		glBindVertexArray(m_buffer);
-		CheckOpenGLError("VertexArray::Bind");
+		CheckOpenGLError();
 	}
 
 	void VertexArray::UnBind()
 	{
 		glBindVertexArray(0);
-		CheckOpenGLError("VertexArray::UnBind");
+		CheckOpenGLError();
 	}
 
 }

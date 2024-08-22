@@ -26,7 +26,7 @@ namespace vstm {
 		// Enable depth testing
 		glEnable(GL_DEPTH_TEST);
 
-		CheckOpenGLError("Renderer::Renderer");
+		CheckOpenGLError();
 	}
 
 	PerspectiveCamera& Renderer::GetCamera() 
@@ -67,7 +67,7 @@ namespace vstm {
 
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
 
-		CheckOpenGLError("Renderer::Render");
+		CheckOpenGLError();
 	}
 
 	void Renderer::SetLayout()
@@ -78,6 +78,6 @@ namespace vstm {
 
 		m_vertex_array.AddLayout();
 
-		CheckOpenGLError("Renderer::SetLayout");
+		CheckOpenGLError();
 	}
 }

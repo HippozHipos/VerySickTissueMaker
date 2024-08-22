@@ -42,7 +42,7 @@ namespace vstm {
 		void SetParameter(Parameters... params)
 		{
 			glTexParameteri(GL_TEXTURE_2D, params...);
-			CheckOpenGLError("Texture::SetParameter");
+			CheckOpenGLError();
 		}
 
 	private:

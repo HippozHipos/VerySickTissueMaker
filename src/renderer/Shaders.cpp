@@ -26,19 +26,19 @@ namespace vstm {
 
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
-		CheckOpenGLError("Shaders::Shaders");
+		CheckOpenGLError();
     }
 
 	Shaders::~Shaders()
 	{
 		glDeleteProgram(m_program_id);
-		CheckOpenGLError("Shaders::~Shaders");
+		CheckOpenGLError();
 	}
 
 	void Shaders::Use() const
 	{
 		glUseProgram(m_program_id);
-		CheckOpenGLError("Shaders::Use");
+		CheckOpenGLError();
 	}
 
 	GLuint Shaders::GetID() const
@@ -49,19 +49,19 @@ namespace vstm {
 	void Shaders::SetFloat(const std::string& name, float value) const
 	{
 		glUniform1f(glGetUniformLocation(m_program_id, name.c_str()), value);
-		CheckOpenGLError("Shaders::SetFloat");
+		CheckOpenGLError();
 	}
 
 	void Shaders::SetInt(const std::string& name, int value) const
 	{
 		glUniform1i(glGetUniformLocation(m_program_id, name.c_str()), value);
-		CheckOpenGLError("Shaders::SetInt");
+		CheckOpenGLError();
 	}
 
 	void Shaders::SetMat4f(const std::string& name, glm::mat4 value, bool transpose) const
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_program_id, name.c_str()), 1, transpose, glm::value_ptr(value));
-		CheckOpenGLError("Shaders::SetMat4f");
+		CheckOpenGLError();
 	}
 
 	GLuint Shaders::CompileShader(GLenum type, const std::string& source)
@@ -79,7 +79,7 @@ namespace vstm {
 			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", 0, infoLog);
 			VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", 0, infoLog);
 		}
-		CheckOpenGLError("Shaders::CompileShader");
+		CheckOpenGLError();
 		return shader;
 	}
 

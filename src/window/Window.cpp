@@ -112,7 +112,7 @@ namespace vstm {
 	{
 		glClearColor(r, g, b, a);
 		glClear(GL_COLOR_BUFFER_BIT);
-		CheckOpenGLError("Window::Fill");
+		CheckOpenGLError();
 	}
 
 	void Window::SetFocus()

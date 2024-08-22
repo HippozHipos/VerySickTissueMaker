@@ -41,7 +41,7 @@ namespace vstm {
 			{
 				case Error::WINDOW_CONSTRUCTION_FAILED: WindowConstructionFailed();
 			}
-			/*VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code : {}\nError description: {}\n", error.Errorcode(), error.What());*/
+			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code : {}\nError description: {}\n", error.Errorcode(), error.What());
 		}
 		m_errors.clear();
 	}

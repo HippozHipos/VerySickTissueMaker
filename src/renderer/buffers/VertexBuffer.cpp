@@ -8,7 +8,7 @@ namespace vstm
 	VertexBuffer::VertexBuffer()
 	{
 		glGenBuffers(1, &m_buffer);
-		CheckOpenGLError("VertexBuffer::VertexBuffer");
+		CheckOpenGLError();
 	}
 
 	VertexBuffer::~VertexBuffer()
@@ -19,30 +19,30 @@ namespace vstm
 	void VertexBuffer::Bind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
-		CheckOpenGLError("VertexBuffer::Bind");
+		CheckOpenGLError();
 	}
 
 	void VertexBuffer::BufferData(size_t size, bool staticDraw)
 	{
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, staticDraw ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
-		CheckOpenGLError("VertexBuffer::BufferData");
+		CheckOpenGLError();
 	}
 
 	void VertexBuffer::BufferSubData(void* data, size_t size, size_t offset) 
 	{
 		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
-		CheckOpenGLError("VertexBuffer::BufferSubData");
+		CheckOpenGLError();
 	}
 
 	void VertexBuffer::Destroy()
 	{
 		glDeleteBuffers(1, &m_buffer);
-		CheckOpenGLError("VertexBuffer::Destroy");
+		CheckOpenGLError();
 	}
 
 	void VertexBuffer::UnBind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		CheckOpenGLError("VertexBuffer::UnBind");
+		CheckOpenGLError();
 	}
 }
