@@ -113,7 +113,7 @@ namespace vstm {
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("Texture \"{}\" not found. Attempting to create new texture.\n", name);
+			VSTM_CD_LOGINFO("Texture \"{}\" not found. Attempting to create new texture.\n", name);
 		}
 		m_texture_map[name] = std::make_shared<Texture>(path, genMipmap);
 		if (m_texture_map[name]->GetRawData() == nullptr)

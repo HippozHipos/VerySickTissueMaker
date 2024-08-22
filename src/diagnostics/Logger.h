@@ -25,22 +25,22 @@ namespace vstm {
 
 }
 
-#define VSTM_CON_LOGINFO(...) vstm::Logger::Console()->info(__VA_ARGS__)
-#define VSTM_CON_LOGWARN(...) vstm::Logger::Console()->warn(__VA_ARGS__)
-#define VSTM_CON_LOGERROR(...) vstm::Logger::Console()->error(__VA_ARGS__)
-#define VSTM_CON_LOGCRITICAL(...) vstm::Logger::Console()->critical(__VA_ARGS__)
+#define VSTM_CON_LOGINFO(...)       SPDLOG_LOGGER_INFO(vstm::Logger::Console(), __VA_ARGS__)
+#define VSTM_CON_LOGWARN(...)       SPDLOG_LOGGER_WARN(vstm::Logger::Console(), __VA_ARGS__)
+#define VSTM_CON_LOGERROR(...)      SPDLOG_LOGGER_ERROR(vstm::Logger::Console(), __VA_ARGS__)
+#define VSTM_CON_LOGCRITICAL(...)   SPDLOG_LOGGER_CRITICAL(vstm::Logger::Console(), __VA_ARGS__)
 
-#define VSTM_TRACE_LOGINFO(...) vstm::Logger::Trace()->info(__VA_ARGS__)
-#define VSTM_TRACE_LOGWARN(...) vstm::Logger::Trace()->warn(__VA_ARGS__)
-#define VSTM_TRACE_LOGERROR(...) vstm::Logger::Trace()->error(__VA_ARGS__)
-#define VSTM_TRACE_LOGCRITICAL(...) vstm::Logger::Trace()->critical(__VA_ARGS__)
+#define VSTM_TRACE_LOGINFO(...)     SPDLOG_LOGGER_INFO(vstm::Logger::Trace(), __VA_ARGS__)
+#define VSTM_TRACE_LOGWARN(...)     SPDLOG_LOGGER_WARN(vstm::Logger::Trace(), __VA_ARGS__)
+#define VSTM_TRACE_LOGERROR(...)    SPDLOG_LOGGER_ERROR(vstm::Logger::Trace(), __VA_ARGS__)
+#define VSTM_TRACE_LOGCRITICAL(...) SPDLOG_LOGGER_CRITICAL(vstm::Logger::Trace(), __VA_ARGS__)
 
-#define VSTM_DEBUG_LOGINFO(...) vstm::Logger::Debug()->info(__VA_ARGS__)
-#define VSTM_DEBUG_LOGWARN(...) vstm::Logger::Debug()->warn(__VA_ARGS__)
-#define VSTM_DEBUG_LOGERROR(...) vstm::Logger::Debug()->error(__VA_ARGS__)
-#define VSTM_DEBUG_LOGCRITICAL(...) vstm::Logger::Debug()->critical(__VA_ARGS__)
+#define VSTM_DEBUG_LOGINFO(...)     SPDLOG_LOGGER_INFO(vstm::Logger::Debug(), __VA_ARGS__)
+#define VSTM_DEBUG_LOGWARN(...)     SPDLOG_LOGGER_WARN(vstm::Logger::Debug(), __VA_ARGS__)
+#define VSTM_DEBUG_LOGERROR(...)    SPDLOG_LOGGER_ERROR(vstm::Logger::Debug(), __VA_ARGS__)
+#define VSTM_DEBUG_LOGCRITICAL(...) SPDLOG_LOGGER_CRITICAL(vstm::Logger::Debug(), __VA_ARGS__)
 
-#define VSTM_CD_LOGINFO(...)     vstm::Logger::Console()->info(__VA_ARGS__); vstm::Logger::Debug()->info(__VA_ARGS__)
-#define VSTM_CD_LOGWARN(...)     vstm::Logger::Console()->warn(__VA_ARGS__); vstm::Logger::Debug()->warn(__VA_ARGS__)
-#define VSTM_CD_LOGERROR(...)    vstm::Logger::Console()->error(__VA_ARGS__); vstm::Logger::Debug()->error(__VA_ARGS__)
-#define VSTM_CD_LOGCRITICAL(...) vstm::Logger::Console()->critical(__VA_ARGS__); vstm::Logger::Debug()->critical(__VA_ARGS__)
+#define VSTM_CD_LOGINFO(...)     SPDLOG_LOGGER_INFO(vstm::Logger::Console(), __VA_ARGS__);     SPDLOG_LOGGER_INFO(vstm::Logger::Debug(), __VA_ARGS__)
+#define VSTM_CD_LOGWARN(...)     SPDLOG_LOGGER_WARN(vstm::Logger::Console(), __VA_ARGS__);     SPDLOG_LOGGER_WARN(vstm::Logger::Debug(), __VA_ARGS__)
+#define VSTM_CD_LOGERROR(...)    SPDLOG_LOGGER_ERROR(vstm::Logger::Console(), __VA_ARGS__);    SPDLOG_LOGGER_ERROR(vstm::Logger::Debug(), __VA_ARGS__)
+#define VSTM_CD_LOGCRITICAL(...) SPDLOG_LOGGER_CRITICAL(vstm::Logger::Console(), __VA_ARGS__); SPDLOG_LOGGER_CRITICAL(vstm::Logger::Debug(), __VA_ARGS__)

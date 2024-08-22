@@ -49,7 +49,7 @@ namespace vstm {
 		std::ifstream inStream{ path };
 		if (errno != 0)
 		{
-			VSTM_CD_LOGERROR("[VSTM Error][File: {}][Line: {}]\nError code: {}\nError description: {}\n", __FILE__, __LINE__, errno, strerror(errno));
+			VSTM_CD_LOGERROR("[VSTM Error]Error code: {}\nError description: {}\n", errno, strerror(errno));
 		}
 		std::ostringstream oss;
 		oss << inStream.rdbuf();
