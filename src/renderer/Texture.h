@@ -62,8 +62,14 @@ namespace vstm {
 		TextureManager();
 
 	public:
-		Texture& Load(const std::string& name, const std::string& path, bool genMipmap = true);
-		Texture& Get(const std::string& name);
+		//loads and returns reference
+		Texture& LoadRef(const std::string& name, const std::string& path, bool genMipmap = true);
+		//gets a texture reference
+		Texture& GetRef(const std::string& name);
+		//loads and returns pointer
+		Texture* Load(const std::string& name, const std::string& path, bool genMipmap = true);
+		//get a texture by pointer
+		Texture* Get(const std::string& name);
 		void Delete(const std::string& name);
 
 	private:

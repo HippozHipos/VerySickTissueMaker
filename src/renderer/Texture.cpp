@@ -104,31 +104,41 @@ namespace vstm {
 		stbi_set_flip_vertically_on_load(true);
 	}
 
-	Texture& TextureManager::Load(const std::string& name, const std::string& path, bool genMipmap)
+	Texture* TextureManager::Load(const std::string& name, const std::string& path, bool genMipmap)
 	{
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
 		{
-			VSTM_CD_LOGINFO("Texture with name \"{}\" already exists. Attempting to update texture.\n", name);
+			VSTM_CD_LOGINFO("Texture \"{}\" already exists. Attempting to update texture.\n", name);
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("Texture with name \"{}\" not found. Attempting to create new texture.\n", name);
+			VSTM_CD_LOGERROR("Texture \"{}\" not found. Attempting to create new texture.\n", name);
 		}
 		m_texture_map[name] = std::make_shared<Texture>(path, genMipmap);
 		if (m_texture_map[name]->GetRawData() == nullptr)
 		{
-			VSTM_CD_LOGERROR("Failed to create texture with name \"{}\"\n", name);
+			VSTM_CD_LOGERROR("Failed to create texture \"{}\"\n", name);
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("Failed to create texture with name \"{}\"\n", name);
+			VSTM_CD_LOGERROR("Texture \"{}\" created\n", name);
 		}
 
-		return *m_texture_map[name].get();
+		return m_texture_map[name].get();
 	}
 
-	Texture& TextureManager::Get(const std::string& name)
+	Texture* TextureManager::Get(const std::string& name)
+	{
+		return m_texture_map[name].get();
+	}
+
+	Texture& TextureManager::LoadRef(const std::string& name, const std::string& path, bool genMipmap)
+	{
+		return *Load(name, path, genMipmap);
+	}
+
+	Texture& TextureManager::GetRef(const std::string& name)
 	{
 		return *m_texture_map[name].get();
 	}
