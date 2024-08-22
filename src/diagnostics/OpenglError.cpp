@@ -31,7 +31,7 @@ namespace vstm {
             {
                 case GL_INVALID_ENUM:
                 {
-                    VSTM_CD_LOGINFO("VSTM OpenGL Error\nError Code: {}. GL_INVALID_ENUM\nThe enumeration parameter is not a legal for that function.\nFrom VSTM function: {}\n", errorCode, msg);
+                    VSTM_CD_LOGINFO("VSTM OpenGL Error\nError Code: {}. GL_INVALID_ENUM\nThe enumeration parameter is not legal for that function.\nFrom VSTM function: {}\n", errorCode, msg);
                     break;
                 }
                 case GL_INVALID_VALUE:

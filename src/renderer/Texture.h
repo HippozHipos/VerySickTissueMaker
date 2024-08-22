@@ -4,6 +4,8 @@
 #include <memory>
 #include <glad/glad.h>
 
+#include "diagnostics/OpenglError.h"
+
 namespace vstm {
 
 	class Texture
@@ -40,6 +42,7 @@ namespace vstm {
 		void SetParameter(Parameters... params)
 		{
 			glTexParameteri(GL_TEXTURE_2D, params...);
+			CheckOpenGLError("Texture::SetParameter");
 		}
 
 	private:

@@ -109,7 +109,7 @@ namespace vstm {
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
 		{
-			VSTM_CD_LOGERROR("Texture with name \"{}\" already exists. Attempting to update texture.\n", name);
+			VSTM_CD_LOGINFO("Texture with name \"{}\" already exists. Attempting to update texture.\n", name);
 		}
 		else
 		{
@@ -117,6 +117,10 @@ namespace vstm {
 		}
 		m_texture_map[name] = std::make_shared<Texture>(path, genMipmap);
 		if (m_texture_map[name]->GetRawData() == nullptr)
+		{
+			VSTM_CD_LOGERROR("Failed to create texture with name \"{}\"\n", name);
+		}
+		else
 		{
 			VSTM_CD_LOGERROR("Failed to create texture with name \"{}\"\n", name);
 		}
