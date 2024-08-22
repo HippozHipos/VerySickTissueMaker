@@ -31,7 +31,7 @@ namespace vstm {
 	private:
 		PerspectiveCamera m_camera{ glm::radians(90.0f), 600.0f / 600.0f, 0.1f, 100.0f };
 
-		const char* m_vertex_shader_source_path = "";
+		const char* m_vertex_shader_source_path = "../../../assets/shaders/vertex_shader.shader";
 		const char* m_fragment_shader_source_path = "../../../assets/shaders/fragment_shader.shader";
 
 		std::string m_vertex_shader_source;

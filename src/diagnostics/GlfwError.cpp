@@ -11,9 +11,6 @@ namespace vstm {
 		{
 			lastError = errorCode;
 		}
-		std::string error{ "[GLFW Error]\nError description : " };
-		error += desc;
-		error += '\n';
 		if (lastError == errorCode)
 		{
 			if (count < std::numeric_limits<int>::max())
@@ -28,7 +25,7 @@ namespace vstm {
 		int maxLogs = 10;
 		if (count < maxLogs + 1)
 		{
-			VSTM_DEBUG_LOGERROR("[GLFW Error]\nError code: {}\nError description: {}\n", errorCode, desc);
+			VSTM_DEBUG_LOGERROR("[GLFW Error]\n[File: {}][Line: {}]\nError code: {}\nError description: {}\n", __FILE__, __LINE__, errorCode, desc);
 		}
 		else if (count == maxLogs + 1)
 		{

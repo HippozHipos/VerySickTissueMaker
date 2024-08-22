@@ -20,8 +20,8 @@ namespace vstm {
 		m_shaders->Use();
 		m_vertex_array.Bind();
 
-		m_shaders->SetInt("tex0", 0);
 		m_shaders->SetMat4f("projection", m_camera.GetProjectionMatrix());
+		m_shaders->SetInt("tex0", 0);
 	
 		// Enable depth testing
 		glEnable(GL_DEPTH_TEST);
@@ -49,8 +49,7 @@ namespace vstm {
 		std::ifstream inStream{ path };
 		if (errno != 0)
 		{
-			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", errno, strerror(errno));
-			VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", errno, strerror(errno));
+			VSTM_CD_LOGERROR("[VSTM Error][File: {}][Line: {}]\nError code: {}\nError description: {}\n", __FILE__, __LINE__, errno, strerror(errno));
 		}
 		std::ostringstream oss;
 		oss << inStream.rdbuf();
