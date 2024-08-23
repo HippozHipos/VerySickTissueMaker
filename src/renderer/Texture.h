@@ -8,16 +8,21 @@
 
 namespace vstm {
 
+	//Note: Copying texture makes a hard copy. Internal texture data is copied as well a new opengl texture buffer is made for it. Otherwise we 
+	//have issues of double deleting data pointer.
+	//Move is not allowed because we store pointer to texture in texture manager. Moving texture would invalidate texture stored in texture manager.
+
+	//TODO: Better way to implement this: Keep shared pointers to all the actual texture data in texture manager. When creating texture, just get 
+	//the pointer from there. That way we can make soft copies of the class without having issues of double deleting.
 	class Texture
 	{
 	public:
 		Texture();
 		Texture(const std::string& path, bool genMipmap = true);
-		Texture(unsigned char* data, bool genMipmap = true);
+		Texture(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
 
-		//delete copies for now. We need to write these later
-		Texture(Texture& other) = delete;
-		Texture operator=(Texture& other) = delete;
+		Texture(Texture& other);
+		Texture& operator=(Texture& other);
 
 		Texture(Texture&& other) noexcept = delete;
 		Texture operator=(Texture&& other) = delete;
@@ -26,7 +31,7 @@ namespace vstm {
 
 	public:
 		void Load(const std::string& path, bool genMipmap = true);
-		void Load(unsigned char* data, bool genMipmap = true);
+		void Load(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
 
 		unsigned char* GetRawData();
 		int GetWidth();
@@ -44,6 +49,9 @@ namespace vstm {
 			glTexParameteri(GL_TEXTURE_2D, params...);
 			CheckOpenGLError();
 		}
+
+	private:
+		void HardCopyToThis(Texture& other);
 
 	private:
 		unsigned char* m_data = nullptr;
@@ -70,8 +78,9 @@ namespace vstm {
 		Texture* Load(const std::string& name, const std::string& path, bool genMipmap = true);
 		//get a texture by pointer
 		Texture* Get(const std::string& name);
-		void Delete(const std::string& name);
 
+		void Delete(const std::string& name);
+		
 	private:
 		std::unordered_map<std::string, std::shared_ptr<Texture>> m_texture_map;
 	};

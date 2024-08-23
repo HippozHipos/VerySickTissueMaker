@@ -16,15 +16,29 @@ namespace vstm {
 		Load(path, genMipmap);
 	}
 
-	Texture::Texture(unsigned char* data, bool genMipmap)
+	Texture::Texture(unsigned char* data, int width, int height, int channels, bool genMipmap)
 	{
-		Load(data, genMipmap);
+		Load(data, width, height, genMipmap);
 	}
+
+	Texture::Texture(Texture& other)
+	{
+		HardCopyToThis(other);
+	}
+
+	Texture& Texture::operator=(Texture& other)
+	{
+		if (this != &other)
+		{
+			HardCopyToThis(other);
+		}
+		return *this;
+	}
+
 
 	Texture::~Texture()
 	{
-		if (m_data)
-			stbi_image_free(m_data);
+		stbi_image_free(m_data);
 	}
 
 	void Texture::Load(const std::string& path, bool genMipmap)
@@ -42,9 +56,10 @@ namespace vstm {
 		CheckOpenGLError();
 	}
 
-	void Texture::Load(unsigned char* data, bool genMipmap)
+	void Texture::Load(unsigned char* data, int width, int height, int channels, bool genMipmap)
 	{
 		m_data = data;
+		m_width = width; m_height = height; m_color_channels = channels;
 		m_path = "Texture not loaded from path";
 		glGenTextures(1, &m_texture_id);
 		glBindTexture(GL_TEXTURE_2D, m_texture_id);
@@ -84,7 +99,7 @@ namespace vstm {
 
 	bool Texture::Validate()
 	{
-		return m_data != nullptr;
+		return m_data != nullptr && m_width > 0 && m_height > 0;
 	}
 
 	void Texture::GenerateMipMap()
@@ -97,6 +112,35 @@ namespace vstm {
 	{
 		glBindTexture(GL_TEXTURE_2D, m_texture_id);
 		CheckOpenGLError();
+	}
+
+	void Texture::HardCopyToThis(Texture& other)
+	{
+		if (other.Validate())
+		{
+			m_path = other.GetPath();
+			m_width = other.GetWidth(); m_height = other.GetHeight(); m_color_channels = other.GetColorChannels();
+			size_t dataSize = m_width * m_height * m_color_channels * sizeof(int);
+			m_data = (unsigned char*)malloc(dataSize);
+			if (m_data)
+			{
+				memcpy(m_data, other.GetRawData(), dataSize);
+				glGenTextures(1, &m_texture_id);
+				glBindTexture(GL_TEXTURE_2D, m_texture_id);
+				GLenum format = (m_color_channels == 4) ? GL_RGBA : GL_RGB;
+				glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data);
+				GenerateMipMap();
+				CheckOpenGLError();
+			}
+			else
+			{
+				VSTM_CD_LOGERROR("Failed to allocate memory for texture");
+			}
+		}
+		else
+		{
+			VSTM_CD_LOGWARN("Attempt to copy construct invalid texture. No-op");
+		}
 	}
 
 	TextureManager::TextureManager()
@@ -147,5 +191,4 @@ namespace vstm {
 	{
 		m_texture_map.erase(name);
 	}
-
 }
