@@ -88,6 +88,7 @@ namespace vstm {
 		m_texture_manager.GetRef("cat").SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
 		m_texture_manager.GetRef("cat").SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		m_texture_manager.GetRef("cat").SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		Texture cat2 = *cat;
 	}
 
 	void Application::Run()

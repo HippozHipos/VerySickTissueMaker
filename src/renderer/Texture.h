@@ -8,12 +8,7 @@
 
 namespace vstm {
 
-	//Note: Copying texture makes a hard copy. Internal texture data is copied as well a new opengl texture buffer is made for it. Otherwise we 
-	//have issues of double deleting data pointer.
 	//Move is not allowed because we store pointer to texture in texture manager. Moving texture would invalidate texture stored in texture manager.
-
-	//TODO: Better way to implement this: Keep shared pointers to all the actual texture data in texture manager. When creating texture, just get 
-	//the pointer from there. That way we can make soft copies of the class without having issues of double deleting.
 	class Texture
 	{
 	public:
@@ -21,11 +16,9 @@ namespace vstm {
 		Texture(const std::string& path, bool genMipmap = true);
 		Texture(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
 
-		Texture(Texture& other);
-		Texture& operator=(Texture& other);
-
-		Texture(Texture&& other) noexcept = delete;
-		Texture operator=(Texture&& other) = delete;
+		//TODO: Write copy constructor and assignment and delete moves
+	/*	Texture(Texture&& other) noexcept = delete;
+		Texture operator=(Texture&& other) = delete;*/
 
 		~Texture();
 
@@ -34,13 +27,15 @@ namespace vstm {
 		void Load(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
 
 		unsigned char* GetRawData();
-		int GetWidth();
-		int GetHeight();
-		int GetColorChannels();
-		const std::string& GetPath();
-		bool Validate();
+		const unsigned char* GetRawData() const;
+		int GetWidth() const;
+		int GetHeight() const;
+		int GetColorChannels() const;
+		const std::string& GetPath() const;
+		bool Validate() const;
 		void GenerateMipMap();
 		void Bind();
+		Texture HardCopy(const Texture& other) const;
 
 	public:
 		template<class... Parameters>
@@ -51,10 +46,7 @@ namespace vstm {
 		}
 
 	private:
-		void HardCopyToThis(Texture& other);
-
-	private:
-		unsigned char* m_data = nullptr;
+		std::shared_ptr<unsigned char> m_data = nullptr;
 		int m_width = 0;
 		int m_height = 0;
 		int m_color_channels = 0;
