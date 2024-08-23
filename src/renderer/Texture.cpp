@@ -149,7 +149,7 @@ namespace vstm {
 		stbi_set_flip_vertically_on_load(true);
 	}
 
-	Texture* TextureManager::Load(const std::string& name, const std::string& path, bool genMipmap)
+	Texture TextureManager::Load(const std::string& name, const std::string& path, bool genMipmap)
 	{
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
@@ -170,17 +170,18 @@ namespace vstm {
 			VSTM_CD_LOGERROR("Texture \"{}\" created\n", name);
 		}
 
-		return m_texture_map[name].get();
+		return *m_texture_map[name].get();
 	}
 
-	Texture* TextureManager::Get(const std::string& name)
+	Texture TextureManager::Get(const std::string& name)
 	{
-		return m_texture_map[name].get();
+		return *m_texture_map[name].get();
 	}
 
 	Texture& TextureManager::LoadRef(const std::string& name, const std::string& path, bool genMipmap)
 	{
-		return *Load(name, path, genMipmap);
+		Load(name, path, genMipmap);
+		return *m_texture_map[name].get();
 	}
 
 	Texture& TextureManager::GetRef(const std::string& name)

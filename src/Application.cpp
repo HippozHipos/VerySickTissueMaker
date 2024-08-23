@@ -83,12 +83,12 @@ namespace vstm {
 		m_lastY = m_window.GetHeight() / 2.0;
 		m_window.SetCursorPos(m_lastX, m_lastY);
 
-		Texture* cat = m_texture_manager.Load("cat", "../../../assets/images/cover.thumb256.png");
-		m_texture_manager.GetRef("cat").SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-		m_texture_manager.GetRef("cat").SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-		m_texture_manager.GetRef("cat").SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		m_texture_manager.GetRef("cat").SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		Texture cat2 = *cat;
+		Texture cat = m_texture_manager.Load("cat", "../../../assets/images/cover.thumb256.png");
+		Texture cat2 = cat;
+		cat2.SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
+		m_texture_manager.GetRef("cat2").SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
+		m_texture_manager.Get("cat").SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		cat.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
 	void Application::Run()
