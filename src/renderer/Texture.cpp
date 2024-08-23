@@ -15,6 +15,7 @@ namespace {
 }
 
 namespace vstm {
+
 	Texture::Texture() :
 		m_path{ "Texture not loaded from path" }
 	{
@@ -147,6 +148,20 @@ namespace vstm {
 	TextureManager::TextureManager()
 	{
 		stbi_set_flip_vertically_on_load(true);
+		unsigned char* defaultColor = (unsigned char*)malloc(sizeof(unsigned char) * 4);
+		if (defaultColor)
+		{
+			defaultColor[0] = 255; defaultColor[1] = 0;
+			defaultColor[2] = 255; defaultColor[3] = 255;
+			m_texture_map.insert(
+				std::pair<std::string, std::shared_ptr<Texture>>("default",
+					std::shared_ptr<Texture>(new Texture{ defaultColor, 1, 1, 4 })
+					));
+		}
+		else
+		{
+			VSTM_CD_LOGERROR("malloc failed");
+		}
 	}
 
 	Texture TextureManager::Load(const std::string& name, const std::string& path, bool genMipmap)
@@ -175,7 +190,16 @@ namespace vstm {
 
 	Texture TextureManager::Get(const std::string& name)
 	{
-		return *m_texture_map[name].get();
+		auto it = m_texture_map.find(name);
+		if (it != m_texture_map.end())
+		{
+			return *it->second.get();
+		}
+		else
+		{
+			VSTM_CD_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned\n", name);
+			return  *m_texture_map["default"].get();
+		}
 	}
 
 	Texture& TextureManager::LoadRef(const std::string& name, const std::string& path, bool genMipmap)
@@ -186,7 +210,16 @@ namespace vstm {
 
 	Texture& TextureManager::GetRef(const std::string& name)
 	{
-		return *m_texture_map[name].get();
+		auto it = m_texture_map.find(name);
+		if (it != m_texture_map.end())
+		{
+			return *it->second.get();
+		}
+		else
+		{
+			VSTM_CD_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned\n", name);
+			return  *m_texture_map["default"].get();
+		}
 	}
 
 	void TextureManager::Delete(const std::string& name)
