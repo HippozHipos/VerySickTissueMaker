@@ -8,19 +8,39 @@
 
 namespace vstm {
 
+	class Texture;
+	class TextureManager
+	{
+	public:
+		TextureManager();
+
+	public:
+		Texture Load(const std::string& name, const std::string& path, bool genMipmap = true);
+		Texture Get(const std::string& name);
+		void Delete(const std::string& name);
+		Texture HardCopy(const std::string& name, const Texture& other);
+		Texture HardCopy(const std::string& name, const std::string& other);
+
+	private:
+		std::unordered_map<std::string, std::shared_ptr<Texture>> m_texture_map;
+	};
+
 	//Move is not allowed because we store pointer to texture in texture manager. Moving texture would invalidate texture stored in texture manager.
 	class Texture
 	{
+		friend Texture TextureManager::HardCopy(const std::string& name, const Texture& other);
 	public:
 		Texture();
 		Texture(const std::string& path, bool genMipmap = true);
 		Texture(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
 
-		//TODO: Write copy constructor and assignment and delete moves
-	/*	Texture(Texture&& other) noexcept = delete;
-		Texture operator=(Texture&& other) = delete;*/
+		Texture(Texture& other);
+		Texture& operator=(Texture& other);
 
-		~Texture();
+		Texture(Texture&& other) noexcept = delete;
+		Texture operator=(Texture&& other) = delete;
+
+		~Texture() = default;
 
 	public:
 		void Load(const std::string& path, bool genMipmap = true);
@@ -35,7 +55,6 @@ namespace vstm {
 		bool Validate() const;
 		void GenerateMipMap();
 		void Bind();
-		Texture HardCopy(const Texture& other) const;
 
 	public:
 		template<class... Parameters>
@@ -44,6 +63,9 @@ namespace vstm {
 			glTexParameteri(GL_TEXTURE_2D, params...);
 			CheckOpenGLError();
 		}
+
+	private:
+		void MemberWiseCopyToThis(Texture& other);
 
 	private:
 		std::shared_ptr<unsigned char> m_data = nullptr;
@@ -55,26 +77,4 @@ namespace vstm {
 	private:
 		GLuint m_texture_id;
 	};
-
-	class TextureManager
-	{
-	public:
-		TextureManager();
-
-	public:
-		//loads and returns reference
-		Texture& LoadRef(const std::string& name, const std::string& path, bool genMipmap = true);
-		//gets a texture reference
-		Texture& GetRef(const std::string& name);
-		//loads and returns pointer
-		Texture Load(const std::string& name, const std::string& path, bool genMipmap = true);
-		//get a texture by pointer
-		Texture Get(const std::string& name);
-
-		void Delete(const std::string& name);
-		
-	private:
-		std::unordered_map<std::string, std::shared_ptr<Texture>> m_texture_map;
-	};
-
 }

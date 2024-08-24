@@ -31,8 +31,18 @@ namespace vstm {
 		Load(data, width, height, genMipmap);
 	}
 
-	Texture::~Texture()
+	Texture::Texture(Texture& other)
 	{
+		MemberWiseCopyToThis(other);
+	}
+
+	Texture& Texture::operator=(Texture& other)
+	{
+		if (this != &other)
+		{
+			MemberWiseCopyToThis(other);
+		}
+		return *this;
 	}
 
 	void Texture::Load(const std::string& path, bool genMipmap)
@@ -113,36 +123,14 @@ namespace vstm {
 		CheckOpenGLError();
 	}
 
-	Texture Texture::HardCopy(const Texture& other) const
+	void Texture::MemberWiseCopyToThis(Texture& other)
 	{
-		Texture texture;
-		if (other.Validate())
-		{
-			texture.m_path = other.GetPath();
-			texture.m_width = other.GetWidth(); texture.m_height = other.GetHeight(); texture.m_color_channels = other.GetColorChannels();
-			size_t dataSize = texture.m_width * texture.m_height * texture.m_color_channels * sizeof(int);
-			texture.m_data = std::shared_ptr<unsigned char>((unsigned char*)malloc(dataSize), textureMemoryDeleter());
-			if (m_data)
-			{
-				memcpy(m_data.get(), other.GetRawData(), dataSize);
-				glGenTextures(1, &texture.m_texture_id);
-				glBindTexture(GL_TEXTURE_2D, m_texture_id);
-				GLenum format = (m_color_channels == 4) ? GL_RGBA : GL_RGB;
-				glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
-				texture.GenerateMipMap();
-				CheckOpenGLError();
-			}
-			else
-			{
-				VSTM_CD_LOGERROR("Failed to allocate memory for texture");
-			}
-		}
-		else
-		{
-			VSTM_CD_LOGWARN("Attempt to copy construct invalid texture. No-op");
-		}
-
-		return texture;
+		m_data = other.m_data;
+		m_width = other.m_width;
+		m_height = other.m_height;
+		m_color_channels = other.m_color_channels;
+		m_path = other.m_path;
+		m_texture_id = other.m_texture_id;
 	}
 
 	TextureManager::TextureManager()
@@ -202,28 +190,54 @@ namespace vstm {
 		}
 	}
 
-	Texture& TextureManager::LoadRef(const std::string& name, const std::string& path, bool genMipmap)
-	{
-		Load(name, path, genMipmap);
-		return *m_texture_map[name].get();
-	}
-
-	Texture& TextureManager::GetRef(const std::string& name)
-	{
-		auto it = m_texture_map.find(name);
-		if (it != m_texture_map.end())
-		{
-			return *it->second.get();
-		}
-		else
-		{
-			VSTM_CD_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned\n", name);
-			return  *m_texture_map["default"].get();
-		}
-	}
-
 	void TextureManager::Delete(const std::string& name)
 	{
 		m_texture_map.erase(name);
+	}
+
+	Texture TextureManager::HardCopy(const std::string& name, const Texture& other) 
+	{
+		Texture texture;
+		if (other.Validate())
+		{
+			texture.m_path = other.GetPath();
+			texture.m_width = other.GetWidth(); texture.m_height = other.GetHeight(); texture.m_color_channels = other.GetColorChannels();
+			size_t dataSize = texture.m_width * texture.m_height * texture.m_color_channels * sizeof(unsigned char);
+			texture.m_data = std::shared_ptr<unsigned char>((unsigned char*)malloc(dataSize), textureMemoryDeleter());
+			if (texture.m_data)
+			{
+				memcpy(texture.m_data.get(), other.m_data.get(), dataSize);
+				glGenTextures(1, &texture.m_texture_id);
+				glBindTexture(GL_TEXTURE_2D, texture.m_texture_id);
+				GLenum format = (texture.m_color_channels == 4) ? GL_RGBA : GL_RGB;
+				glTexImage2D(GL_TEXTURE_2D, 0, format, texture.m_width, texture.m_height, 0, format, GL_UNSIGNED_BYTE, texture.m_data.get());
+				texture.GenerateMipMap();
+				CheckOpenGLError();
+				if (m_texture_map.insert(
+					std::pair<std::string, std::shared_ptr<Texture>>(name,
+						std::shared_ptr<Texture>(new Texture{ texture })
+						)).second)
+				{
+					VSTM_CD_LOGINFO("Given texture hardcopied as \"{}\"", name);
+					return *m_texture_map[name].get();
+				}
+				VSTM_CD_LOGINFO("Failed to hardcopy gived texture as \"{}\". Default texture returned", name);
+				return *m_texture_map["default"].get();
+			}
+			else
+			{
+				VSTM_CD_LOGERROR("Failed to allocate memory to hardcopy given texture as \"{}\". Default texture returned", name);
+				return *m_texture_map["default"].get();
+			}
+		}
+
+		VSTM_CD_LOGWARN("Attempt to hard copy invalid texture as \"{}\". Default texture returned", name);
+		return *m_texture_map["default"].get();
+	}
+
+	Texture TextureManager::HardCopy(const std::string& name, const std::string& other)
+	{
+		Texture* t = m_texture_map[name].get();
+		return HardCopy("name", *t);
 	}
 }
