@@ -143,12 +143,12 @@ namespace vstm {
 			defaultColor[2] = 255; defaultColor[3] = 255;
 			m_texture_map.insert(
 				std::pair<std::string, std::shared_ptr<Texture>>("default",
-					std::shared_ptr<Texture>(new Texture{ defaultColor, 1, 1, 4 })
+					std::shared_ptr<Texture>(new Texture{ defaultColor, 1, 1, 4, false })
 					));
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("malloc failed");
+			VSTM_CD_LOGERROR("Failed to allocate memory for default texture");
 		}
 	}
 
