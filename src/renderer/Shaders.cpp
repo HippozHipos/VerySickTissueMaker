@@ -1,14 +1,19 @@
 #include <glm/gtc/type_ptr.hpp>
+#include <fstream>
+#include <sstream>
 
 #include "Shaders.h"
 #include "diagnostics/OpenglError.h"
 
 namespace vstm {
 
-	Shaders::Shaders(const std::string& vertexSource, const std::string& fragmentSource)
+	Shaders::Shaders()
     {
-        GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, vertexSource);
-        GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+		LoadShaderSource(m_vertex_shader_source_path, m_vertex_shader_source);
+		LoadShaderSource(m_fragment_shader_source_path, m_fragment_shader_source);
+
+        GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, m_vertex_shader_source);
+        GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, m_fragment_shader_source);
 
         m_program_id = glCreateProgram();
         glAttachShader(m_program_id, vertexShader);
@@ -45,6 +50,29 @@ namespace vstm {
 	{
 		return m_program_id;
 	}
+
+	void Shaders::LoadShaderSource(const char* path, std::string& source)
+	{
+		std::ifstream inStream{ path };
+		if (errno != 0)
+		{
+			VSTM_CD_LOGERROR("[VSTM Error]Error code: {}\nError description: {}\n", errno, strerror(errno));
+		}
+		std::ostringstream oss;
+		oss << inStream.rdbuf();
+		source = oss.str();
+	}
+
+	const std::string& Shaders::VertexShaderSource()
+	{
+		return m_vertex_shader_source;
+	}
+
+	const std::string& Shaders::FragmentShaderSource()
+	{
+		return m_fragment_shader_source;
+	}
+
 
 	void Shaders::SetFloat(const std::string& name, float value) const
 	{
