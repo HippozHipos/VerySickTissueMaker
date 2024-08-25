@@ -131,7 +131,7 @@ namespace vstm {
 	void Application::ProcessInput(double deltaTime)
 	{
 		// Keyboard input
-		m_renderer.GetCamera().ProcessKeyboardMovement(deltaTime, 
+		m_renderer.GetActiveCamera().ProcessKeyboardMovement(deltaTime, 
 			m_window.KeyHeld(GLFW_KEY_W), m_window.KeyHeld(GLFW_KEY_S),
 			m_window.KeyHeld(GLFW_KEY_A), m_window.KeyHeld(GLFW_KEY_D),
 			m_window.KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window.KeyHeld(GLFW_KEY_SPACE));
@@ -143,7 +143,7 @@ namespace vstm {
 		m_lastX = m_window.GetMouseX();
 		m_lastY = m_window.GetMouseY();
 
-		m_renderer.GetCamera().ProcessMouseMovement(xoffset, yoffset);
+		m_renderer.GetActiveCamera().ProcessMouseMovement(xoffset, yoffset);
 		// Reset the cursor to the centre of the screen
 		m_window.CenterCursorPos(m_lastX, m_lastY);
 	}

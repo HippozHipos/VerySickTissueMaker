@@ -1,5 +1,3 @@
-#include <fstream>
-#include <sstream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -12,11 +10,7 @@ namespace vstm {
 
 	Renderer::Renderer()
 	{
-		//REMINDER: THIS LINE FOR WIREFRAME
-		LoadShaderSource(m_vertex_shader_source_path, m_vertex_shader_source);
-		LoadShaderSource(m_fragment_shader_source_path, m_fragment_shader_source);
-
-		m_shaders = std::make_unique<Shaders>(VertexShaderSource(), FragmentShaderSource());
+		m_shaders = std::make_unique<Shaders>();
 		m_shaders->Use();
 		m_vertex_array.Bind();
 
@@ -30,31 +24,9 @@ namespace vstm {
 		CheckOpenGLError();
 	}
 
-	PerspectiveCamera& Renderer::GetCamera() 
+	PerspectiveCamera& Renderer::GetActiveCamera() 
 	{ 
 		return m_camera; 
-	}
-
-	const std::string& Renderer::VertexShaderSource()
-	{
-		return m_vertex_shader_source;
-	}
-
-	const std::string& Renderer::FragmentShaderSource()
-	{
-		return m_fragment_shader_source;
-	}
-
-	void Renderer::LoadShaderSource(const char* path, std::string& source)
-	{
-		std::ifstream inStream{ path };
-		if (errno != 0)
-		{
-			VSTM_CD_LOGERROR("[VSTM Error]Error code: {}\nError description: {}\n", errno, strerror(errno));
-		}
-		std::ostringstream oss;
-		oss << inStream.rdbuf();
-		source = oss.str();
 	}
 
 	void Renderer::Render()
