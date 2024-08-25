@@ -3,6 +3,7 @@
 #include <bitset>
 
 #include "glfw/glfw3.h"
+#include "LayerStack.h"
 
 namespace vstm {
 
@@ -45,6 +46,8 @@ namespace vstm {
 
 		GLFWwindow* GetGLFWWindow();
 
+		LayerStack& GetLayerStack();
+
 	private:
 		void OnKeyPress(int key);
 		void OnKeyHeld(int key);
@@ -60,6 +63,8 @@ namespace vstm {
 		static constexpr int keyCodes = 348;
 		std::bitset<keyCodes> m_keys_pressed;
 		std::bitset<keyCodes> m_keys_held;
+
+		LayerStack m_layer_stack;
 
 		static constexpr int buttonCodes = 5;
 		std::bitset<keyCodes> m_mouse_pressed;

@@ -13,6 +13,7 @@ namespace vstm {
 	class Renderer
 	{
 	public:
+		//TODO: Take framebuffer from window as argument
 		Renderer();
 		~Renderer() = default;
 

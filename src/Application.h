@@ -12,7 +12,7 @@ namespace vstm {
 	{
 	public:
 		Application();
-		~Application() = default;
+		~Application();
 
 	public:
 		void HandleErrorActions();

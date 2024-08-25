@@ -7,6 +7,7 @@
 
 // Callbacks
 namespace vstm {
+
 	void keyCallback(GLFWwindow* glfwwindow, int key, int scancode, int action, int mods)
 	{
 		vstm::Window* window = reinterpret_cast<vstm::Window*>(glfwGetWindowUserPointer(glfwwindow));
@@ -68,8 +69,9 @@ namespace vstm {
 namespace vstm {
 	
 	Window::Window(int width, int height, const char* title,
-		GLFWmonitor* monitor, GLFWwindow* share)
-		: m_width{ static_cast<double>( width ) }, m_height{ static_cast<double>( height ) } 
+		GLFWmonitor* monitor, GLFWwindow* share) :  
+		m_layer_stack{ this },
+		m_width{ static_cast<double>(width) }, m_height{ static_cast<double>(height) }
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
 		glfwInit();
@@ -241,6 +243,11 @@ namespace vstm {
 	GLFWwindow* Window::GetGLFWWindow() 
 	{ 
 		return m_pwindow; 
+	}
+
+	LayerStack& Window::GetLayerStack()
+	{
+		return m_layer_stack;
 	}
 
 }

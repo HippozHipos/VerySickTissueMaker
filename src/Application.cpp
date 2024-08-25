@@ -96,6 +96,13 @@ namespace vstm {
 		m_texture_manager.Get("cat2").SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
 		cat2.SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		cat2.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		m_window.GetLayerStack()._Start(&m_renderer);
+	}
+
+	Application::~Application()
+	{
+		m_window.GetLayerStack()._End();
 	}
 
 	void Application::Run()
@@ -120,6 +127,8 @@ namespace vstm {
 			
 			ProcessInput(deltaTime);
 			m_renderer.Render();
+
+			m_window.GetLayerStack()._Update();
 			
 			m_window.Update();
 			glfwPollEvents();
