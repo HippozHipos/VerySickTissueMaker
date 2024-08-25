@@ -16,6 +16,7 @@ So far this includes:
 - __glad__ : Load opengl function pointers 
 - __glfw__ : For managing cross-platform windows
 - __spdlog__ : A fast logging library
+- __assimp__: Model loading library
 
 ## assets
 Contains the files, objects and other assets for rendering.
