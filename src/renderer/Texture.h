@@ -75,6 +75,6 @@ namespace vstm {
 		std::string m_path;
 
 	private:
-		GLuint m_texture_id;
+		GLuint m_texture_id{};
 	};
 }

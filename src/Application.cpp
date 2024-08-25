@@ -1,5 +1,8 @@
-#include "Application.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
+#include "Application.h"
 #include "diagnostics/Logger.h"
 #include "diagnostics/Error.h"
 #include "renderer/buffers/VertexBuffer.h"
@@ -11,58 +14,60 @@
 namespace rend {
 
 	// Vertex data for a cube
-	float vertices[] = {
-		// Positions x,y,z then colours r,g,b then text coords        
-		-0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,// Vertex 0
-		 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,// Vertex 1
-		 0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,// Vertex 2
-		-0.5f,  0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,// Vertex 3
-		-0.5f, -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,// Vertex 4
-		 0.5f, -0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,// Vertex 5
-		 0.5f,  0.5f,  0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,// Vertex 6
-		-0.5f,  0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f // Vertex 7
-	};
-
+	std::vector<float> vertices;
 	// Indices for drawing the cube using element array
-	unsigned int indices[] = {
-		// Back face
-		0, 1, 2,
-		2, 3, 0,
+	std::vector<int> indices;
 
-		// Front face
-		4, 5, 6,
-		6, 7, 4,
+	void load()
+	{
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile("../../../assets/models/Ukulele.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
 
-		// Left face
-		0, 3, 7,
-		7, 4, 0,
+		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+		{
+			VSTM_CON_LOGERROR("ERROR::ASSIMP::{}", importer.GetErrorString());
+			return;
+		}
 
-		// Right face
-		1, 2, 6,
-		6, 5, 1,
+		//aiNode* root = scene->mRootNode;
+		for (int i = 0; i < scene->mNumMeshes; i++)
+		{
+			aiMesh* mesh = scene->mMeshes[i];
+			for (int j = 0; j < mesh->mNumVertices; j++)
+			{
+				vertices.push_back(mesh->mVertices[j].x);
+				vertices.push_back(mesh->mVertices[j].y);
+				vertices.push_back(mesh->mVertices[j].z);
+			}
+			for (int j = 0; j < mesh->mNumFaces; j++)
+			{
+				aiFace face = mesh->mFaces[j];
+				for (int k = 0; k < face.mNumIndices; k++)
+				{
+					indices.push_back(face.mIndices[k]);
+				}
+			}
 
-		// Bottom face
-		0, 1, 5,
-		5, 4, 0,
-
-		// Top face
-		3, 2, 6,
-		6, 7, 3
-	};
-
+		}
+	}
 
 	void setup(vstm::Renderer& renderer)
 	{
+		load();
+
 		vstm::VertexBuffer vertexBuffer;
 		vstm::IndexBuffer indexBuffer;
 
+		int sizefloat = vertices.size() * sizeof(float);
+		int sizeint = indices.size() * sizeof(int);
+
 		vertexBuffer.Bind();
-		vertexBuffer.BufferData(sizeof(vertices));
-		vertexBuffer.BufferSubData(vertices, sizeof(vertices), 0);
+		vertexBuffer.BufferData(sizefloat);
+		vertexBuffer.BufferSubData(vertices.data(), sizefloat, 0);
 		
 		indexBuffer.Bind();
-		indexBuffer.BufferData(sizeof(indices));
-		indexBuffer.BufferSubData(indices, sizeof(indices), 0);
+		indexBuffer.BufferData(sizeint);
+		indexBuffer.BufferSubData(indices.data(), sizeint, 0);
 
 		renderer.SetLayout();
 	}

@@ -1,4 +1,4 @@
-# Set which version of cmake we need, will throw an error if this check fails.
+﻿# Set which version of cmake we need, will throw an error if this check fails.
 cmake_minimum_required(VERSION 3.16...3.23)
 
 # Set which version of C++ we want to use
@@ -13,6 +13,16 @@ set(GLAD_INCLUDES	"3rdParty/glad/include")
 set(SPDLOG_INCLUDES  "3rdParty/spdlog/include")
 set(GLM_INCLUDES	"3rdParty/glm")
 set(STB_INCLUDES	"3rdParty/stb")
+set(ASSIMP_INCLUDES	"3rdParty/assimp/include")
+if (Debug)
+	set(ASSIMP_CONFIG_INCLUDE	"out/build/x64-Debug/3rdparty/assimp/include")
+endif()
+if (Release)
+	set(ASSIMP_CONFIG_INCLUDE	"out/build/x64-Release/3rdparty/assimp/include")
+endif()
+if (RELEASE_WITH_DEBUG)
+	set(ASSIMP_CONFIG_INCLUDE	"out/build/x64-ReleaseWithDebug/3rdparty/assimp/include")
+endif()
 
 if(RELEASE_WITH_DEBUG)
     add_definitions(-DRELEASE_WITH_DEBUG)
@@ -39,12 +49,17 @@ add_subdirectory("3rdParty/spdlog")
 #	glm
 add_subdirectory("3rdParty/glm")
 
+#	assimp
+add_subdirectory("3rdParty/assimp")
+
 #include the directories to resolve relative file references: "../../3rdparty/imgui" -> "3rdparty/imgui"
 include_directories(${GLFW_INCLUDES})
 include_directories(${GLAD_INCLUDES})
 include_directories(${SPDLOG_INCLUDES})
 include_directories(${GLM_INCLUDES})
 include_directories(${STB_INCLUDES})
+include_directories(${ASSIMP_INCLUDES})
+include_directories(${ASSIMP_CONFIG_INCLUDE})
 
 #
 #						end compile 3rdParty
@@ -73,4 +88,4 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 
 add_executable(${PROJECT_NAME} ${source_files})
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glad spdlog OpenGL::GL glfw)
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glad spdlog OpenGL::GL glfw assimp::assimp)

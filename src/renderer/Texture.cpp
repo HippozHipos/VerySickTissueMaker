@@ -17,7 +17,7 @@ namespace {
 namespace vstm {
 
 	Texture::Texture() :
-		m_path{ "Texture not loaded from path" }
+		m_path{ "Texture not loaded from path AND isn't a valid opengl texture" }
 	{
 	}
 

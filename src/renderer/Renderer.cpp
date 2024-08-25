@@ -21,10 +21,11 @@ namespace vstm {
 		m_vertex_array.Bind();
 
 		m_shaders->SetMat4f("projection", m_camera.GetProjectionMatrix());
-		m_shaders->SetInt("tex0", 0);
+		//m_shaders->SetInt("tex0", 0);
 	
-		// Enable depth testing
+		// Enable depth testing and backface culling
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_CULL_FACE);
 
 		CheckOpenGLError();
 	}
@@ -65,7 +66,7 @@ namespace vstm {
 		// Clear both color and depth buffer
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, 26700, GL_UNSIGNED_INT, nullptr);
 
 		CheckOpenGLError();
 	}
@@ -73,8 +74,8 @@ namespace vstm {
 	void Renderer::SetLayout()
 	{
 		m_vertex_array.SetupLayout<float>(3);  // Position (x, y, z)
-		m_vertex_array.SetupLayout<float>(4);  // Color (r, g, b, a)
-		m_vertex_array.SetupLayout<float>(2);  // Texture coordinates (u, v)
+		//m_vertex_array.SetupLayout<float>(4);  // Color (r, g, b, a)
+		//m_vertex_array.SetupLayout<float>(2);  // Texture coordinates (u, v)
 
 		m_vertex_array.AddLayout();
 
