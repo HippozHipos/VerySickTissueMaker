@@ -76,19 +76,12 @@ namespace rend {
 namespace vstmr {
 
 	Application::Application() :
-		m_window{ 600, 600, "Very sick tissue maker" }
+		m_renderer{ &m_window },
+		m_window { 600, 600, "Very sick tissue maker" }
 	{
 		VSTM_TRACE_LOGINFO("TissueMaker constructed");
 
-		// This removes the visibility of the cursor
-		//glfwSetInputMode(m_window.GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-		// Set initial cursor position to the center of the screen
-		m_lastX = m_window.GetWidth() / 2.0;
-		m_lastY = m_window.GetHeight() / 2.0;
-		m_window.SetCursorPos(m_lastX, m_lastY);
-
-		Texture cat = m_texture_manager.Load("cat", "../../../assets/images/cover.thumb256.png");
+		Texture cat = m_texture_manager.Load("cat", "../../../../vstmr/assets/images/cover.thumb256.png");
 		Texture cat2 = m_texture_manager.HardCopy("cat2", cat);
 		glActiveTexture(GL_TEXTURE0);
 		cat2.Bind();
@@ -97,85 +90,49 @@ namespace vstmr {
 		cat2.SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		cat2.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		Start();
+		m_window.GetLayerStack()._Start(&m_renderer);
 	}
 
 	Application::~Application()
 	{
-		End();
+		m_window.GetLayerStack()._End();
 	}
 
 	void Application::Run()
-	{
-		_Update();
-	}
-
-	//default overrides
-	void Application::Start() {}
-	void Application::Update() {}
-	void Application::End() {}
-
-	void Application::_Start()
-	{
-		m_window.GetLayerStack()._Start(&m_renderer);
-	}
-
-	void Application::_Update()
 	{
 		ErrorHandler::Handle();
 		HandleErrorActions();
 
 		rend::setup(m_renderer);
-		
+
 		// note that this is allowed, the call to glVertexAttribPointer registered
 		// VBO as the vertex attribute's bound vertex buffer object so afterwards 
 		// we can safely unbind
 		vstmr::VertexBuffer::UnBind();
 
-		Timer timer{};
+		Start();
 
 		while (!m_window.IsClosed() && m_running)
 		{
-			double deltaTime = timer.getDeltaTime();
-
 			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
-			
-			ProcessInput(deltaTime);
+
 			m_renderer.Render();
 
+			Update(m_timer.getDeltaTime());
 			m_window.GetLayerStack()._Update();
-			
+
 			m_window.Update();
 			glfwPollEvents();
 			ErrorHandler::Handle();
 			HandleErrorActions();
 		}
+		End();
 	}
 
-	void Application::_End()
-	{
-		m_window.GetLayerStack()._End();
-	}
-
-	void Application::ProcessInput(double deltaTime)
-	{
-		// Keyboard input
-		m_renderer.GetActiveCamera().ProcessKeyboardMovement(deltaTime, 
-			m_window.KeyHeld(GLFW_KEY_W), m_window.KeyHeld(GLFW_KEY_S),
-			m_window.KeyHeld(GLFW_KEY_A), m_window.KeyHeld(GLFW_KEY_D),
-			m_window.KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window.KeyHeld(GLFW_KEY_SPACE));
-
-		// Mouse input
-		float xoffset = m_window.GetMouseX()- m_lastX;
-		float yoffset = m_lastY - m_window.GetMouseY(); // Reversed since y-coordinates go from bottom to top
-
-		m_lastX = m_window.GetMouseX();
-		m_lastY = m_window.GetMouseY();
-
-		m_renderer.GetActiveCamera().ProcessMouseMovement(xoffset, yoffset);
-		// Reset the cursor to the centre of the screen
-		m_window.CenterCursorPos(m_lastX, m_lastY);
-	}
+	//default overrides
+	void Application::Start() {}
+	void Application::Update(float deltaTime) {}
+	void Application::End() {}
 
 	void Application::HandleErrorActions()
 	{

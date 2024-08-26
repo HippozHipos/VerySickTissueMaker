@@ -10,7 +10,8 @@ public:
     Timer() : m_last_frame_time(glfwGetTime()) {}
 
 public:
-    T getDeltaTime() {
+    T getDeltaTime() 
+    {
         T currentTime = glfwGetTime();
         T deltaTime = currentTime - m_last_frame_time;
         m_last_frame_time = currentTime;

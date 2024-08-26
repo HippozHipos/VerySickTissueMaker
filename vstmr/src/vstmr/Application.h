@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Renderer/Renderer.h"
-
 #include "Window/Window.h"
-
 #include "renderer/Texture.h"
+#include "timer/Timer.h"
+
 
 namespace vstmr {
 
@@ -21,23 +21,15 @@ namespace vstmr {
 	public:
 		//client
 		virtual void Start();
-		virtual void Update();
+		virtual void Update(float deltaTime);
 		virtual void End();
-
-	private:
-		//ours
-		void _Start();
-		void _Update();
-		void _End();
-
-	private:
-		void ProcessInput(double deltaTime);
 
 	protected:
 		bool m_running = true;
-		double m_lastX, m_lastY;
+
+		Timer<float> m_timer{};
 		Window m_window;
-		Renderer m_renderer{};
+		Renderer m_renderer;
 
 		TextureManager m_texture_manager;
 	};

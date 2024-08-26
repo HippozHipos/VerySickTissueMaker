@@ -41,8 +41,8 @@ namespace vstmr {
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window)
 		{
-			window->m_mousex = xpos;
-			window->m_mousey = ypos;
+			window->m_mousex = static_cast<float>(xpos);
+			window->m_mousey = static_cast<float>(ypos);
 		}
 	}
 
@@ -51,8 +51,8 @@ namespace vstmr {
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window)
 		{
-			window->m_scrollx = xoffset;
-			window->m_scrolly = yoffset;
+			window->m_scrollx = static_cast<float>(xoffset);
+			window->m_scrolly = static_cast<float>(yoffset);
 		}
 	}
 
@@ -71,7 +71,7 @@ namespace vstmr {
 	Window::Window(int width, int height, const char* title,
 		GLFWmonitor* monitor, GLFWwindow* share) :  
 		m_layer_stack{ this },
-		m_width{ static_cast<double>(width) }, m_height{ static_cast<double>(height) }
+		m_width{ width }, m_height{ height }
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
 		glfwInit();
@@ -107,6 +107,10 @@ namespace vstmr {
 	{
 		m_keys_pressed.reset();
 		m_mouse_pressed.reset();
+		m_mouse_changex = m_mousex - m_last_mousex;
+		m_mouse_changey = m_last_mousey - m_mousey;
+		m_last_mousex = m_mousex;
+		m_last_mousey = m_mousey;
 		glfwSwapBuffers(m_pwindow);
 	}
 
@@ -137,55 +141,53 @@ namespace vstmr {
 		return m_keys_held[key];
 	}
 
-	double Window::GetMouseX()
+	float Window::GetMouseX()
 	{
 		return m_mousex;
 	}
 
-	double Window::GetMouseY()
+	float Window::GetMouseY()
 	{
 		return m_mousey;
 	}
 
-	double Window::GetScrollX()
+	float Window::GetMouseChangeX()
+	{
+		return m_mouse_changex;
+	}
+
+	float Window::GetMouseChangeY()
+	{
+		return m_mouse_changey;
+	}
+
+	float Window::GetScrollX()
 	{
 		double scrollx = m_scrollx;
 		m_scrolly = 0.0;
 		return scrollx;
 	}
 
-	double Window::GetScrollY()
+	float Window::GetScrollY()
 	{
 		double scrollx = m_scrolly;
 		m_scrolly = 0.0;
 		return scrollx;
 	}
 
-	inline double Window::GetWidth()
+	float Window::GetWidth()
 	{
 		return m_width;
 	}
 
-	inline double Window::GetHeight()
+	float Window::GetHeight()
 	{
 		return m_height;
 	}
 
-	void Window::GetCursorPos(double& xpos, double& ypos)
+	void Window::SetCursorPos(float x, float y)
 	{
-		glfwGetCursorPos(m_pwindow, &xpos, &ypos);
-	}
-
-	void Window::CenterCursorPos(double& last_xpos, double& last_ypos)
-	{
-		last_xpos = GetWidth() / 2.0;
-		last_ypos = GetHeight() / 2.0;
-		glfwSetCursorPos(m_pwindow, last_xpos, last_ypos);
-	}
-
-	void Window::SetCursorPos(double& last_xpos, double& last_ypos)
-	{
-		glfwSetCursorPos(m_pwindow, last_xpos, last_ypos);
+		glfwSetCursorPos(m_pwindow, static_cast<double>(x), static_cast<double>(y));
 	}
 
 	bool Window::MouseButtonPressed(int button)
@@ -196,6 +198,11 @@ namespace vstmr {
 	bool Window::MouseButtonHeld(int button)
 	{
 		return m_mouse_held[button];
+	}
+
+	void Window::DisableCursor()
+	{
+		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 
 	void Window::OnKeyPress(int key)

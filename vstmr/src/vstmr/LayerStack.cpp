@@ -41,8 +41,8 @@ namespace vstmr {
 		layer->SetRenderer(m_renderer);
 		if (!overlay)
 		{
-			/*VSTM_ASSERT(index <= m_num_non_overlays,
-				"Index out of range. Valid Range = 0 to {}", m_num_non_overlays);*/
+			VSTM_ASSERT(index <= m_num_non_overlays,
+				"Index out of range. Valid Range = 0 to {}", m_num_non_overlays);
 
 			m_layers.emplace(m_layers.begin() + index, layer);
 			m_num_non_overlays++;

@@ -25,11 +25,11 @@ namespace vstmr {
 		int maxLogs = 10;
 		if (count < maxLogs + 1)
 		{
-			VSTM_DEBUG_LOGERROR("[GLFW Error]\nError code: {}\nError description: {}\n", errorCode, desc);
+			VSTM_DEBUG_LOGERROR("[GLFW Error]\nError code: {}\nError description: {}", errorCode, desc);
 		}
 		else if (count == maxLogs + 1)
 		{
-			VSTM_DEBUG_LOGINFO("[NOTE] Log omitted because above error occurred more than 10 times\n");
+			VSTM_DEBUG_LOGINFO("[NOTE] Log omitted because above error occurred more than 10 times");
 		}
 		lastError = errorCode;
 	}

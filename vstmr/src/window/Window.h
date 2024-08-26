@@ -29,20 +29,22 @@ namespace vstmr {
 		bool KeyPressed(int key);
 		bool KeyHeld(int key);
 		
-		double GetMouseX();
-		double GetMouseY();
-		double GetScrollX();
-		double GetScrollY();
+		float GetMouseX();
+		float GetMouseY();
+		float GetMouseChangeX();
+		float GetMouseChangeY();
+		float GetScrollX();
+		float GetScrollY();
 
-		inline double GetWidth();
-		inline double GetHeight();
+		float GetWidth();
+		float GetHeight();
 
-		void GetCursorPos(double& xpos, double& ypos);
-		void CenterCursorPos(double& last_xpos, double& last_ypos);
-		void SetCursorPos(double& last_xpos, double& last_ypos);
+		void SetCursorPos(float x, float y);
 
 		bool MouseButtonPressed(int button);
 		bool MouseButtonHeld(int button);
+
+		void DisableCursor();
 
 		GLFWwindow* GetGLFWWindow();
 
@@ -69,13 +71,14 @@ namespace vstmr {
 		static constexpr int buttonCodes = 5;
 		std::bitset<keyCodes> m_mouse_pressed;
 		std::bitset<keyCodes> m_mouse_held;
-		double m_mousex = 0;
-		double m_mousey = 0;
-		double m_scrollx = 0;
-		double m_scrolly = 0;
 
-		double m_width;
-		double m_height;
+		float m_mousex, m_mousey = 0;
+		float m_scrollx, m_scrolly = 0;
+		float m_last_mousex, m_last_mousey = 0;
+		float m_mouse_changex, m_mouse_changey = 0;
+
+		int m_width;
+		int m_height;
 
 		GLFWwindow* m_pwindow;
 	};

@@ -4,11 +4,13 @@
 #include "Renderer.h"
 #include "diagnostics/Logger.h"
 #include "diagnostics/OpenglError.h"
+#include "window/Window.h"
 
 namespace vstmr {
 
 
-	Renderer::Renderer()
+	Renderer::Renderer(Window* window) :
+		m_window{ window }
 	{
 		m_shaders = std::make_unique<Shaders>();
 		m_shaders->Use();

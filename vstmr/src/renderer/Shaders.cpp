@@ -25,8 +25,8 @@ namespace vstmr {
         if (!success) 
         {
             GLchar infoLog[512];
-            VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", 0, infoLog);
-            VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", 0, infoLog);
+            VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
+            VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
         }
 
         glDeleteShader(vertexShader);

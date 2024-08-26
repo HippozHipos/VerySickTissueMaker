@@ -10,11 +10,12 @@
 
 namespace vstmr {
 
+	class Window;
 	class Renderer
 	{
 	public:
 		//TODO: Take framebuffer from window as argument
-		Renderer();
+		Renderer(Window* window);
 		~Renderer() = default;
 
 	public:
@@ -29,6 +30,8 @@ namespace vstmr {
 
 		std::unique_ptr<Shaders> m_shaders;
 		VertexArray m_vertex_array{};
+
+		Window* m_window;
 
 	};
 

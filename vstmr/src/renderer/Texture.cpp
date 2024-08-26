@@ -157,20 +157,20 @@ namespace vstmr {
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
 		{
-			VSTM_CD_LOGINFO("Texture \"{}\" already exists. Attempting to update texture.\n", name);
+			VSTM_CD_LOGINFO("Texture \"{}\" already exists. Attempting to update texture", name);
 		}
 		else
 		{
-			VSTM_CD_LOGINFO("Texture \"{}\" not found. Attempting to create new texture.\n", name);
+			VSTM_CD_LOGINFO("Texture \"{}\" not found. Attempting to create new texture", name);
 		}
 		m_texture_map[name] = std::make_shared<Texture>(path, genMipmap);
 		if (m_texture_map[name]->GetRawData() == nullptr)
 		{
-			VSTM_CD_LOGERROR("Failed to create texture \"{}\"\n", name);
+			VSTM_CD_LOGERROR("Failed to create texture \"{}\"", name);
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("Texture \"{}\" created\n", name);
+			VSTM_CD_LOGERROR("Texture \"{}\" created", name);
 		}
 
 		return *m_texture_map[name].get();
@@ -185,7 +185,7 @@ namespace vstmr {
 		}
 		else
 		{
-			VSTM_CD_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned\n", name);
+			VSTM_CD_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned", name);
 			return  *m_texture_map["default"].get();
 		}
 	}

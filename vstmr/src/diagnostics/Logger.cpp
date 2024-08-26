@@ -13,7 +13,7 @@ namespace vstmr {
 
 	void Logger::Init()
 	{
-		const char* pattern = "[%D] [%H:%M:%S] [%n]\n[Source: %s][Line: %#]\n[Function: %!] [Thread: %t]\n%v";
+		const char* pattern = "[%D][%H:%M:%S][%l][%n]\n[Source: %s][Line: %#]\n[Function: %!][Thread: %t]\n%v\n";
 		s_console.get()->set_pattern(pattern);
 		s_trace_file.get()->set_pattern(pattern);
 		s_debug_file.get()->set_pattern(pattern);

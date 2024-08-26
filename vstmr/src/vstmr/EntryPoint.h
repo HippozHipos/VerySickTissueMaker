@@ -6,11 +6,15 @@
 
 #define VSTMR_ENTRY_POINT_ALREADY_DEFINED
 
-extern vstmr::Application* CreateApplication();
+
+namespace vstmr {
+	extern Application* CreateApplication();
+}
 
 int main()
 {
-	vstmr::Application* app = CreateApplication();
+	vstmr::Logger::Init();
+	vstmr::Application* app = vstmr::CreateApplication();
 	app->Run();
 	delete app;
 }
