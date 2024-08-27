@@ -30,14 +30,9 @@ namespace vstmr {
 		return m_viewports.size();
 	}
 
-	PerspectiveCamera& Layer::GetCamera()
-	{
-		return m_camera;
-	}
-
 	std::shared_ptr<Viewport> Layer::AddViewport(int x, int y, int width, int height)
 	{
-		m_viewports.push_back(std::make_unique<Viewport>(x, y, width, height));
+		m_viewports.push_back(std::make_unique<Viewport>(x, y, width, height, m_window));
 		return m_viewports.back();
 	}
 

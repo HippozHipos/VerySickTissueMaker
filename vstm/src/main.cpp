@@ -9,18 +9,25 @@ namespace vstm {
         void Start()
         {
             m_window->DisableCursor();
-            AddViewport(100, 100, 100, 100);
+            AddViewport(0, 0, 100, 100);
+            m_viewports[0]->r = 0.0f;
+            m_viewports[0]->g = 1.0f;
+            m_viewports[0]->b = 0.0f;
+            m_viewports[0]->a = 1.0f;
         }
 
         void Update(float deltaTime) override
         {
-            // Keyboard input
-            m_camera.ProcessKeyboardMovement(deltaTime,
-                m_window->KeyHeld(GLFW_KEY_W), m_window->KeyHeld(GLFW_KEY_S),
-                m_window->KeyHeld(GLFW_KEY_A), m_window->KeyHeld(GLFW_KEY_D),
-                m_window->KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window->KeyHeld(GLFW_KEY_SPACE));
+            for (int i = 0; i < m_viewports.size(); i++)
+            {
+                vstmr::PerspectiveCamera& camera = m_viewports[i]->GetCamera();
+                camera.ProcessKeyboardMovement(deltaTime,
+                    m_window->KeyHeld(GLFW_KEY_W), m_window->KeyHeld(GLFW_KEY_S),
+                    m_window->KeyHeld(GLFW_KEY_A), m_window->KeyHeld(GLFW_KEY_D),
+                    m_window->KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window->KeyHeld(GLFW_KEY_SPACE));
 
-            m_camera.ProcessMouseMovement(m_window->GetMouseChangeX(), m_window->GetMouseChangeY());
+                camera.ProcessMouseMovement(m_window->GetMouseChangeX(), m_window->GetMouseChangeY());
+            }
         }
     };
 
@@ -30,18 +37,22 @@ namespace vstm {
         void Start()
         {
             m_window->DisableCursor();
-            AddViewport(250, 50, 200, 200);
+            AddViewport(300, 150, 100, 300);
+            AddViewport(150, 200, 50, 50);
         }
 
         void Update(float deltaTime) override
         {
-            // Keyboard input
-            m_camera.ProcessKeyboardMovement(deltaTime,
-                m_window->KeyHeld(GLFW_KEY_W), m_window->KeyHeld(GLFW_KEY_S),
-                m_window->KeyHeld(GLFW_KEY_A), m_window->KeyHeld(GLFW_KEY_D),
-                m_window->KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window->KeyHeld(GLFW_KEY_SPACE));
+            for (int i = 0; i < m_viewports.size(); i++)
+            {
+                vstmr::PerspectiveCamera& camera = m_viewports[i]->GetCamera();
+                camera.ProcessKeyboardMovement(deltaTime,
+                    m_window->KeyHeld(GLFW_KEY_W), m_window->KeyHeld(GLFW_KEY_S),
+                    m_window->KeyHeld(GLFW_KEY_A), m_window->KeyHeld(GLFW_KEY_D),
+                    m_window->KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window->KeyHeld(GLFW_KEY_SPACE));
 
-            m_camera.ProcessMouseMovement(m_window->GetMouseChangeX(), m_window->GetMouseChangeY());
+                camera.ProcessMouseMovement(m_window->GetMouseChangeX(), m_window->GetMouseChangeY());
+            }
         }
     };
 

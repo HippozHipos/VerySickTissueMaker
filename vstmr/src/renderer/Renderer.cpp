@@ -41,11 +41,13 @@ namespace vstmr {
 			Layer* layer = stack->GetLayer(i);
 			for (size_t j = 0; j < layer->NumViewports(i); j++)
 			{
-				m_shaders->SetMat4f("projection", layer->GetCamera().GetProjectionMatrix());
-				m_shaders->SetMat4f("view", layer->GetCamera().GetViewMatrix());
-				layer->GetCamera().UpdateVectors();
-
 				Viewport* viewport = layer->GetViewport(j);
+
+				vstmr::PerspectiveCamera& camera = viewport->GetCamera();
+				m_shaders->SetMat4f("projection", camera.GetProjectionMatrix());
+				m_shaders->SetMat4f("view", camera.GetViewMatrix());
+				camera.UpdateVectors();
+
 				viewport->UpdateViewport();
 
 				//NOTE:REMOVE LATER
