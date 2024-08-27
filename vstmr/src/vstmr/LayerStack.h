@@ -12,17 +12,20 @@ namespace vstmr {
 	class LayerStack
 	{
 	public:
-		LayerStack(Window* window);
+		LayerStack() = default;
 
 	public:
-		void PushLayer(Layer* layer, int index, bool overlay = false);
+		void PushLayer(Layer* layer, size_t index, bool overlay = false);
 		void PushFrontLayer(Layer* layer, bool overlay = false);
 		void PushBackLayer(Layer* layer, bool overlay = false);
+		Layer* GetLayer(size_t i);
+		size_t Size() const;
 
 	public:
 		//you can look but cannot touch
-		void _Start(Renderer* renderer);
-		void _Update();
+		void _Init(Window* window, Renderer* renderer);
+		void _Start();
+		void _Update(float deltaTime);
 		void _End();
 
 	private:

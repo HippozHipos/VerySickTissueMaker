@@ -48,7 +48,7 @@ namespace vstmr {
 
 		GLFWwindow* GetGLFWWindow();
 
-		LayerStack& GetLayerStack();
+		LayerStack* GetLayerStack();
 
 	private:
 		void OnKeyPress(int key);
@@ -66,7 +66,7 @@ namespace vstmr {
 		std::bitset<keyCodes> m_keys_pressed;
 		std::bitset<keyCodes> m_keys_held;
 
-		LayerStack m_layer_stack;
+		LayerStack m_layer_stack{};
 
 		static constexpr int buttonCodes = 5;
 		std::bitset<keyCodes> m_mouse_pressed;

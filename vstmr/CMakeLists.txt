@@ -27,7 +27,7 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 
 )
 
-add_library(${PROJECT_NAME} ${source_files})
+add_library(${PROJECT_NAME} ${source_files} "src/renderer/camera/Camera.cpp" "src/renderer/Viewport.h" "src/renderer/Viewport.cpp")
 
 #set variables
 set(GLFW_INCLUDES	"3rdParty/glfw/include")

@@ -89,13 +89,11 @@ namespace vstmr {
 		m_texture_manager.Get("cat2").SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
 		cat2.SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		cat2.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		m_window.GetLayerStack()._Start(&m_renderer);
 	}
 
 	Application::~Application()
 	{
-		m_window.GetLayerStack()._End();
+		m_window.GetLayerStack()->_End();
 	}
 
 	void Application::Run()
@@ -110,16 +108,20 @@ namespace vstmr {
 		// we can safely unbind
 		vstmr::VertexBuffer::UnBind();
 
+		m_window.GetLayerStack()->_Init(&m_window, &m_renderer);
 		Start();
+		m_window.GetLayerStack()->_Start();
 
 		while (!m_window.IsClosed() && m_running)
 		{
-			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
+			//m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
+
+
+			float deltaTime = m_timer.getDeltaTime();
+			Update(deltaTime);
+			m_window.GetLayerStack()->_Update(deltaTime);
 
 			m_renderer.Render();
-
-			Update(m_timer.getDeltaTime());
-			m_window.GetLayerStack()._Update();
 
 			m_window.Update();
 			glfwPollEvents();

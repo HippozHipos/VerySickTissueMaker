@@ -5,25 +5,25 @@
 
 namespace vstmr {
 
-	LayerStack::LayerStack(Window* window) :
-		m_window{ window }
+	void LayerStack::_Init(Window* window, Renderer* renderer)
 	{
+		m_window = window;
+		m_renderer = renderer;
 	}
 
-	void LayerStack::_Start(Renderer* renderer)
+	void LayerStack::_Start()
 	{
-		this->m_renderer = renderer;
 		for (auto it = m_layers.rbegin(); it != m_layers.rend(); ++it)
 		{
 			(*it)->Start();
 		}
 	}
 
-	void LayerStack::_Update()
+	void LayerStack::_Update(float deltaTime)
 	{
 		for (auto it = m_layers.rbegin(); it != m_layers.rend(); ++it)
 		{
-			(*it)->Update();
+			(*it)->Update(deltaTime);
 		}
 	}
 
@@ -35,7 +35,12 @@ namespace vstmr {
 		}
 	}
 
-	void LayerStack::PushLayer(Layer* layer, int index, bool overlay)
+	Layer* LayerStack::GetLayer(size_t i)
+	{
+		return m_layers[i];
+	}
+
+	void LayerStack::PushLayer(Layer* layer, size_t index, bool overlay)
 	{
 		layer->SetWindow(m_window);
 		layer->SetRenderer(m_renderer);
@@ -87,6 +92,11 @@ namespace vstmr {
 			m_layers.emplace_back(layer);
 			m_num_overlays++;
 		}
+	}
+
+	size_t LayerStack::Size() const
+	{
+		return m_layers.size();
 	}
 
 }

@@ -69,8 +69,7 @@ namespace vstmr {
 namespace vstmr {
 	
 	Window::Window(int width, int height, const char* title,
-		GLFWmonitor* monitor, GLFWwindow* share) :  
-		m_layer_stack{ this },
+		GLFWmonitor* monitor, GLFWwindow* share) :
 		m_width{ width }, m_height{ height }
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
@@ -252,9 +251,9 @@ namespace vstmr {
 		return m_pwindow; 
 	}
 
-	LayerStack& Window::GetLayerStack()
+	LayerStack* Window::GetLayerStack()
 	{
-		return m_layer_stack;
+		return &m_layer_stack;
 	}
 
 }
