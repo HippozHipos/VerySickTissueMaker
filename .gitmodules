@@ -10,3 +10,6 @@
 [submodule "3rdparty/stb"]
 	path = 3rdparty/stb
 	url = https://github.com/nothings/stb.git
+[submodule "vstmr/3rdparty/assimp"]
+	path = vstmr/3rdparty/assimp
+	url = https://github.com/assimp/assimp.git
