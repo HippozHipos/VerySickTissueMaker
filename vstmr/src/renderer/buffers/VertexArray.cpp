@@ -7,7 +7,7 @@ namespace vstmr {
 
 	VertexArray::VertexArray()
 	{
-		glGenVertexArrays(1, &m_buffer);
+		glGenVertexArrays(1, &m_buffer_id);
 		CheckOpenGLError();
 	}
 
@@ -18,13 +18,13 @@ namespace vstmr {
 
 	void VertexArray::Destroy()
 	{
-		glDeleteVertexArrays(1, &m_buffer);
+		glDeleteVertexArrays(1, &m_buffer_id);
 		CheckOpenGLError();
 	}
 
 	void VertexArray::Bind()
 	{
-		glBindVertexArray(m_buffer);
+		glBindVertexArray(m_buffer_id);
 		CheckOpenGLError();
 	}
 

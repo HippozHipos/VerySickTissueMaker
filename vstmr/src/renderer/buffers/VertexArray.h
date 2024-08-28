@@ -80,6 +80,6 @@ namespace vstmr {
 		uint64_t attribStart = 0;
 		uint64_t stride = 0;
 		std::vector<std::function<void(unsigned int)>> layoutAdders;
-		unsigned int m_buffer = 0;
+		unsigned int m_buffer_id = 0;
 	};
 }

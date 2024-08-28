@@ -7,7 +7,7 @@ namespace vstmr
 {
 	VertexBuffer::VertexBuffer()
 	{
-		glGenBuffers(1, &m_buffer);
+		glGenBuffers(1, &m_buffer_id);
 		CheckOpenGLError();
 	}
 
@@ -18,7 +18,7 @@ namespace vstmr
 
 	void VertexBuffer::Bind()
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, m_buffer);
+		glBindBuffer(GL_ARRAY_BUFFER, m_buffer_id);
 		CheckOpenGLError();
 	}
 
@@ -36,7 +36,7 @@ namespace vstmr
 
 	void VertexBuffer::Destroy()
 	{
-		glDeleteBuffers(1, &m_buffer);
+		glDeleteBuffers(1, &m_buffer_id);
 		CheckOpenGLError();
 	}
 

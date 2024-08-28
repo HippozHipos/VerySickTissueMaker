@@ -31,12 +31,12 @@ namespace vstmr {
 		Load(data, width, height, genMipmap);
 	}
 
-	Texture::Texture(Texture& other)
+	Texture::Texture(const Texture& other)
 	{
 		MemberWiseCopyToThis(other);
 	}
 
-	Texture& Texture::operator=(Texture& other)
+	Texture& Texture::operator=(const Texture& other)
 	{
 		if (this != &other)
 		{
@@ -123,7 +123,13 @@ namespace vstmr {
 		CheckOpenGLError();
 	}
 
-	void Texture::MemberWiseCopyToThis(Texture& other)
+	void Texture::AttachToFrameBuffer()
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_texture_id, 0);
+		CheckOpenGLError();
+	}
+
+	void Texture::MemberWiseCopyToThis(const Texture& other)
 	{
 		m_data = other.m_data;
 		m_width = other.m_width;

@@ -29,7 +29,7 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 
 )
 
-add_library(${PROJECT_NAME} ${source_files})
+add_library(${PROJECT_NAME} ${source_files} "src/renderer/buffers/FrameBuffer.h" "src/renderer/buffers/FrameBuffer.cpp" "src/renderer/buffers/RenderBuffer.h" "src/renderer/buffers/RenderBuffer.cpp")
 
 #set variables
 set(GLFW_INCLUDES	"3rdParty/glfw/include")

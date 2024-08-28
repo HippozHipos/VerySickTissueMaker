@@ -7,7 +7,7 @@ namespace vstmr
 {
 	IndexBuffer::IndexBuffer()
 	{
-		glGenBuffers(1, &m_buffer);
+		glGenBuffers(1, &m_buffer_id);
 		CheckOpenGLError();
         
 	}
@@ -19,7 +19,7 @@ namespace vstmr
 
 	void IndexBuffer::Bind()
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_buffer_id);
 		CheckOpenGLError();
 	}
 
@@ -37,7 +37,7 @@ namespace vstmr
 
 	void IndexBuffer::Destroy()
 	{
-		glDeleteBuffers(1, &m_buffer);
+		glDeleteBuffers(1, &m_buffer_id);
 		CheckOpenGLError();
 	}
 

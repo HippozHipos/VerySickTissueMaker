@@ -17,6 +17,6 @@ namespace vstmr
 		static void UnBind();
 
 	private:
-		unsigned int m_buffer;
+		unsigned int m_buffer_id;
 	};
 }

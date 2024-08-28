@@ -1,6 +1,7 @@
 #pragma once
 
 #include "renderer/camera/Camera.h"
+#include "renderer/buffers/FrameBuffer.h"
 
 namespace vstmr {
 
@@ -28,6 +29,7 @@ namespace vstmr {
 		int m_height = 0;
 
 		Window* m_window;
+		FrameBuffer m_frame_buffer;
 		PerspectiveCamera m_camera{ glm::radians(90.0f), 600.0f / 600.0f, 0.1f, 100.0f };
 	};
 

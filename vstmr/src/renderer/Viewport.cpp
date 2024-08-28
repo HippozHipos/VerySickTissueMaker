@@ -11,6 +11,8 @@ namespace vstmr {
 	{
 	}
 
+
+
 	PerspectiveCamera& Viewport::GetCamera()
 	{
 		return m_camera;

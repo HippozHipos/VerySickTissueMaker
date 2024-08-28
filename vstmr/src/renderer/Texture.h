@@ -1,9 +1,10 @@
 #pragma once
+#include <glad/glad.h>
+
+
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include <glad/glad.h>
-
 #include "diagnostics/OpenglError.h"
 
 namespace vstmr {
@@ -34,8 +35,8 @@ namespace vstmr {
 		Texture(const std::string& path, bool genMipmap = true);
 		Texture(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
 
-		Texture(Texture& other);
-		Texture& operator=(Texture& other);
+		Texture(const Texture& other);
+		Texture& operator=(const Texture& other);
 
 		Texture(Texture&& other) noexcept = delete;
 		Texture operator=(Texture&& other) = delete;
@@ -55,6 +56,7 @@ namespace vstmr {
 		bool Validate() const;
 		void GenerateMipMap();
 		void Bind();
+		void AttachToFrameBuffer();
 
 	public:
 		template<class... Parameters>
@@ -65,7 +67,7 @@ namespace vstmr {
 		}
 
 	private:
-		void MemberWiseCopyToThis(Texture& other);
+		void MemberWiseCopyToThis(const Texture& other);
 
 	private:
 		std::shared_ptr<unsigned char> m_data = nullptr;
