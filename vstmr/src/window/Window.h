@@ -3,7 +3,7 @@
 #include <bitset>
 #include <glfw/glfw3.h>
 
-#include "vstmr/LayerStack.h"
+#include "renderer/Viewport.h"
 
 namespace vstmr {
 
@@ -49,7 +49,7 @@ namespace vstmr {
 
 		GLFWwindow* GetGLFWWindow();
 
-		LayerStack* GetLayerStack();
+		Viewport& GetViewport();
 
 	private:
 		void OnKeyPress(int key);
@@ -67,11 +67,11 @@ namespace vstmr {
 		std::bitset<keyCodes> m_keys_pressed;
 		std::bitset<keyCodes> m_keys_held;
 
-		LayerStack m_layer_stack{};
-
 		static constexpr int buttonCodes = 5;
 		std::bitset<keyCodes> m_mouse_pressed;
 		std::bitset<keyCodes> m_mouse_held;
+
+		Viewport m_viewport;
 
 		float m_mousex, m_mousey = 0;
 		float m_scrollx, m_scrolly = 0;

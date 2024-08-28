@@ -59,7 +59,7 @@ namespace vstmr {
 	void frameBufferSizeCallback(GLFWwindow* glfwwindow, int width, int height)
 	{
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
-		glViewport(0, 0, width, height);
+		window->m_viewport.UpdateViewport();
 		window->m_width = width;
 		window->m_height = height;
 	}
@@ -70,7 +70,7 @@ namespace vstmr {
 	
 	Window::Window(int width, int height, const char* title,
 		GLFWmonitor* monitor, GLFWwindow* share) :
-		m_width{ width }, m_height{ height }
+		m_width{ width }, m_height{ height }, m_viewport{ 0, 0, width, height, this }
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
 		;
@@ -264,9 +264,9 @@ namespace vstmr {
 		return m_pwindow; 
 	}
 
-	LayerStack* Window::GetLayerStack()
+	Viewport& Window::GetViewport()
 	{
-		return &m_layer_stack;
+		return m_viewport;
 	}
 
 }

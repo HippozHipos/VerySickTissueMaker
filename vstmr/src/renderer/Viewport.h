@@ -5,7 +5,6 @@
 
 namespace vstmr {
 
-
 	class Window;
 	class Viewport
 	{
@@ -15,21 +14,15 @@ namespace vstmr {
 	public:
 		void UpdateViewport();
 		PerspectiveCamera& GetCamera();
+		void ClearColor(float r, float g, float b, float a) const;
+		FrameBuffer& GetFrameBuffer();
 
-		//NOTE: REMOVE LATER
-		float r = 1.0f;
-		float g = 0.0f;
-		float b = 0.0f;
-		float a = 1.0f;
+	public:
+		int x = 0; int y = 0; int width = 0; int height = 0;
 
 	private:
-		int m_x = 0;
-		int m_y = 0;
-		int m_width = 0;
-		int m_height = 0;
-
+		FrameBuffer m_FrameBuffer;
 		Window* m_window;
-		FrameBuffer m_frame_buffer;
 		PerspectiveCamera m_camera{ glm::radians(90.0f), 600.0f / 600.0f, 0.1f, 100.0f };
 	};
 

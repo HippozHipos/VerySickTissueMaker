@@ -97,7 +97,6 @@ namespace vstmr {
 
 	Application::~Application()
 	{
-		m_window.GetLayerStack()->_End();
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -117,16 +116,13 @@ namespace vstmr {
 		// we can safely unbind
 		vstmr::VertexBuffer::UnBind();
 
-		m_window.GetLayerStack()->_Init(&m_window, &m_renderer);
 		Start();
-		m_window.GetLayerStack()->_Start();
 
 		while (!m_window.IsClosed() && m_running)
 		{
 
 			float deltaTime = m_timer.getDeltaTime();
 			Update(deltaTime);
-			m_window.GetLayerStack()->_Update(deltaTime);
 
 			ImGuiDraw();
 			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
@@ -181,7 +177,6 @@ namespace vstmr {
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		ImGui(io);
-		m_window.GetLayerStack()->_ImGui(io);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

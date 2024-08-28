@@ -6,8 +6,6 @@
 #include "diagnostics/OpenglError.h"
 #include "window/Window.h"
 #include "Viewport.h"
-#include "vstmr/LayerStack.h"
-#include "vstmr/Layer.h"
 
 namespace vstmr {
 
@@ -35,28 +33,16 @@ namespace vstmr {
 	{
 		m_vertex_array.Bind();
 
-		LayerStack* stack = m_window->GetLayerStack();
-		for (size_t i = 0; i < stack->Size(); i++)
-		{
-			Layer* layer = stack->GetLayer(i);
-			for (size_t j = 0; j < layer->NumViewports(i); j++)
-			{
-				Viewport* viewport = layer->GetViewport(j);
+		Viewport& viewport = m_window->GetViewport();
 
-				vstmr::PerspectiveCamera& camera = viewport->GetCamera();
-				m_shaders->SetMat4f("projection", camera.GetProjectionMatrix());
-				m_shaders->SetMat4f("view", camera.GetViewMatrix());
-				camera.UpdateVectors();
+		vstmr::PerspectiveCamera& camera = viewport.GetCamera();
+		m_shaders->SetMat4f("projection", camera.GetProjectionMatrix());
+		m_shaders->SetMat4f("view", camera.GetViewMatrix());
+		camera.UpdateVectors();
 
-				viewport->UpdateViewport();
-
-				//NOTE:REMOVE LATER
-				glClearColor(viewport->r, viewport->g, viewport->b, viewport->a);
-				// Clear both color and depth buffer
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-				glDrawElements(GL_TRIANGLES, 26700, GL_UNSIGNED_INT, nullptr);
-			}
-		}
+		viewport.UpdateViewport();
+		viewport.ClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+		glDrawElements(GL_TRIANGLES, 26700, GL_UNSIGNED_INT, nullptr);
 
 		CheckOpenGLError();
 	}
