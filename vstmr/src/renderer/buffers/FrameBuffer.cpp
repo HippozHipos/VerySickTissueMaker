@@ -5,7 +5,7 @@
 
 namespace vstmr {
 
-	FrameBuffer::FrameBuffer()
+	void FrameBuffer::Init()
 	{
 		glGenFramebuffers(1, &m_buffer_id);
 		CheckOpenGLError();

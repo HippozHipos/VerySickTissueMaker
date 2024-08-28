@@ -124,9 +124,10 @@ namespace vstmr {
 			float deltaTime = m_timer.getDeltaTime();
 			Update(deltaTime);
 
-			ImGuiDraw();
-			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
+			m_window.GetViewport().ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
 			m_renderer.Render();
+			ImGuiDraw();
 
 			m_window.Update();
 			glfwPollEvents();

@@ -5,7 +5,7 @@
 
 namespace vstmr {
 
-	vstmr::RenderBuffer::RenderBuffer()
+	void RenderBuffer::Init()
 	{
 		glGenRenderbuffers(1, &m_buffer_id);
 		CheckOpenGLError();

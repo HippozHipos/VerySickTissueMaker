@@ -102,6 +102,7 @@ namespace vstmr {
 		glfwSetFramebufferSizeCallback(m_pwindow, frameBufferSizeCallback);
 
 		InitOpengl(width, height);
+		m_viewport.GetFrameBuffer().Init(); //needs glad to have been loaded done by InitOpengl
 	}
 
 	Window::~Window()
@@ -119,13 +120,6 @@ namespace vstmr {
 		m_last_mousex = m_mousex;
 		m_last_mousey = m_mousey;
 		glfwSwapBuffers(m_pwindow);
-	}
-
-	void Window::Fill(float r, float g, float b, float a)
-	{
-		glClearColor(r, g, b, a);
-		glClear(GL_COLOR_BUFFER_BIT);
-		CheckOpenGLError();
 	}
 
 	void Window::SetFocus()

@@ -41,8 +41,9 @@ namespace vstmr {
 		camera.UpdateVectors();
 
 		viewport.UpdateViewport();
-		viewport.ClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+
 		glDrawElements(GL_TRIANGLES, 26700, GL_UNSIGNED_INT, nullptr);
+		glClear(GL_DEPTH_BUFFER_BIT);
 
 		CheckOpenGLError();
 	}

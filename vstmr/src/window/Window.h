@@ -23,7 +23,6 @@ namespace vstmr {
 
 	public:
 		void Update();
-		void Fill(float r, float g, float b, float a);
 		void SetFocus();
 		bool IsClosed();
 		bool KeyPressed(int key);

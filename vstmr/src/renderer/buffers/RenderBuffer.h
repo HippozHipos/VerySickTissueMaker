@@ -3,9 +3,10 @@ namespace vstmr {
 	class RenderBuffer
 	{
 	public:
-		RenderBuffer();
+		RenderBuffer() = default;
 
 	public:
+		void Init();
 		void Bind();
 		static void UnBind();
 		void MakeStorage(int widht, int height);
