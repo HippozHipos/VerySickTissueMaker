@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-#include "glfw/glfw3.h"
+#include <glfw/glfw3.h>
 
 template<typename T = double, typename = std::remove_cv_t<std::is_floating_point<T>>>
 class Timer {

@@ -8,7 +8,6 @@ namespace vstm {
     public:
         void Start()
         {
-            m_window->DisableCursor();
             AddViewport(0, 0, 100, 100);
             m_viewports[0]->r = 0.0f;
             m_viewports[0]->g = 1.0f;
@@ -18,43 +17,39 @@ namespace vstm {
 
         void Update(float deltaTime) override
         {
-            for (int i = 0; i < m_viewports.size(); i++)
+            
+            if (m_window->MouseButtonHeld(GLFW_MOUSE_BUTTON_RIGHT))
             {
-                vstmr::PerspectiveCamera& camera = m_viewports[i]->GetCamera();
-                camera.ProcessKeyboardMovement(deltaTime,
-                    m_window->KeyHeld(GLFW_KEY_W), m_window->KeyHeld(GLFW_KEY_S),
-                    m_window->KeyHeld(GLFW_KEY_A), m_window->KeyHeld(GLFW_KEY_D),
-                    m_window->KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window->KeyHeld(GLFW_KEY_SPACE));
+                m_window->DisableCursor();
+                for (int i = 0; i < m_viewports.size(); i++)
+                {
+                    vstmr::PerspectiveCamera& camera = m_viewports[i]->GetCamera();
+                    camera.ProcessKeyboardMovement(deltaTime,
+                        m_window->KeyHeld(GLFW_KEY_W), m_window->KeyHeld(GLFW_KEY_S),
+                        m_window->KeyHeld(GLFW_KEY_A), m_window->KeyHeld(GLFW_KEY_D),
+                        m_window->KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window->KeyHeld(GLFW_KEY_SPACE));
 
-                camera.ProcessMouseMovement(m_window->GetMouseChangeX(), m_window->GetMouseChangeY());
+                    camera.ProcessMouseMovement(m_window->GetMouseChangeX(), m_window->GetMouseChangeY());
+                }
             }
+            else
+            {
+                m_window->DefaultCursor();
+            }
+        }
+
+        void ImGui(ImGuiIO& io) override
+        {   
+             ImGui::Begin("Hello, world!");  
+             if (ImGui::Button("Hello world"))
+             {
+                 VSTM_CD_LOGINFO("Button pressed");
+             }
+             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+             ImGui::End();        
         }
     };
 
-    class Layer2 : public vstmr::Layer
-    {
-    public:
-        void Start()
-        {
-            m_window->DisableCursor();
-            AddViewport(300, 150, 100, 300);
-            AddViewport(150, 200, 50, 50);
-        }
-
-        void Update(float deltaTime) override
-        {
-            for (int i = 0; i < m_viewports.size(); i++)
-            {
-                vstmr::PerspectiveCamera& camera = m_viewports[i]->GetCamera();
-                camera.ProcessKeyboardMovement(deltaTime,
-                    m_window->KeyHeld(GLFW_KEY_W), m_window->KeyHeld(GLFW_KEY_S),
-                    m_window->KeyHeld(GLFW_KEY_A), m_window->KeyHeld(GLFW_KEY_D),
-                    m_window->KeyHeld(GLFW_KEY_LEFT_CONTROL), m_window->KeyHeld(GLFW_KEY_SPACE));
-
-                camera.ProcessMouseMovement(m_window->GetMouseChangeX(), m_window->GetMouseChangeY());
-            }
-        }
-    };
 
     class Application : public vstmr::Application
     {
@@ -62,12 +57,10 @@ namespace vstm {
         void Start() override
         {
             m_window.GetLayerStack()->PushBackLayer(&layer1);
-            m_window.GetLayerStack()->PushBackLayer(&layer2);
         }
 
     private:
         Layer1 layer1{};
-        Layer2 layer2{};
     };
 
 }

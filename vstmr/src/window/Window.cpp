@@ -73,7 +73,14 @@ namespace vstmr {
 		m_width{ width }, m_height{ height }
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
-		glfwInit();
+		;
+		if (!glfwInit())
+		{
+			VSTM_CD_LOGCRITICAL("GLFW initialization failed");
+			ErrorHandler::AddError(Error::WINDOW_CONSTRUCTION_FAILED, "Couldn't initialize glfw");
+			glfwTerminate();
+			return;
+		}
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -93,6 +100,7 @@ namespace vstmr {
 		glfwSetCursorPosCallback(m_pwindow, mousePositionCallback);
 		glfwSetScrollCallback(m_pwindow, scrollWheelCallback);
 		glfwSetFramebufferSizeCallback(m_pwindow, frameBufferSizeCallback);
+
 		InitOpengl(width, height);
 	}
 
@@ -202,6 +210,11 @@ namespace vstmr {
 	void Window::DisableCursor()
 	{
 		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
+	void Window::DefaultCursor()
+	{
+		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
 	void Window::OnKeyPress(int key)

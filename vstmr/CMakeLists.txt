@@ -24,10 +24,12 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 				src/renderer/camera/*.cpp
 			src/vstmr/*.h
 			src/vstmr/*.cpp
+			src/ui/imgui/*h
+			src/ui/imgui/*cpp
 
 )
 
-add_library(${PROJECT_NAME} ${source_files} "src/renderer/camera/Camera.cpp" "src/renderer/Viewport.h" "src/renderer/Viewport.cpp")
+add_library(${PROJECT_NAME} ${source_files})
 
 #set variables
 set(GLFW_INCLUDES	"3rdParty/glfw/include")
@@ -36,6 +38,8 @@ set(SPDLOG_INCLUDES  "3rdParty/spdlog/include")
 set(GLM_INCLUDES	"3rdParty/glm")
 set(STB_INCLUDES	"3rdParty/stb")
 set(ASSIMP_INCLUDES	"3rdParty/assimp/include")
+set(IMGUI_INCLUDES	"3rdParty/imgui")
+set(IMGUI_BACKENDS_INCLUDES	"3rdParty/imgui/backends")
 
 if (Debug)
 	set(ASSIMP_CONFIG_INCLUDE	"out/build/x64-Debug/3rdparty/assimp/include")
@@ -75,6 +79,9 @@ add_subdirectory("3rdParty/glm")
 #	assimp
 add_subdirectory("3rdParty/assimp")
 
+#	assimp
+add_subdirectory("3rdParty/imgui")
+
 #include the directories to resolve relative file references: "../../3rdparty/imgui" -> "3rdparty/imgui"
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLFW_INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLAD_INCLUDES})
@@ -83,6 +90,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${STB_INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${ASSIMP_INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${ASSIMP_CONFIG_INCLUDE})
+target_include_directories(${PROJECT_NAME} PUBLIC ${IMGUI_INCLUDES})
 
 #questionable shenanigans but i really dont feel like giving a single fuck rn 
 #(its to make these includes accessible to VerySickTissueMaker_Application)
@@ -97,4 +105,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC "./")
 #set includes for the tissue maker files
 
 
-target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES} glad spdlog OpenGL::GL glfw assimp::assimp)
+target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES}
+				glad 
+				spdlog 
+				OpenGL::GL 
+				glfw 
+				assimp::assimp 
+				imgui)

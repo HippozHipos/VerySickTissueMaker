@@ -11,6 +11,10 @@ namespace vstmr {
 	{
 	}
 
+	void Layer::ImGui(ImGuiIO& deltaTime)
+	{
+	}
+
 	void Layer::End()
 	{
 	}

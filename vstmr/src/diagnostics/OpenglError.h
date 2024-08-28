@@ -1,13 +1,11 @@
 #pragma once
 
-#include "glad/glad.h"
-
 #include "diagnostics/Logger.h"
 
 namespace vstmr {
 
 #define MacroToCheckOpenGLError()\
-    GLenum errorCode;\
+    unsigned int errorCode;\
     while ((errorCode = glGetError()) != GL_NO_ERROR)\
     {\
         switch (errorCode)\

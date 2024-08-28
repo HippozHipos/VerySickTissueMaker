@@ -5,6 +5,7 @@
 
 #include "renderer/camera/Camera.h"
 
+struct ImGuiIO;
 namespace vstmr {
 
 	class Window;
@@ -20,6 +21,7 @@ namespace vstmr {
 	public:
 		virtual void Start();
 		virtual void Update(float deltaTime);
+		virtual void ImGui(ImGuiIO& io);
 		virtual void End();
 
 		void SetWindow(Window* win);

@@ -13,3 +13,6 @@
 [submodule "vstmr/3rdparty/assimp"]
 	path = vstmr/3rdparty/assimp
 	url = https://github.com/assimp/assimp.git
+[submodule "vstmr/3rdparty/imgui"]
+	path = vstmr/3rdparty/imgui
+	url = https://github.com/ocornut/imgui.git

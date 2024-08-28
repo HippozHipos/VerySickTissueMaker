@@ -27,6 +27,14 @@ namespace vstmr {
 		}
 	}
 
+	void LayerStack::_ImGui(ImGuiIO& io)
+	{
+		for (auto it = m_layers.rbegin(); it != m_layers.rend(); ++it)
+		{
+			(*it)->ImGui(io);
+		}
+	}
+
 	void LayerStack::_End()
 	{
 		for (auto it = m_layers.rbegin(); it != m_layers.rend(); ++it)

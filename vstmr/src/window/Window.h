@@ -45,6 +45,7 @@ namespace vstmr {
 		bool MouseButtonHeld(int button);
 
 		void DisableCursor();
+		void DefaultCursor();
 
 		GLFWwindow* GetGLFWWindow();
 

@@ -5,6 +5,7 @@
 #include "renderer/Texture.h"
 #include "timer/Timer.h"
 
+struct ImGuiIO;
 
 namespace vstmr {
 
@@ -22,12 +23,18 @@ namespace vstmr {
 		//client
 		virtual void Start();
 		virtual void Update(float deltaTime);
+		virtual void ImGui(ImGuiIO& io);
 		virtual void End();
+
+	private:
+		void ImGuiSetup();
+		void ImGuiDraw();
 
 	protected:
 		bool m_running = true;
 
 		Timer<float> m_timer{};
+
 		Window m_window;
 		Renderer m_renderer;
 

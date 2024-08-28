@@ -4,8 +4,6 @@
 #include <functional>
 #include <stdint.h>
 
-#include "glad/glad.h"
-
 namespace vstmr {
 
 	class VertexArray
@@ -81,7 +79,7 @@ namespace vstmr {
 	private:
 		uint64_t attribStart = 0;
 		uint64_t stride = 0;
-		std::vector<std::function<void(GLuint)>> layoutAdders;
-		GLuint m_buffer = 0;
+		std::vector<std::function<void(unsigned int)>> layoutAdders;
+		unsigned int m_buffer = 0;
 	};
 }

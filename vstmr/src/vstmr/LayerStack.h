@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 
+struct ImGuiIO;
 namespace vstmr {
 
 	class Renderer;
@@ -26,6 +27,7 @@ namespace vstmr {
 		void _Init(Window* window, Renderer* renderer);
 		void _Start();
 		void _Update(float deltaTime);
+		void _ImGui(ImGuiIO& io);
 		void _End();
 
 	private:

@@ -2,6 +2,10 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <imgui.h>
+#include <ui/imgui/imgui_impl_glfw.h>
+#include <ui/imgui/imgui_impl_opengl3.h>
+
 #include "Application.h"
 #include "diagnostics/Logger.h"
 #include "diagnostics/Error.h"
@@ -94,10 +98,15 @@ namespace vstmr {
 	Application::~Application()
 	{
 		m_window.GetLayerStack()->_End();
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplGlfw_Shutdown();
+		ImGui::DestroyContext();
 	}
 
 	void Application::Run()
 	{
+		ImGuiSetup();
+
 		ErrorHandler::Handle();
 		HandleErrorActions();
 
@@ -114,13 +123,13 @@ namespace vstmr {
 
 		while (!m_window.IsClosed() && m_running)
 		{
-			//m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
-
 
 			float deltaTime = m_timer.getDeltaTime();
 			Update(deltaTime);
 			m_window.GetLayerStack()->_Update(deltaTime);
 
+			ImGuiDraw();
+			m_window.Fill(0.2f, 0.3f, 0.3f, 1.0f);
 			m_renderer.Render();
 
 			m_window.Update();
@@ -131,9 +140,67 @@ namespace vstmr {
 		End();
 	}
 
+	void Application::ImGuiSetup()
+	{
+		IMGUI_CHECKVERSION();
+		ImGui::CreateContext();
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+		//io.ConfigViewportsNoAutoMerge = true;
+		//io.ConfigViewportsNoTaskBarIcon = true;
+
+		// Setup Dear ImGui style
+		ImGui::StyleColorsDark();
+		//ImGui::StyleColorsLight();
+
+		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+		ImGuiStyle& style = ImGui::GetStyle();
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0.0f;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
+
+		// Setup Platform/Renderer backends
+		ImGui_ImplGlfw_InitForOpenGL(m_window.GetGLFWWindow(), true);
+#ifdef __EMSCRIPTEN__
+		ImGui_ImplGlfw_InstallEmscriptenCallbacks(window, "#canvas");
+#endif
+		const char* glsl_version = "#version 130";
+		ImGui_ImplOpenGL3_Init(glsl_version);
+	}
+
+	void Application::ImGuiDraw()
+	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
+		ImGui(io);
+		m_window.GetLayerStack()->_ImGui(io);
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		// Update and Render additional Platform Windows
+		// (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+		//  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(m_window.GetGLFWWindow());
+		}
+	}
+
 	//default overrides
 	void Application::Start() {}
 	void Application::Update(float deltaTime) {}
+	void Application::ImGui(ImGuiIO& io) {}
 	void Application::End() {}
 
 	void Application::HandleErrorActions()
