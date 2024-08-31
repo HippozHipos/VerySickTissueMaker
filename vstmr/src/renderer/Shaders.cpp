@@ -7,32 +7,12 @@
 
 namespace vstmr {
 
-	Shaders::Shaders()
-    {
-		LoadShaderSource(m_vertex_shader_source_path, m_vertex_shader_source);
-		LoadShaderSource(m_fragment_shader_source_path, m_fragment_shader_source);
-
-        GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, m_vertex_shader_source);
-        GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, m_fragment_shader_source);
-
-        m_program_id = glCreateProgram();
-        glAttachShader(m_program_id, vertexShader);
-        glAttachShader(m_program_id, fragmentShader);
-        glLinkProgram(m_program_id);
-
-        GLint success;
-        glGetProgramiv(m_program_id, GL_LINK_STATUS, &success);
-        if (!success) 
-        {
-            GLchar infoLog[512];
-            VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
-            VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
-        }
-
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
-		CheckOpenGLError();
-    }
+	Shaders::Shaders(const char* vertexPath, const char* fragmentPath)
+	{
+		m_vertex_shader_source_path = vertexPath;
+		m_fragment_shader_source_path = fragmentPath;
+		MakeProgram();
+	}
 
 	Shaders::~Shaders()
 	{
@@ -73,6 +53,15 @@ namespace vstmr {
 		return m_fragment_shader_source;
 	}
 
+	void Shaders::SetVertexShaderPath(const char* path)
+	{
+		m_vertex_shader_source_path = path;
+	}
+
+	void Shaders::SetFragmentShaderPath(const char* path)
+	{
+		m_fragment_shader_source_path = path;
+	}
 
 	void Shaders::SetFloat(const std::string& name, float value) const
 	{
@@ -109,6 +98,33 @@ namespace vstmr {
 		}
 		CheckOpenGLError();
 		return shader;
+	}
+
+	void Shaders::MakeProgram()
+	{
+		LoadShaderSource(m_vertex_shader_source_path.c_str(), m_vertex_shader_source);
+		LoadShaderSource(m_fragment_shader_source_path.c_str(), m_fragment_shader_source);
+
+		GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, m_vertex_shader_source);
+		GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, m_fragment_shader_source);
+
+		m_program_id = glCreateProgram();
+		glAttachShader(m_program_id, vertexShader);
+		glAttachShader(m_program_id, fragmentShader);
+		glLinkProgram(m_program_id);
+
+		GLint success;
+		glGetProgramiv(m_program_id, GL_LINK_STATUS, &success);
+		if (!success)
+		{
+			GLchar infoLog[512];
+			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
+			VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
+		}
+
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+		CheckOpenGLError();
 	}
 
 }

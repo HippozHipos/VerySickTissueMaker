@@ -29,7 +29,7 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 
 )
 
-add_library(${PROJECT_NAME} ${source_files})
+add_library(${PROJECT_NAME} ${source_files} "src/renderer/Quad.h" "src/renderer/Quad.cpp")
 
 #set variables
 set(GLFW_INCLUDES	"3rdParty/glfw/include")

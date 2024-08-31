@@ -13,7 +13,9 @@ namespace vstmr {
 	Renderer::Renderer(Window* window) :
 		m_window{ window }
 	{
-		m_shaders = std::make_unique<Shaders>();
+		m_shaders = std::make_unique<Shaders>(
+			"../../../../vstmr/assets/shaders/main_vertex_shader.glsl",
+			"../../../../vstmr/assets/shaders/main_fragment_shader.glsl");
 		m_shaders->Use();
 		m_vertex_array.Bind();
 

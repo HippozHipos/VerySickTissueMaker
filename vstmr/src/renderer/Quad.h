@@ -1,0 +1,10 @@
+
+
+namespace vstmr {
+
+	class Quad
+	{
+
+	};
+
+}
