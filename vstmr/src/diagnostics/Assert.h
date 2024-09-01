@@ -36,14 +36,14 @@
 	#define VSTM_ASSERT(c, ...) 
 
 #elif defined (RELEASE_WITH_DEBUG)
-	#define VSTM_ASSERT(c, ...) do { \
+	#define VSTM_ASSERT_NO_BREAK(c, ...) do { \
 			if (!(c)) { \
 				VSTM_CD_LOGERROR(__VA_ARGS__); \
 			} \
 		} while (0)
 
 #else	
-	#define VSTM_ASSERT(c, ...) do { \
+	#define VSTM_ASSERT_NO_BREAK(c, ...) do { \
 		if (!(c)) { \
 			VSTM_CD_LOGERROR(__VA_ARGS__); \
 		} \

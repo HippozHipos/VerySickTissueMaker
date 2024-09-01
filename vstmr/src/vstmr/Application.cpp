@@ -73,7 +73,11 @@ namespace rend {
 		indexBuffer.BufferData(sizeint);
 		indexBuffer.BufferSubData(indices.data(), sizeint, 0);
 
+
 		renderer.SetLayout();
+
+		vstmr::VertexBuffer::UnBind();
+
 	}
 }
 
@@ -109,14 +113,9 @@ namespace vstmr {
 		ErrorHandler::Handle();
 		HandleErrorActions();
 
-		rend::setup(m_renderer);
-
-		// note that this is allowed, the call to glVertexAttribPointer registered
-		// VBO as the vertex attribute's bound vertex buffer object so afterwards 
-		// we can safely unbind
-		vstmr::VertexBuffer::UnBind();
-
 		Start();
+
+		rend::setup(m_renderer);
 
 		while (!m_window.IsClosed() && m_running)
 		{

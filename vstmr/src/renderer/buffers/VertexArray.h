@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glad/glad.h>
+
 #include <vector>
 #include <functional>
 #include <stdint.h>
@@ -14,7 +16,7 @@ namespace vstmr {
 
 	public:
 		void Bind();
-		void UnBind();
+		static void UnBind();
 		void Destroy();
 
 		template<class T> void SetupLayout(int count, bool normalize = false);
@@ -67,6 +69,8 @@ namespace vstmr {
 			stride += count * sizeof(int);
 		};
 
+		//reminder: we do it like this so that we can reach the end, get the total stride and then start calling  
+		//glVertexAttribPointer with that stride
 		void AddLayout()
 		{
 			for (int i = 0; i < layoutAdders.size(); i++)
