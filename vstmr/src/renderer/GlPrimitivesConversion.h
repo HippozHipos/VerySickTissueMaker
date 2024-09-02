@@ -1,9 +1,9 @@
 #pragma once
 
-#include <assert.h>
-
 #include <cstdint>
 #include <glad/glad.h>
+
+#include "diagnostics/Assert.h"
 
 namespace vstmr {
 

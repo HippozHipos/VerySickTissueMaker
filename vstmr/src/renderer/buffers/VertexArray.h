@@ -11,11 +11,11 @@ namespace vstmr {
 	class VertexArray
 	{
 	public:
-		VertexArray();
-		~VertexArray();
+		VertexArray() = default;
 
 	public:
 		void Bind();
+		void Init();
 		static void UnBind();
 		void Destroy();
 

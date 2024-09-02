@@ -22,8 +22,6 @@ namespace rend {
 	std::vector<float> vertices;
 	std::vector<int> indices;
 
-	vstmr::BufferSetStore buffersetStore;
-
 	void load()
 	{
 		Assimp::Importer importer;
@@ -57,58 +55,22 @@ namespace rend {
 		}
 	}
 
-	//void setup()
-	//{
-	//	load();
+	vstmr::BufferSetStore buffersetStore;
 
-	//	buffersetStore.SetVertexData((void*)vertices.data(), vertices.size() * sizeof(float));
-	//	buffersetStore.SetIndexData((void*)indices.data(), indices.size() * sizeof(int));
-
-	//	buffersetStore.AddBufferSet
-	//		<float, vstmr::BufferSetStore::Unused, vstmr::BufferSetStore::Unused, vstmr::BufferSetStore::Unused>
-	//		(vstmr::BufferSetStore::VERTEX);
-
-	//	/*vstmr::VertexBuffer vertexBuffer;
-	//	vstmr::IndexBuffer indexBuffer;
-
-	//	int sizefloat = vertices.size() * sizeof(float);
-	//	int sizeint = indices.size() * sizeof(int);
-
-	//	vertexBuffer.Bind();
-	//	vertexBuffer.BufferData(sizefloat);
-	//	vertexBuffer.BufferSubData(vertices.data(), sizefloat, 0);
-	//	
-	//	indexBuffer.Bind();
-	//	indexBuffer.BufferData(sizeint);
-	//	indexBuffer.BufferSubData(indices.data(), sizeint, 0);*/
-
-
-	//	//renderer.SetLayout();
-
-	//	vstmr::VertexBuffer::UnBind();
-	//}
-
-	void setup(vstmr::Renderer& renderer)
+	void setup()
 	{
 		load();
 
-		vstmr::VertexBuffer vBuffer;
-		vstmr::IndexBuffer iIndex;
+		buffersetStore.SetBufferLayouts(vstmr::BufferSetStore::VERTEX, vstmr::BufferSetStore::EMPTY, 
+									    vstmr::BufferSetStore::EMPTY, vstmr::BufferSetStore::EMPTY);
 
-		int sizefloat = vertices.size() * sizeof(float);
-		int sizeint = indices.size() * sizeof(int);
+		buffersetStore.SetBufferLayoutTypes(GL_FLOAT, vstmr::BufferSetStore::EMPTY,
+									  vstmr::BufferSetStore::EMPTY, vstmr::BufferSetStore::EMPTY);
 
-		vBuffer.Bind();
-		vBuffer.BufferData(sizefloat);
-		vBuffer.BufferSubData(vertices.data(), sizefloat, 0);
+		buffersetStore.SetVertexData((void*)vertices.data(), vertices.size() * sizeof(float));
+		buffersetStore.SetIndexData((void*)indices.data(), indices.size() * sizeof(int));
 
-		iIndex.Bind();
-		iIndex.BufferData(sizeint);
-		iIndex.BufferSubData(indices.data(), sizeint, 0);
-
-		renderer.SetLayout();
-
-		vstmr::VertexBuffer::UnBind();
+		buffersetStore.AddBufferSet();
 	}
 }
 
@@ -145,9 +107,9 @@ namespace vstmr {
 		HandleErrorActions();
 
 		Start();
-		rend::setup(m_renderer);
+		rend::setup();
 
-		while (!m_window.IsClosed() && m_running)
+		while (!m_window.IsClosed())// && m_running)
 		{
 			float deltaTime = m_timer.getDeltaTime();
 			Update(deltaTime);

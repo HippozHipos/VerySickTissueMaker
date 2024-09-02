@@ -9,7 +9,6 @@
 
 namespace vstmr {
 
-
 	Renderer::Renderer(Window* window) :
 		m_window{ window }
 	{
@@ -23,12 +22,10 @@ namespace vstmr {
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_SCISSOR_TEST);
 
-		m_vertex_array.Bind();
+		//m_vertex_array.Bind();
 
 		CheckOpenGLError();
 	}
-
-	
 
 	void Renderer::Render()
 	{
@@ -47,12 +44,12 @@ namespace vstmr {
 		CheckOpenGLError();
 	}
 
-	void Renderer::SetLayout()
+	/*void Renderer::SetLayout()
 	{
-		m_vertex_array.Bind();
-		m_vertex_array.SetupLayout<float>(3);
-		m_vertex_array.AddLayout();
+		vArray.Bind();
+		vArray.SetupLayout<float>(3);
+		vArray.AddLayout();
 
 		CheckOpenGLError();
-	}
+	}*/
 }

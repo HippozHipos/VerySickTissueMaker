@@ -6,10 +6,10 @@ namespace vstmr
 	class VertexBuffer
 	{
 	public:
-		VertexBuffer();
-		~VertexBuffer();
+		VertexBuffer() = default;
 
 	public:
+		void Init();
 		void Bind();
 		void BufferData(size_t size, bool staticDraw = false);
 		void BufferSubData(void* data, size_t size, size_t offset);

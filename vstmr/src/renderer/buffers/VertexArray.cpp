@@ -5,15 +5,10 @@
 
 namespace vstmr {
 
-	VertexArray::VertexArray()
+	void VertexArray::Init()
 	{
 		glGenVertexArrays(1, &m_buffer_id);
 		CheckOpenGLError();
-	}
-
-	VertexArray::~VertexArray()
-	{
-		Destroy();
 	}
 
 	void VertexArray::Destroy()

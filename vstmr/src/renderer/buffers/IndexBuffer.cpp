@@ -5,16 +5,10 @@
 
 namespace vstmr
 {
-	IndexBuffer::IndexBuffer()
+	void IndexBuffer::Init()
 	{
 		glGenBuffers(1, &m_buffer_id);
 		CheckOpenGLError();
-        
-	}
-
-	IndexBuffer::~IndexBuffer()
-	{
-		//Destroy(); Deallocation of index buffers should be handled by renderer. leave it for now for convenience
 	}
 
 	void IndexBuffer::Bind()

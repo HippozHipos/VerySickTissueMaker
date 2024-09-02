@@ -5,15 +5,10 @@
 
 namespace vstmr
 {
-	VertexBuffer::VertexBuffer()
+	void VertexBuffer::Init()
 	{
 		glGenBuffers(1, &m_buffer_id);
 		CheckOpenGLError();
-	}
-
-	VertexBuffer::~VertexBuffer()
-	{
-		//Destroy(); Deallocation of vertex buffers should be handled by renderer. leave it for now for convenience
 	}
 
 	void VertexBuffer::Bind()

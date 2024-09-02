@@ -73,10 +73,10 @@ namespace vstmr {
 		void SetVertexData(void* data, size_t size);
 		void SetIndexData(void* data, size_t size);
 		void SetColorChannels(int channels);
-		void SetBufferConstructionLayouts(int l1, int l2, int l3, int l4);
-		void SetBufferConstructionTypes(int type1, int type2, int type3, int type4);
-		void SetBufferConstructionLayouts(int* layouts, size_t size);
-		void SetBufferConstructionTypes(int* types, size_t size);
+		void SetBufferLayouts(int l1, int l2, int l3, int l4);
+		void SetBufferLayoutTypes(int type1, int type2, int type3, int type4);
+		void SetBufferLayouts(int* layouts, size_t size);
+		void SetBufferLayoutTypes(int* types, size_t size);
 		void SetNumAxis(int axis);
 
 		BufferSetId MakeBufferSetId()
@@ -130,6 +130,10 @@ namespace vstmr {
 		BufferSet CreateBufferSet(const BufferSetId& id)
 		{
 			BufferSet bufferset;
+			
+			bufferset.vertex_array.Init();
+			bufferset.vertex_buffer.Init();
+			bufferset.index_buffer.Init();
 
 			bufferset.vertex_array.Bind();
 
@@ -148,15 +152,15 @@ namespace vstmr {
 			if (m_buffer_layouts[2] != EMPTY)
 				stride += GetGLTypeSize(m_buffer_layout_types[2]) * GetContentCount(id.layout[2]);
 			if (m_buffer_layouts[3] != EMPTY)
-				stride += GetGLTypeSize(m_buffer_layout_types[2]) * GetContentCount(id.layout[3]);
+				stride += GetGLTypeSize(m_buffer_layout_types[3]) * GetContentCount(id.layout[3]);
 
 			int attribStart = 0;
 			for (size_t i = 0; i < m_num_layouts; i++)
 			{
 				if (m_buffer_layouts[i] == EMPTY)
 					break;
+				glVertexAttribPointer(i, GetContentCount(id.layout[i]), m_buffer_layout_types[i], GL_FALSE, stride, (void*)attribStart);
 				attribStart += GetGLTypeSize(m_buffer_layout_types[i]) * GetContentCount(id.layout[i]);
-				glVertexAttribPointer(i, GetContentCount(id.layout[1]), m_buffer_layout_types[i], GL_FALSE, stride, (void*)attribStart);
 				glEnableVertexAttribArray(i);
 			}
 
