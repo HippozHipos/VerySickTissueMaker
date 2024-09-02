@@ -12,7 +12,7 @@ namespace vstm {
 
         void Update(float deltaTime) override
         {
-
+            m_window.GetViewport().ClearColor(m_background[0], m_background[1], m_background[2], m_background[3]);
             if (m_window.MouseButtonHeld(GLFW_MOUSE_BUTTON_RIGHT))
             {
                 m_window.DisableCursor();
@@ -34,13 +34,12 @@ namespace vstm {
         void ImGui(ImGuiIO& io) override
         {
             ImGui::Begin("Hello, world!");
-            if (ImGui::Button("Hello world"))
-            {
-                VSTM_CD_LOGINFO("Button pressed");
-            }
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::ColorPicker4("Background color", m_background);
             ImGui::End();
         }
+
+    private:
+        float m_background[4];
     };
 
 }

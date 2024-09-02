@@ -112,10 +112,8 @@ namespace vstmr {
 		while (!m_window.IsClosed())// && m_running)
 		{
 			float deltaTime = m_timer.getDeltaTime();
+
 			Update(deltaTime);
-
-			m_window.GetViewport().ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-
 			m_renderer.Render();
 			ImGuiDraw();
 

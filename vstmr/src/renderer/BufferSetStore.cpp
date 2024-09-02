@@ -66,11 +66,11 @@ namespace vstmr {
 
 	void BufferSetStore::CheckForTomfoolery()
 	{
+		VSTMR_ASSERT(m_buffer_layouts[0] != EMPTY && m_buffer_layout_types[0] != EMPTY,
+			"Buffer must at-least have one layout");
+
 		for (size_t i = 0; i < m_num_layouts; i++)
 		{
-			VSTMR_ASSERT(m_buffer_layouts[0] != EMPTY && m_buffer_layout_types[0] != EMPTY,
-				"Buffer must at-least have one layout");
-
 			if ((m_buffer_layouts[i] == EMPTY && m_buffer_layout_types[i] != EMPTY) ||
 				(m_buffer_layouts[i] != EMPTY && m_buffer_layout_types[i] == EMPTY))
 			{
