@@ -79,101 +79,18 @@ namespace vstmr {
 		void SetBufferLayoutTypes(int* types, size_t size);
 		void SetNumAxis(int axis);
 
-		BufferSetId MakeBufferSetId()
-		{
-			CheckForTomFoolery();
+		BufferSetId MakeBufferSetId();
 
-			BufferSetId id;
-			for (size_t i = 0; i < m_num_layouts; i++)
-			{
-				if (m_buffer_layouts[i] == EMPTY)
-					break;
-				id.layout[i] = m_buffer_layouts[i];
-				id.type[i] = m_buffer_layout_types[i];
-			}
-
-			return id;
-		}
-
-		std::unordered_map<BufferSetId, BufferSet>::iterator GetBufferSet()
-		{
-			return GetBufferSetFromId(MakeBufferSetId());
-		}
-
-		void AddBufferSet()
-		{
-			BufferSetId id = MakeBufferSetId();
-			auto bufferIt = GetBufferSetFromId(id);
-			if (bufferIt != m_buffers.end())
-			{
-				uint32_t* c = (uint32_t*)&id.layout;
-				uint32_t* t = (uint32_t*)&id.type;
-				VSTM_CD_LOGWARN("Buffer with id-content: {} and id-type: {} already exists. No action taken", *c, *t);
-			}
-			else
-			{
-				BufferSet bufferset = CreateBufferSet(id);
-				m_buffers.insert(std::pair<BufferSetId, BufferSet>(id, bufferset));
-			}
-		}
-
-
-		std::unordered_map<BufferSetId, BufferSet>::iterator 
-			GetBufferSetFromId(const BufferSetId& id);
-
+		std::unordered_map<BufferSetId, BufferSet>::iterator GetBufferSet();
+		void AddBufferSet();
+		std::unordered_map<BufferSetId, BufferSet>::iterator GetBufferSetFromId(const BufferSetId& id);
 		std::unordered_map<BufferSetId, BufferSet>::iterator End();
 
 	private:
-		void CheckForTomFoolery();
-
-	private:
-		BufferSet CreateBufferSet(const BufferSetId& id)
-		{
-			BufferSet bufferset;
-			
-			bufferset.vertex_array.Init();
-			bufferset.vertex_buffer.Init();
-			bufferset.index_buffer.Init();
-
-			bufferset.vertex_array.Bind();
-
-			bufferset.vertex_buffer.Bind();
-			bufferset.vertex_buffer.BufferData(m_vertex_data_size);
-			bufferset.vertex_buffer.BufferSubData(m_vertex_data, m_vertex_data_size, 0);
-
-			bufferset.index_buffer.Bind();
-			bufferset.index_buffer.BufferData(m_index_data_size);
-			bufferset.index_buffer.BufferSubData(m_index_data, m_index_data_size, 0);
-
-			int stride = 0; //stride is 0 if theres only 1 layout
-			if (m_buffer_layouts[1] != EMPTY)
-				stride = GetGLTypeSize(m_buffer_layout_types[0]) * GetContentCount(id.layout[0]) + 
-						 GetGLTypeSize(m_buffer_layout_types[1]) * GetContentCount(id.layout[1]);
-			if (m_buffer_layouts[2] != EMPTY)
-				stride += GetGLTypeSize(m_buffer_layout_types[2]) * GetContentCount(id.layout[2]);
-			if (m_buffer_layouts[3] != EMPTY)
-				stride += GetGLTypeSize(m_buffer_layout_types[3]) * GetContentCount(id.layout[3]);
-
-			int attribStart = 0;
-			for (size_t i = 0; i < m_num_layouts; i++)
-			{
-				if (m_buffer_layouts[i] == EMPTY)
-					break;
-				glVertexAttribPointer(i, GetContentCount(id.layout[i]), m_buffer_layout_types[i], GL_FALSE, stride, (void*)attribStart);
-				attribStart += GetGLTypeSize(m_buffer_layout_types[i]) * GetContentCount(id.layout[i]);
-				glEnableVertexAttribArray(i);
-			}
-
-			//REMINDER: Probably better to unbind everything after creation but leave it commented for now for easier testing
-			//VertexBuffer::UnBind();
-			//IndexBuffer::UnBind();
-			//VertexArray::UnBind();
-
-			return bufferset;
-		}
-
+		void CheckForTomfoolery();
+		BufferSet CreateBufferSet(const BufferSetId& id);
 		//second argument of glVertexAttribPointer
-		int GetContentCount(int content);
+		int GetNumLayoutContents(int layout);
 
 	private:	
 		static constexpr size_t m_num_layouts = 4;

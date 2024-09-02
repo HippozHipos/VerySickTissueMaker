@@ -64,7 +64,7 @@ namespace vstmr {
 		return m_buffers.end();
 	}
 
-	void BufferSetStore::CheckForTomFoolery()
+	void BufferSetStore::CheckForTomfoolery()
 	{
 		for (size_t i = 0; i < m_num_layouts; i++)
 		{
@@ -79,16 +79,99 @@ namespace vstmr {
 		}
 	}
 
-	int BufferSetStore::GetContentCount(int content)
+	int BufferSetStore::GetNumLayoutContents(int layout)
 	{
-		switch (content)
+		switch (layout)
 		{
 			case NORMAL: return m_num_axis;
 			case VERTEX: return m_num_axis;
 			case COLOR: return m_color_channels;
 			case TEXTURE: return 2;
 		}
-		VSTMR_ASSERT(false, "Unsupported content: {}", content);
+		VSTMR_ASSERT(false, "Unsupported content: {}", layout);
+	}
+
+	BufferSetId BufferSetStore::MakeBufferSetId()
+	{
+		CheckForTomfoolery();
+
+		BufferSetId id;
+		for (size_t i = 0; i < m_num_layouts; i++)
+		{
+			if (m_buffer_layouts[i] == EMPTY)
+				break;
+			id.layout[i] = m_buffer_layouts[i];
+			id.type[i] = m_buffer_layout_types[i];
+		}
+
+		return id;
+	}
+
+	std::unordered_map<BufferSetId, BufferSet>::iterator BufferSetStore::GetBufferSet()
+	{
+		return GetBufferSetFromId(MakeBufferSetId());
+	}
+
+	void BufferSetStore::AddBufferSet()
+	{
+		BufferSetId id = MakeBufferSetId();
+		auto bufferIt = GetBufferSetFromId(id);
+		if (bufferIt != m_buffers.end())
+		{
+			uint32_t* c = (uint32_t*)&id.layout;
+			uint32_t* t = (uint32_t*)&id.type;
+			VSTM_CD_LOGWARN("Buffer with id-content: {} and id-type: {} already exists. No action taken", *c, *t);
+		}
+		else
+		{
+			BufferSet bufferset = CreateBufferSet(id);
+			m_buffers.insert(std::pair<BufferSetId, BufferSet>(id, bufferset));
+		}
+	}
+
+	BufferSet BufferSetStore::CreateBufferSet(const BufferSetId& id)
+	{
+		BufferSet bufferset;
+
+		bufferset.vertex_array.Init();
+		bufferset.vertex_buffer.Init();
+		bufferset.index_buffer.Init();
+
+		bufferset.vertex_array.Bind();
+
+		bufferset.vertex_buffer.Bind();
+		bufferset.vertex_buffer.BufferData(m_vertex_data_size);
+		bufferset.vertex_buffer.BufferSubData(m_vertex_data, m_vertex_data_size, 0);
+
+		bufferset.index_buffer.Bind();
+		bufferset.index_buffer.BufferData(m_index_data_size);
+		bufferset.index_buffer.BufferSubData(m_index_data, m_index_data_size, 0);
+
+		int stride = 0; //stride is 0 if theres only 1 layout
+		if (m_buffer_layouts[1] != EMPTY)
+			stride = GetGLTypeSize(m_buffer_layout_types[0]) * GetNumLayoutContents(id.layout[0]) +
+			GetGLTypeSize(m_buffer_layout_types[1]) * GetNumLayoutContents(id.layout[1]);
+		if (m_buffer_layouts[2] != EMPTY)
+			stride += GetGLTypeSize(m_buffer_layout_types[2]) * GetNumLayoutContents(id.layout[2]);
+		if (m_buffer_layouts[3] != EMPTY)
+			stride += GetGLTypeSize(m_buffer_layout_types[3]) * GetNumLayoutContents(id.layout[3]);
+
+		int attribStart = 0;
+		for (size_t i = 0; i < m_num_layouts; i++)
+		{
+			if (m_buffer_layouts[i] == EMPTY)
+				break;
+			glVertexAttribPointer(i, GetNumLayoutContents(id.layout[i]), m_buffer_layout_types[i], GL_FALSE, stride, (void*)attribStart);
+			attribStart += GetGLTypeSize(m_buffer_layout_types[i]) * GetNumLayoutContents(id.layout[i]);
+			glEnableVertexAttribArray(i);
+		}
+
+		//REMINDER: Probably better to unbind everything after creation but leave it commented for now for easier testing
+		//VertexBuffer::UnBind();
+		//IndexBuffer::UnBind();
+		//VertexArray::UnBind();
+
+		return bufferset;
 	}
 
 }
