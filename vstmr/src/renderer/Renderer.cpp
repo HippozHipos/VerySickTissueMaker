@@ -17,17 +17,11 @@ namespace vstmr {
 			"../../../../vstmr/assets/shaders/main_vertex_shader.glsl",
 			"../../../../vstmr/assets/shaders/main_fragment_shader.glsl");
 		m_shaders->Use();
-		//m_vertex_array.Bind();
 
-		//m_shaders->SetInt("tex0", 0);
-	
 		// Enable depth testing and backface culling
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_SCISSOR_TEST);
-
-		m_vertex_array_store.AddBufferSet<float, BufferSetStore::Unused, BufferSetStore::Unused, BufferSetStore::Unused>
-			(BufferSetStore::VERTEX);
 
 		m_vertex_array.Bind();
 
@@ -38,8 +32,6 @@ namespace vstmr {
 
 	void Renderer::Render()
 	{
-		m_vertex_array.Bind();
-
 		Viewport& viewport = m_window->GetViewport();
 
 		vstmr::PerspectiveCamera& camera = viewport.GetCamera();
@@ -58,10 +50,7 @@ namespace vstmr {
 	void Renderer::SetLayout()
 	{
 		m_vertex_array.Bind();
-		m_vertex_array.SetupLayout<float>(3);  // Position (x, y, z)
-		//m_vertex_array.SetupLayout<float>(4);  // Color (r, g, b, a)
-		//m_vertex_array.SetupLayout<float>(2);  // Texture coordinates (u, v)
-
+		m_vertex_array.SetupLayout<float>(3);
 		m_vertex_array.AddLayout();
 
 		CheckOpenGLError();

@@ -15,12 +15,14 @@
 #include "diagnostics/OpenglError.h"
 #include "timer/timer.h"
 
+#include "renderer/BufferSetStore.h"
+
 namespace rend {
 
-	// Vertex data for a cube
 	std::vector<float> vertices;
-	// Indices for drawing the cube using element array
 	std::vector<int> indices;
+
+	vstmr::BufferSetStore buffersetStore;
 
 	void load()
 	{
@@ -55,48 +57,77 @@ namespace rend {
 		}
 	}
 
+	//void setup()
+	//{
+	//	load();
+
+	//	buffersetStore.SetVertexData((void*)vertices.data(), vertices.size() * sizeof(float));
+	//	buffersetStore.SetIndexData((void*)indices.data(), indices.size() * sizeof(int));
+
+	//	buffersetStore.AddBufferSet
+	//		<float, vstmr::BufferSetStore::Unused, vstmr::BufferSetStore::Unused, vstmr::BufferSetStore::Unused>
+	//		(vstmr::BufferSetStore::VERTEX);
+
+	//	/*vstmr::VertexBuffer vertexBuffer;
+	//	vstmr::IndexBuffer indexBuffer;
+
+	//	int sizefloat = vertices.size() * sizeof(float);
+	//	int sizeint = indices.size() * sizeof(int);
+
+	//	vertexBuffer.Bind();
+	//	vertexBuffer.BufferData(sizefloat);
+	//	vertexBuffer.BufferSubData(vertices.data(), sizefloat, 0);
+	//	
+	//	indexBuffer.Bind();
+	//	indexBuffer.BufferData(sizeint);
+	//	indexBuffer.BufferSubData(indices.data(), sizeint, 0);*/
+
+
+	//	//renderer.SetLayout();
+
+	//	vstmr::VertexBuffer::UnBind();
+	//}
+
 	void setup(vstmr::Renderer& renderer)
 	{
 		load();
 
-		vstmr::VertexBuffer vertexBuffer;
-		vstmr::IndexBuffer indexBuffer;
+		vstmr::VertexBuffer vBuffer;
+		vstmr::IndexBuffer iIndex;
 
 		int sizefloat = vertices.size() * sizeof(float);
 		int sizeint = indices.size() * sizeof(int);
 
-		vertexBuffer.Bind();
-		vertexBuffer.BufferData(sizefloat);
-		vertexBuffer.BufferSubData(vertices.data(), sizefloat, 0);
-		
-		indexBuffer.Bind();
-		indexBuffer.BufferData(sizeint);
-		indexBuffer.BufferSubData(indices.data(), sizeint, 0);
+		vBuffer.Bind();
+		vBuffer.BufferData(sizefloat);
+		vBuffer.BufferSubData(vertices.data(), sizefloat, 0);
 
+		iIndex.Bind();
+		iIndex.BufferData(sizeint);
+		iIndex.BufferSubData(indices.data(), sizeint, 0);
 
 		renderer.SetLayout();
 
 		vstmr::VertexBuffer::UnBind();
-
 	}
 }
 
 namespace vstmr {
 
 	Application::Application() :
-		m_renderer{ &m_window },
-		m_window { 600, 600, "Very sick tissue maker" }
+		m_window{ 600, 600, "Very sick tissue maker" },
+		m_renderer{ &m_window }
 	{
 		VSTM_TRACE_LOGINFO("TissueMaker constructed");
 
-		Texture cat = m_texture_manager.Load("cat", "../../../../vstmr/assets/images/cover.thumb256.png");
-		Texture cat2 = m_texture_manager.HardCopy("cat2", cat);
-		glActiveTexture(GL_TEXTURE0);
-		cat2.Bind();
-		cat2.SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
-		m_texture_manager.Get("cat2").SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
-		cat2.SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		cat2.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		//Texture cat = m_texture_manager.Load("cat", "../../../../vstmr/assets/images/cover.thumb256.png");
+		//Texture cat2 = m_texture_manager.HardCopy("cat2", cat);
+		////glActiveTexture(GL_TEXTURE0);
+		//cat2.Bind();
+		//cat2.SetParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//m_texture_manager.Get("cat2").SetParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
+		//cat2.SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		//cat2.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
 	Application::~Application()
@@ -114,12 +145,10 @@ namespace vstmr {
 		HandleErrorActions();
 
 		Start();
-
 		rend::setup(m_renderer);
 
 		while (!m_window.IsClosed() && m_running)
 		{
-
 			float deltaTime = m_timer.getDeltaTime();
 			Update(deltaTime);
 

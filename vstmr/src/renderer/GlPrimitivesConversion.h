@@ -1,9 +1,9 @@
 #pragma once
 
+#include <assert.h>
+
 #include <cstdint>
 #include <glad/glad.h>
-
-#include "diagnostics/Assert.h"
 
 namespace vstmr {
 
@@ -13,7 +13,7 @@ namespace vstmr {
     template<class Type>
     inline int GlPrimitiveConvert()
     {
-        VSTM_ASSERT(false, "{} type is not a supported type", typeid(Type).name());
+        VSTMR_ASSERT(false, "{} type is not a supported type", typeid(Type).name());
         return 0;
     }
 
@@ -56,4 +56,6 @@ namespace vstmr {
     {
         return GL_DOUBLE;
     }
+
+    size_t GetGLTypeSize(uint32_t type);
 }

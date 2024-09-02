@@ -5,6 +5,7 @@
 #include <bitset>
 #include <iostream>
 
+#include "diagnostics/Assert.h"
 #include "diagnostics/Logger.h"
 
 #include "GlPrimitivesConversion.h"
@@ -15,6 +16,32 @@
 
 namespace vstmr {
 
+	struct BufferSet
+	{
+		VertexBuffer vertex_buffer{};
+		IndexBuffer index_buffer{};
+		VertexArray vertex_array{};
+	};
+
+	struct BufferSetId
+	{
+		uint8_t layout[4];  //is it vertex, normal, color or texture
+		uint8_t type[4]; //actual type like GL_FLOAT, GL_INT etc
+
+		bool operator==(const BufferSetId& other) const
+		{
+			uint32_t* cThis = (uint32_t*)&layout;
+			uint32_t* cOther = (uint32_t*)&other.layout;
+			uint32_t* tThis = (uint32_t*)&type;
+			uint32_t* tOther = (uint32_t*)&other.type;
+			return *cThis == *cOther && *tThis == *tOther;
+		}
+
+		bool operator!=(const BufferSetId& other) const
+		{
+			return !(*this == other);
+		}
+	};
 
 	class BufferSetStore
 	{
@@ -31,100 +58,62 @@ namespace vstmr {
 		};
 
 	private:
-		struct BufferSetId
-		{
-			uint8_t content[4];  //is it vertex, normal, color or texture
-			uint8_t type[4]; //actual type like GL_FLOAT, GL_INT etc
-
-			bool operator==(const BufferSetId& other) const
-			{
-				uint32_t* c = (uint32_t*)&content;
-				uint32_t* t = (uint32_t*)&type;
-				return *c == *t;
-			}
-
-			bool operator!=(const BufferSetId& other) const
-			{
-				return !(*this == other);
-			}
-		};
-
 		struct BufferSetIdHash
 		{
 			std::size_t operator()(const BufferSetId& id) const
 			{
-				uint32_t* c = (uint32_t*)&id.content;
+				uint32_t* c = (uint32_t*)&id.layout;
 				uint32_t* t = (uint32_t*)&id.type;
-
 				return ((std::hash<uint32_t>()(*c)
 					^ (std::hash<uint32_t>()(*t) << 1)) >> 1);
 			}
-		};
-
-		struct BufferSet
-		{
-			VertexBuffer vertex_buffer{};
-			IndexBuffer index_buffer{};
-			VertexArray vertex_array{};
 		};
 
 	public:
 		void SetVertexData(void* data, size_t size);
 		void SetIndexData(void* data, size_t size);
 		void SetColorChannels(int channels);
+		void SetBufferConstructionLayouts(int l1, int l2, int l3, int l4);
+		void SetBufferConstructionTypes(int type1, int type2, int type3, int type4);
+		void SetBufferConstructionLayouts(int* layouts, size_t size);
+		void SetBufferConstructionTypes(int* types, size_t size);
 		void SetNumAxis(int axis);
 
-		template<class T1, class T2, class T3, class T4, class... Types>
-		BufferSetId GetUniqueBufferSetId(Types... types)
+		BufferSetId MakeBufferSetId()
 		{
+			CheckForTomFoolery();
+
 			BufferSetId id;
-
-			if (!std::is_same_v<T1, Unused>)
-				id.type[0] = GlPrimitiveConvert<T1>();
-			if (!std::is_same_v<T2, Unused>)
-				id.type[1] = GlPrimitiveConvert<T2>();
-			if (!std::is_same_v<T3, Unused>)
-				id.type[2] = GlPrimitiveConvert<T3>();
-			if (!std::is_same_v<T4, Unused>)
-				id.type[3] = GlPrimitiveConvert<T4>();
-
-			int i = 0;
-			(
-				[&]
-				{
-					id.content[i++] = types;
-				} (), ...
-			);
+			for (size_t i = 0; i < m_num_layouts; i++)
+			{
+				if (m_buffer_layouts[i] == EMPTY)
+					break;
+				id.layout[i] = m_buffer_layouts[i];
+				id.type[i] = m_buffer_layout_types[i];
+			}
 
 			return id;
 		}
 
-		template<class T1, class T2, class T3, class T4, class... Types>
-		std::unordered_map<BufferSetId, BufferSet>::iterator 
-			GetBufferSet(Types... types)
+		std::unordered_map<BufferSetId, BufferSet>::iterator GetBufferSet()
 		{
-			VSTM_ASSERT(sizeof...(types) >= 1, "Vertex buffer must have at-least one attribute");
-			([&] { VSTM_ASSERT(types != EMPTY, "First attribute in vertex buffer cannot be empty"); return; } (), ...);
-			return GetBufferSetFromId(GetUniqueBufferSetId<T1, T2, T3, T4>(types...));
+			return GetBufferSetFromId(MakeBufferSetId());
 		}
 
-		template<class T1, class T2, class T3, class T4, class... Types>
-		void AddBufferSet(Types... types)
+		void AddBufferSet()
 		{
-			VSTM_ASSERT(sizeof...(types) >= 1, "Vertex buffer must have at-least one attribute");
-			([&] { VSTM_ASSERT(types != EMPTY, "First attribute in vertex buffer cannot be empty"); return; } (), ...);
-
-			BufferSetId id = GetUniqueBufferSetId<T1, T2, T3, T4>(types...);
-			auto bufferIt = m_buffers.find(id);
+			BufferSetId id = MakeBufferSetId();
+			auto bufferIt = GetBufferSetFromId(id);
 			if (bufferIt != m_buffers.end())
 			{
-				uint32_t* c = (uint32_t*)&id.content;
+				uint32_t* c = (uint32_t*)&id.layout;
 				uint32_t* t = (uint32_t*)&id.type;
 				VSTM_CD_LOGWARN("Buffer with id-content: {} and id-type: {} already exists. No action taken", *c, *t);
 			}
 			else
 			{
-				BufferSet buffetSet = CreateBufferSet<T1, T2, T3, T4>(id);
+				BufferSet bufferset = CreateBufferSet(id);
+				m_buffers.insert(std::pair<BufferSetId, BufferSet>(id, bufferset));
 			}
 		}
 
@@ -132,8 +121,12 @@ namespace vstmr {
 		std::unordered_map<BufferSetId, BufferSet>::iterator 
 			GetBufferSetFromId(const BufferSetId& id);
 
+		std::unordered_map<BufferSetId, BufferSet>::iterator End();
+
 	private:
-		template<class T1, class T2, class T3, class T4>
+		void CheckForTomFoolery();
+
+	private:
 		BufferSet CreateBufferSet(const BufferSetId& id)
 		{
 			BufferSet bufferset;
@@ -148,38 +141,24 @@ namespace vstmr {
 			bufferset.index_buffer.BufferData(m_index_data_size);
 			bufferset.index_buffer.BufferSubData(m_index_data, m_index_data_size, 0);
 
-			int stride = sizeof(T1) * GetContentCount(id.content[0]);
-			if (!std::is_same_v<T2, Unused>)
-				stride += sizeof(T2) * GetContentCount(id.content[1]);
-			if (!std::is_same_v<T3, Unused>)
-				stride += sizeof(T3) * GetContentCount(id.content[2]);
-			if (!std::is_same_v<T4, Unused>)
-				stride += sizeof(T4) * GetContentCount(id.content[3]);
+			int stride = 0; //stride is 0 if theres only 1 layout
+			if (m_buffer_layouts[1] != EMPTY)
+				stride = GetGLTypeSize(m_buffer_layout_types[0]) * GetContentCount(id.layout[0]) + 
+						 GetGLTypeSize(m_buffer_layout_types[1]) * GetContentCount(id.layout[1]);
+			if (m_buffer_layouts[2] != EMPTY)
+				stride += GetGLTypeSize(m_buffer_layout_types[2]) * GetContentCount(id.layout[2]);
+			if (m_buffer_layouts[3] != EMPTY)
+				stride += GetGLTypeSize(m_buffer_layout_types[2]) * GetContentCount(id.layout[3]);
 
 			int attribStart = 0;
-			glVertexAttribPointer(0, GetContentCount(id.content[0]), GlPrimitiveConvert<T1>(), GL_FALSE, stride, (void*)attribStart);
-			glEnableVertexAttribArray(0);
-
-			if (!std::is_same_v<T2, Unused>)
+			for (size_t i = 0; i < m_num_layouts; i++)
 			{
-				attribStart += sizeof(T1) * GetContentCount(id.content[0]);
-				glVertexAttribPointer(1, GetContentCount(id.content[1]), GlPrimitiveConvert<T2>(), GL_FALSE, stride, (void*)attribStart);
-				glEnableVertexAttribArray(1);
+				if (m_buffer_layouts[i] == EMPTY)
+					break;
+				attribStart += GetGLTypeSize(m_buffer_layout_types[i]) * GetContentCount(id.layout[i]);
+				glVertexAttribPointer(i, GetContentCount(id.layout[1]), m_buffer_layout_types[i], GL_FALSE, stride, (void*)attribStart);
+				glEnableVertexAttribArray(i);
 			}
-			if (!std::is_same_v<T3, Unused>)
-			{
-				attribStart += sizeof(T2) * GetContentCount(id.content[1]);
-				glVertexAttribPointer(2, GetContentCount(id.content[2]), GlPrimitiveConvert<T3>(), GL_FALSE, stride, (void*)attribStart);
-				glEnableVertexAttribArray(2);
-
-			}
-			if (!std::is_same_v<T4, Unused>)
-			{
-				attribStart += sizeof(T3) * GetContentCount(id.content[2]);
-				glVertexAttribPointer(3, GetContentCount(id.content[3]), GlPrimitiveConvert<T4>(), GL_FALSE, stride, (void*)attribStart);
-				glEnableVertexAttribArray(3);
-			}
-
 
 			//REMINDER: Probably better to unbind everything after creation but leave it commented for now for easier testing
 			//VertexBuffer::UnBind();
@@ -193,6 +172,10 @@ namespace vstmr {
 		int GetContentCount(int content);
 
 	private:	
+		static constexpr size_t m_num_layouts = 4;
+		int m_buffer_layouts[4] = { EMPTY, EMPTY, EMPTY, EMPTY };
+		int m_buffer_layout_types[4] = { EMPTY, EMPTY, EMPTY, EMPTY };
+
 		int m_num_axis = 3;
 		int m_color_channels = 3;
 

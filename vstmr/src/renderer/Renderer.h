@@ -26,7 +26,6 @@ namespace vstmr {
 
 	private:
 		std::unique_ptr<Shaders> m_shaders;
-		BufferSetStore m_vertex_array_store;
 		VertexArray m_vertex_array{};
 		Window* m_window;
 	};
