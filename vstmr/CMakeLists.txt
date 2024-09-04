@@ -24,8 +24,10 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 				src/renderer/buffers/*.cpp
 				src/renderer/camera/*.h
 				src/renderer/camera/*.cpp
-				src/renderer/componentProcessors/*.h
-				src/renderer/componentProcessors/*.cpp
+			src/componentProcessors/*.h
+			src/componentProcessors/*.cpp
+			src/resourceLoader/*.h
+			src/resourceLoader/*.cpp
 			src/vstmr/*.h
 			src/vstmr/*.cpp
 			src/ui/imgui/*h

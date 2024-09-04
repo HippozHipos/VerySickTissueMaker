@@ -43,16 +43,6 @@ namespace vstmr {
 		source = oss.str();
 	}
 
-	const std::string& Shaders::VertexShaderSource()
-	{
-		return m_vertex_shader_source;
-	}
-
-	const std::string& Shaders::FragmentShaderSource()
-	{
-		return m_fragment_shader_source;
-	}
-
 	void Shaders::SetVertexShaderPath(const char* path)
 	{
 		m_vertex_shader_source_path = path;
@@ -81,10 +71,14 @@ namespace vstmr {
 		CheckOpenGLError();
 	}
 
-	GLuint Shaders::CompileShader(GLenum type, const std::string& source)
+	void Shaders::RecompileShader()
+	{
+		MakeProgram();
+	}
+
+	GLuint Shaders::CompileShader(GLenum type, const char* src)
 	{
 		GLuint shader = glCreateShader(type);
-		const char* src = source.c_str();
 		glShaderSource(shader, 1, &src, nullptr);
 		glCompileShader(shader);
 
@@ -102,11 +96,14 @@ namespace vstmr {
 
 	void Shaders::MakeProgram()
 	{
-		LoadShaderSource(m_vertex_shader_source_path.c_str(), m_vertex_shader_source);
-		LoadShaderSource(m_fragment_shader_source_path.c_str(), m_fragment_shader_source);
+		std::string vertex_shader_source;
+		std::string fragment_shader_source;
 
-		GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, m_vertex_shader_source);
-		GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, m_fragment_shader_source);
+		LoadShaderSource(m_vertex_shader_source_path.c_str(), vertex_shader_source);
+		LoadShaderSource(m_fragment_shader_source_path.c_str(), fragment_shader_source);
+
+		GLuint vertexShader = CompileShader(GL_VERTEX_SHADER, vertex_shader_source.c_str());
+		GLuint fragmentShader = CompileShader(GL_FRAGMENT_SHADER, fragment_shader_source.c_str());
 
 		m_program_id = glCreateProgram();
 		glAttachShader(m_program_id, vertexShader);

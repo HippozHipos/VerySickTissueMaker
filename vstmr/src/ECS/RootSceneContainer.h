@@ -11,8 +11,10 @@ namespace vstmr {
 	{
 	public:
 		RootSceneContainer();
+
 	public:
 		[[NODISCARD]] SceneContainer& CreateSceneContainer();
+
 	};
 
 }

@@ -140,12 +140,11 @@ namespace vstmr {
 		bufferset.vertex_array.Bind();
 
 		bufferset.vertex_buffer.Bind();
-		bufferset.vertex_buffer.BufferData(m_vertex_data_size);
-		bufferset.vertex_buffer.BufferSubData(m_vertex_data, m_vertex_data_size, 0);
+		bufferset.vertex_buffer.BufferData(m_vertex_data, m_vertex_data_size, false);
 
 		bufferset.index_buffer.Bind();
-		bufferset.index_buffer.BufferData(m_index_data_size);
-		bufferset.index_buffer.BufferSubData(m_index_data, m_index_data_size, 0);
+		bufferset.index_buffer.BufferData(m_index_data, m_index_data_size, false);
+
 
 		int stride = 0; //stride is 0 if theres only 1 layout
 		if (m_buffer_layouts[1] != EMPTY)

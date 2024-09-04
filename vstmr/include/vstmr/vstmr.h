@@ -19,4 +19,6 @@
 #include "src/renderer/MeshRenderer.h"
 #include "src/renderer/Quad.h"
 
+#include "src/ResourceLoader/MeshLoader.h"
+
 #include "src/vstmr/EntryPoint.h"

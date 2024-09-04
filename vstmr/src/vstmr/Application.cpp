@@ -1,7 +1,3 @@
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-
 #include <imgui.h>
 #include <ui/imgui/imgui_impl_glfw.h>
 #include <ui/imgui/imgui_impl_opengl3.h>
@@ -16,63 +12,7 @@
 #include "timer/timer.h"
 
 #include "renderer/BufferSetStore.h"
-
-namespace rend {
-
-	std::vector<float> vertices;
-	std::vector<int> indices;
-
-	void load()
-	{
-		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile("../../../../vstmr/assets/models/Ukulele.obj", aiProcess_Triangulate | aiProcess_FlipUVs);
-
-		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-		{
-			VSTM_CON_LOGERROR("ERROR::ASSIMP::{}", importer.GetErrorString());
-			return;
-		}
-
-		//aiNode* root = scene->mRootNode;
-		for (int i = 0; i < scene->mNumMeshes; i++)
-		{
-			aiMesh* mesh = scene->mMeshes[i];
-			for (int j = 0; j < mesh->mNumVertices; j++)
-			{
-				vertices.push_back(mesh->mVertices[j].x);
-				vertices.push_back(mesh->mVertices[j].y);
-				vertices.push_back(mesh->mVertices[j].z);
-			}
-			for (int j = 0; j < mesh->mNumFaces; j++)
-			{
-				aiFace face = mesh->mFaces[j];
-				for (int k = 0; k < face.mNumIndices; k++)
-				{
-					indices.push_back(face.mIndices[k]);
-				}
-			}
-
-		}
-	}
-
-	vstmr::BufferSetStore buffersetStore;
-
-	void setup()
-	{
-		load();
-
-		buffersetStore.SetBufferLayouts(vstmr::BufferSetStore::VERTEX, vstmr::BufferSetStore::EMPTY, 
-									    vstmr::BufferSetStore::EMPTY, vstmr::BufferSetStore::EMPTY);
-
-		buffersetStore.SetBufferLayoutTypes(GL_FLOAT, vstmr::BufferSetStore::EMPTY,
-									  vstmr::BufferSetStore::EMPTY, vstmr::BufferSetStore::EMPTY);
-
-		buffersetStore.SetVertexData((void*)vertices.data(), vertices.size() * sizeof(float));
-		buffersetStore.SetIndexData((void*)indices.data(), indices.size() * sizeof(int));
-
-		buffersetStore.AddBufferSet();
-	}
-}
+#include "ResourceLoader/MeshLoader.h"
 
 namespace vstmr {
 
@@ -99,7 +39,6 @@ namespace vstmr {
 		HandleErrorActions();
 
 		Start();
-		rend::setup();
 
 		while (!m_window.IsClosed())// && m_running)
 		{

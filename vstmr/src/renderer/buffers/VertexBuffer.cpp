@@ -17,9 +17,9 @@ namespace vstmr
 		CheckOpenGLError();
 	}
 
-	void VertexBuffer::BufferData(size_t size, bool staticDraw)
+	void VertexBuffer::BufferData(void* data, size_t size, bool staticDraw)
 	{
-		glBufferData(GL_ARRAY_BUFFER, size, nullptr, staticDraw ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, size, data, staticDraw ? GL_STATIC_DRAW : GL_DYNAMIC_DRAW);
 		CheckOpenGLError();
 	}
 

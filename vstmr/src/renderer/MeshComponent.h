@@ -14,21 +14,23 @@ namespace vstmr {
 	{
 		struct VertexData
 		{
-			glm::vec3 transform;
+			glm::vec3 vertices;
 			glm::vec3 normals;
-			glm::vec3 texture;
+			glm::vec2 texture;
 			glm::vec3 color;
 		};
+
+		int IndexBufferSize();
+		int VertexBufferSize();
+		int Stride();
+		void SetupMesh();
+
 		std::vector<VertexData> vertex_data;
 		std::vector<uint32_t> index_data;
-		void* m_vertex_data;
-		void* m_index_data;
 		VertexArray vertex_array;
 		VertexBuffer vertex_buffer;
 		IndexBuffer index_buffer;
-		bool is_dynamic;
-		int num_vertces;
-		int num_indices;
+		bool is_dynamic = false;
 	};
 
 }

@@ -8,6 +8,7 @@
 
 #include "ECS/Component.h"
 #include "camera/Camera.h"
+#include "componentProcessors/MeshRendererProcessor.h"
 
 namespace vstmr {
 
@@ -16,17 +17,18 @@ namespace vstmr {
 	{
 	public:
 		Renderer() = default;
-
+		
 	public:
 		void Init();
+		void Render();
 
 	public:
-		void Render();
-		//NOTE: REMOVE LATER
-		vstmr::PerspectiveCamera* camera;
+		//Camera can chill here for now
+		vstmr::PerspectiveCamera camera{ 90, 1, 0.001, 1000 };
 
 	private:
-		std::shared_ptr<Shaders> m_shaders;
+		MeshRendererProcessor m_mesh_renderer;
+		
 	};
 
 }

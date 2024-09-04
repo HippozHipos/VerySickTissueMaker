@@ -11,7 +11,7 @@ namespace vstmr {
 	class PerspectiveCamera : public Camera
 	{
 	public:
-		//glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f
+		PerspectiveCamera() = default;
 		PerspectiveCamera(float fovy, float aspect, float near, float far);
 
 	public:

@@ -1,16 +1,14 @@
 #pragma once
 
-#include "ECS/Behaviour.h"
+#include "ECS/Component.h"
 
 namespace vstmr {
 
-	class MeshRenderer : public Behaviour
+	class MeshRenderer : public Component
 	{
 	public:
 		MeshRenderer();
 
-	public:
-		void Start() override;
 	};
 
 }
