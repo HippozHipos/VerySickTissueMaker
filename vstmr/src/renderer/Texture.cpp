@@ -28,7 +28,7 @@ namespace vstmr {
 
 	Texture::Texture(unsigned char* data, int width, int height, int channels, bool genMipmap)
 	{
-		Load(data, width, height, genMipmap);
+		Load(data, width, height, channels, genMipmap);
 	}
 
 	Texture::Texture(const Texture& other)
@@ -139,7 +139,7 @@ namespace vstmr {
 		m_texture_id = other.m_texture_id;
 	}
 
-	TextureManager::TextureManager()
+	void TextureManager::Init()
 	{
 		stbi_set_flip_vertically_on_load(true);
 		unsigned char* defaultColor = (unsigned char*)malloc(sizeof(unsigned char) * 4);
@@ -147,10 +147,9 @@ namespace vstmr {
 		{
 			defaultColor[0] = 255; defaultColor[1] = 0;
 			defaultColor[2] = 255; defaultColor[3] = 255;
+			Texture* defaulttex = new Texture{ defaultColor, 1, 1, 4, false };
 			m_texture_map.insert(
-				std::pair<std::string, std::shared_ptr<Texture>>("default",
-					std::shared_ptr<Texture>(new Texture{ defaultColor, 1, 1, 4, false })
-					));
+				std::pair<std::string, std::shared_ptr<Texture>>("default", defaulttex));
 		}
 		else
 		{

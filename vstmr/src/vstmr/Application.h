@@ -4,6 +4,7 @@
 #include "Window/Window.h"
 #include "renderer/Texture.h"
 #include "timer/Timer.h"
+#include "ECS/RootSceneContainer.h"
 
 struct ImGuiIO;
 
@@ -35,8 +36,10 @@ namespace vstmr {
 
 		Timer<float> m_timer{};
 
-		Window m_window;
-		Renderer m_renderer;
+		RootSceneContainer m_root_container;
+
+		Window& m_window;
+		Renderer& m_renderer;
 
 		TextureManager m_texture_manager;
 	};

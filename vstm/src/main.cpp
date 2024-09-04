@@ -8,16 +8,23 @@ namespace vstm {
     public:
         void Start() override
         {            
+            vstmr::MeshRenderer meshRenderer;
+            m_renderer.camera = &camera;
         }
 
         void Update(float deltaTime) override
         {
-            m_window.GetViewport().ClearColor(m_background[0], m_background[1], m_background[2], m_background[3]);
+            m_window.ClearColor(m_background[0], m_background[1], m_background[2], m_background[3]);
+            
+            if (m_window.KeyPressed(GLFW_KEY_W))
+            {
+                VSTM_CD_LOGINFO("HELLLO");
+            }
+
             if (m_window.MouseButtonHeld(GLFW_MOUSE_BUTTON_RIGHT))
             {
                 m_window.DisableCursor();
                
-                vstmr::PerspectiveCamera& camera = m_window.GetViewport().GetCamera();
                 camera.ProcessKeyboardMovement(deltaTime,
                     m_window.KeyHeld(GLFW_KEY_W), m_window.KeyHeld(GLFW_KEY_S),
                     m_window.KeyHeld(GLFW_KEY_A), m_window.KeyHeld(GLFW_KEY_D),
@@ -40,6 +47,7 @@ namespace vstm {
 
     private:
         float m_background[4];
+        vstmr::PerspectiveCamera camera = vstmr::PerspectiveCamera{ 90, 1, 0.001, 1000 };
     };
 
 }

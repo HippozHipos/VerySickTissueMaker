@@ -6,30 +6,27 @@
 #include "Shaders.h"
 #include "BufferSetStore.h"
 
+#include "ECS/Component.h"
 #include "camera/Camera.h"
 
 namespace vstmr {
 
 	class Window;
-	class Renderer
+	class Renderer : public Component
 	{
 	public:
-		//TODO: Take framebuffer from window as argument
-		Renderer(Window* window);
-		~Renderer() = default;
+		Renderer() = default;
+
+	public:
+		void Init();
 
 	public:
 		void Render();
-
-		//NOTE: This function is only here to make it work for now. It setsup layout of vertex buffer.
-		//void SetLayout();
-
-		//REMINER: THIS ISNT SUPPOSED TO BE HERE
-		//VertexArray vArray{};
+		//NOTE: REMOVE LATER
+		vstmr::PerspectiveCamera* camera;
 
 	private:
-		std::unique_ptr<Shaders> m_shaders;
-		Window* m_window;
+		std::shared_ptr<Shaders> m_shaders;
 	};
 
 }

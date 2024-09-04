@@ -89,7 +89,6 @@ namespace vstmr {
 	private:
 		void CheckForTomfoolery();
 		BufferSet CreateBufferSet(const BufferSetId& id);
-		//second argument of glVertexAttribPointer
 		int GetNumLayoutContents(int layout);
 
 	private:	

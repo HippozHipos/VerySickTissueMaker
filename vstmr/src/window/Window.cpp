@@ -59,7 +59,7 @@ namespace vstmr {
 	void frameBufferSizeCallback(GLFWwindow* glfwwindow, int width, int height)
 	{
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
-		window->m_viewport.UpdateViewport();
+		glViewport(0,0, width, height);
 		window->m_width = width;
 		window->m_height = height;
 	}
@@ -67,10 +67,10 @@ namespace vstmr {
 
 // Actual Window functions
 namespace vstmr {
-	
+
 	Window::Window(int width, int height, const char* title,
 		GLFWmonitor* monitor, GLFWwindow* share) :
-		m_width{ width }, m_height{ height }, m_viewport{ 0, 0, width, height, this }
+		m_width{ width }, m_height{ height }
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
 		;
@@ -86,7 +86,7 @@ namespace vstmr {
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		m_pwindow = glfwCreateWindow(width, height, title, monitor, share);
-		
+
 		if (m_pwindow == nullptr)
 		{
 			ErrorHandler::AddError(Error::WINDOW_CONSTRUCTION_FAILED, "Couldn't construct window");
@@ -102,13 +102,6 @@ namespace vstmr {
 		glfwSetFramebufferSizeCallback(m_pwindow, frameBufferSizeCallback);
 
 		InitOpengl(width, height);
-		m_viewport.GetFrameBuffer().Init(); //needs glad to have been loaded done by InitOpengl
-	}
-
-	Window::~Window()
-	{
-		VSTM_TRACE_LOGINFO(" Window destructed");
-		glfwTerminate();
 	}
 
 	void Window::Update()
@@ -211,6 +204,12 @@ namespace vstmr {
 		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
+	void Window::ClearColor(float r, float g, float b, float a)
+	{
+		glClearColor(r, g, b, a);
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
+
 	void Window::OnKeyPress(int key)
 	{
 		m_keys_pressed[key] = true;
@@ -257,10 +256,4 @@ namespace vstmr {
 	{ 
 		return m_pwindow; 
 	}
-
-	Viewport& Window::GetViewport()
-	{
-		return m_viewport;
-	}
-
 }

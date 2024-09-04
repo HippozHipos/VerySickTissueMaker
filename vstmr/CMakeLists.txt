@@ -12,6 +12,8 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 	*.cpp
 		src/*.h
 		src/*.cpp
+			src/ECS/*.h
+			src/ECS/*.cpp
 			src/diagnostics/*.h
 			src/diagnostics/*.cpp
 			src/window/*.h
@@ -22,6 +24,8 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 				src/renderer/buffers/*.cpp
 				src/renderer/camera/*.h
 				src/renderer/camera/*.cpp
+				src/renderer/componentProcessors/*.h
+				src/renderer/componentProcessors/*.cpp
 			src/vstmr/*.h
 			src/vstmr/*.cpp
 			src/ui/imgui/*h
@@ -39,6 +43,7 @@ set(STB_INCLUDES	"3rdParty/stb")
 set(ASSIMP_INCLUDES	"3rdParty/assimp/include")
 set(IMGUI_INCLUDES	"3rdParty/imgui")
 set(IMGUI_BACKENDS_INCLUDES	"3rdParty/imgui/backends")
+set(INTT_INCLUDES	"3rdParty/entt/src")
 
 if (Debug)
 	set(ASSIMP_CONFIG_INCLUDE	"out/build/x64-Debug/3rdparty/assimp/include")
@@ -81,6 +86,9 @@ add_subdirectory("3rdParty/assimp")
 #	assimp
 add_subdirectory("3rdParty/imgui")
 
+#	assimp
+add_subdirectory("3rdParty/entt")
+
 #include the directories to resolve relative file references: "../../3rdparty/imgui" -> "3rdparty/imgui"
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLFW_INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLAD_INCLUDES})
@@ -90,6 +98,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${STB_INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${ASSIMP_INCLUDES})
 target_include_directories(${PROJECT_NAME} PUBLIC ${ASSIMP_CONFIG_INCLUDE})
 target_include_directories(${PROJECT_NAME} PUBLIC ${IMGUI_INCLUDES})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INTT_INCLUDES})
 
 #questionable shenanigans but i really dont feel like giving a single fuck rn 
 #(its to make these includes accessible to VerySickTissueMaker_Application)
@@ -110,4 +119,5 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES}
 				OpenGL::GL 
 				glfw 
 				assimp::assimp 
-				imgui)
+				imgui
+				EnTT)

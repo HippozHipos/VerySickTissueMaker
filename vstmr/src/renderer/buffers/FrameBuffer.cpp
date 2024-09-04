@@ -28,6 +28,11 @@ namespace vstmr {
 		CheckOpenGLError();
 	}
 
+	void FrameBuffer::SetChannels(int channels)
+	{
+		m_channels = channels;
+	}
+
 	bool FrameBuffer::HasTextureAttachment()
 	{
 		return m_has_texture_attachment;
@@ -41,7 +46,7 @@ namespace vstmr {
 	Texture FrameBuffer::CreateTextureAttachment(int width, int height)
 	{
 		m_has_texture_attachment = true;
-		Texture texture{ nullptr, width, height, false };
+		Texture texture{ nullptr, width, height, m_channels, false };
 		texture.SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		texture.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		Bind();

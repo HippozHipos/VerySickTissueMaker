@@ -13,10 +13,11 @@ namespace vstmr {
 	class TextureManager
 	{
 	public:
-		TextureManager();
+		TextureManager() = default;
 
 	public:
-		Texture Load(const std::string& name, const std::string& path, bool genMipmap = true);
+		void Init();
+		Texture Load(const std::string& name, const std::string& path, bool genMipmap);
 		Texture Get(const std::string& name);
 		void Delete(const std::string& name);
 		Texture HardCopy(const std::string& name, const Texture& other);
@@ -33,7 +34,7 @@ namespace vstmr {
 	public:
 		Texture();
 		Texture(const std::string& path, bool genMipmap = true);
-		Texture(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
+		Texture(unsigned char* data, int width, int height, int channels, bool genMipmap);
 
 		Texture(const Texture& other);
 		Texture& operator=(const Texture& other);
@@ -45,7 +46,7 @@ namespace vstmr {
 
 	public:
 		void Load(const std::string& path, bool genMipmap = true);
-		void Load(unsigned char* data, int width, int height, int channels, bool genMipmap = true);
+		void Load(unsigned char* data, int width, int height, int channels, bool genMipmap);
 
 		unsigned char* GetRawData();
 		const unsigned char* GetRawData() const;

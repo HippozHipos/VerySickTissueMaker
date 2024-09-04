@@ -1,13 +1,13 @@
 #pragma once
 
+#include "ECS/Component.h"
+
 #include <bitset>
 #include <glfw/glfw3.h>
 
-#include "renderer/Viewport.h"
-
 namespace vstmr {
 
-	class Window
+	class Window : public Component
 	{
 		friend void keyCallback(GLFWwindow*, int, int, int, int);
 		friend void mouseButtonCallback(GLFWwindow*, int, int, int);
@@ -18,8 +18,6 @@ namespace vstmr {
 		Window() = default;
 		Window(int width, int height, const char* title,
 			GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
-
-		~Window();
 
 	public:
 		void Update();
@@ -46,9 +44,9 @@ namespace vstmr {
 		void DisableCursor();
 		void DefaultCursor();
 
-		GLFWwindow* GetGLFWWindow();
+		void ClearColor(float r, float g, float b, float a);
 
-		Viewport& GetViewport();
+		GLFWwindow* GetGLFWWindow();
 
 	private:
 		void OnKeyPress(int key);
@@ -69,8 +67,6 @@ namespace vstmr {
 		static constexpr int buttonCodes = 5;
 		std::bitset<keyCodes> m_mouse_pressed;
 		std::bitset<keyCodes> m_mouse_held;
-
-		Viewport m_viewport;
 
 		float m_mousex, m_mousey = 0;
 		float m_scrollx, m_scrolly = 0;
