@@ -8,7 +8,7 @@ namespace vstmr {
 
 	MeshRenderer::MeshRenderer()
 	{
-		AddComponent<MeshComponent>();
+		AddComponent<VectorComponent<MeshComponent>>();
 		AddComponent<Material>();
 	}
 

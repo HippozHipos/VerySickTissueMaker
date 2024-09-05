@@ -6,7 +6,7 @@ namespace vstmr {
 
 	int MeshComponent::IndexBufferSize()
 	{
-		return index_data.size();
+		return index_data.size() * sizeof(unsigned int);
 	}
 
 	int MeshComponent::VertexBufferSize()
@@ -33,19 +33,14 @@ namespace vstmr {
 		index_buffer.Bind();
 		index_buffer.BufferData((void*)index_data.data(), IndexBufferSize(), is_dynamic);
 
-		int sizes[4] = { 3, 3, 2, 3 };
-		int attribStart = 0;
-		for (int i = 0; i < 4; i++)
-		{
-			glVertexAttribPointer(i, sizes[i], GL_FLOAT, GL_FALSE, Stride(), (void*)attribStart);
-			attribStart += sizeof(float) * sizes[i];
-			glEnableVertexAttribArray(i);
-		}
+		vertex_array.SetupLayout<float>(3);
+		vertex_array.SetupLayout<float>(3);
+		vertex_array.SetupLayout<float>(2);
+		vertex_array.AddLayout();
 
-		//UNCOMMENT LATER
-		/*vertex_array.UnBind();
+		vertex_array.UnBind();
 		vertex_buffer.UnBind();
-		index_buffer.UnBind();*/
+		index_buffer.UnBind();
 	}
 
 }

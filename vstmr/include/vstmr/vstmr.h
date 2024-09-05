@@ -15,6 +15,7 @@
 #include "src/ECS/Behaviour.h"
 #include "src/ECS/Component.h"
 
+#include "src/renderer/Material.h"
 #include "src/renderer/MeshComponent.h"
 #include "src/renderer/MeshRenderer.h"
 #include "src/renderer/Quad.h"

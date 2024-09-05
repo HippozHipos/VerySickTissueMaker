@@ -207,7 +207,6 @@ namespace vstmr {
 	void Window::ClearColor(float r, float g, float b, float a)
 	{
 		glClearColor(r, g, b, a);
-		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
 	void Window::OnKeyPress(int key)

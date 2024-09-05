@@ -9,7 +9,7 @@ namespace vstmr {
 	public:
 		virtual ~Behaviour() = default;
 
-	protected:
+	public:
 		virtual void Start();
 		virtual void Update();
 		virtual void End();

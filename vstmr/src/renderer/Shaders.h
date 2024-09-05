@@ -26,7 +26,8 @@ namespace vstmr {
         void RecompileShader();
         void SetFloat(const std::string& name, float value) const;
         void SetInt(const std::string& name, int value) const;
-        void SetMat4f(const std::string& name, glm::mat4 value, bool transpose = false) const;
+        void SetMat4f(const std::string& name, const glm::mat4& value, bool transpose = false) const;
+        void SetVec3f(const std::string& name, const glm::vec3& vec3, bool transpose = false) const;
 
     private:
         void LoadShaderSource(const char* path, std::string& source);

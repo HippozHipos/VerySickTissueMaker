@@ -9,9 +9,13 @@ namespace vstm {
         UkeleleRenderer()
         {
             vstmr::MeshRenderer& meshRenderer = AddComponent<vstmr::MeshRenderer>();
-            vstmr::MeshComponent& mesh = meshRenderer.GetComponent<vstmr::MeshComponent>();
-            vstmr::MeshLoader::Load("../../../../vstmr/assets/models/Ukulele.obj", mesh);
-            mesh.SetupMesh();
+            meshRenderer.GetComponent<vstmr::Material>().color = { 1.0f, 0.0f, 0.0f };
+            vstmr::VectorComponent<vstmr::MeshComponent>& meshes = meshRenderer.GetComponent<vstmr::VectorComponent<vstmr::MeshComponent>>();
+            vstmr::MeshLoader::Load("../../../../vstmr/assets/models/lowpoly.obj", meshes.vector);
+            for (vstmr::MeshComponent& mesh : meshes.vector)
+            {
+                mesh.SetupMesh();
+            }
         }
     };
 
@@ -43,17 +47,26 @@ namespace vstm {
                 m_window.DefaultCursor();
             }
             m_renderer.camera.UpdateVectors();
+
+            UkeleleRenderer& ukulele = m_root_container.GetComponent<UkeleleRenderer>();
+            vstmr::MeshRenderer& meshRenderer = ukulele.GetComponent<vstmr::MeshRenderer>();
+            meshRenderer.GetComponent<vstmr::Material>().color = color;
         }
 
         void ImGui(ImGuiIO& io) override
         {
-            ImGui::Begin("Hello, world!");
+            ImGui::Begin("Background");
             ImGui::ColorPicker4("Background color", m_background);
+            ImGui::End();
+
+            ImGui::Begin("Ukulele");
+            ImGui::ColorPicker4("Ukulele color", &color[0]);
             ImGui::End();
         }
 
     private:
-        float m_background[4];
+        float m_background[4] = { 1.0f, 0.5f, 0.0f, 1.0f };
+        glm::vec3 color = { 0.4f, 1.0f, 0.1f };
     };
 
 }

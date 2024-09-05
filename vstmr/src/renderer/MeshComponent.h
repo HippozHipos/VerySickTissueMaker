@@ -17,7 +17,6 @@ namespace vstmr {
 			glm::vec3 vertices;
 			glm::vec3 normals;
 			glm::vec2 texture;
-			glm::vec3 color;
 		};
 
 		int IndexBufferSize();
@@ -26,7 +25,7 @@ namespace vstmr {
 		void SetupMesh();
 
 		std::vector<VertexData> vertex_data;
-		std::vector<uint32_t> index_data;
+		std::vector<unsigned int> index_data;
 		VertexArray vertex_array;
 		VertexBuffer vertex_buffer;
 		IndexBuffer index_buffer;

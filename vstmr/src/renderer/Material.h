@@ -11,6 +11,7 @@ namespace vstmr {
 		Material();
 
 	public:
+		glm::vec3 color;
 		Shaders shaders;
 	};
 

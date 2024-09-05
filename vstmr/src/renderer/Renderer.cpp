@@ -12,8 +12,7 @@ namespace vstmr {
 	{
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		//glEnable(GL_SCISSOR_TEST);
-
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		CheckOpenGLError();
 	}
 
