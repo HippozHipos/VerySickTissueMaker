@@ -13,7 +13,7 @@ namespace vstmr {
 		std::vector<T> vector;
 	};
 
-	class MeshRenderer : public Component
+	class MeshRenderer : public SceneContainer
 	{
 	public:
 		MeshRenderer();

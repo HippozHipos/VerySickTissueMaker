@@ -18,6 +18,7 @@ namespace vstmr {
 
 	void Renderer::Render()
 	{
+		m_mesh_renderer.Light();
 		m_mesh_renderer.Render();
 	}
 }

@@ -4,13 +4,12 @@
 #include "Window/Window.h"
 #include "renderer/Texture.h"
 #include "timer/Timer.h"
-#include "ECS/RootSceneContainer.h"
 
 struct ImGuiIO;
 
 namespace vstmr {
 
-	class Application
+	class Application : public SceneContainer
 	{
 	public:
 		Application();
@@ -32,16 +31,14 @@ namespace vstmr {
 		void ImGuiDraw();
 
 	protected:
-		bool m_running = true;
-
-		Timer<float> m_timer{};
-
-		RootSceneContainer m_root_container;
-
-		Window& m_window;
 		Renderer& m_renderer;
+		Window& m_window;
 
+		//probably should add some of the bellow as components as needed
+		bool m_running = true;
+		Timer<float> m_timer{};
 		TextureManager m_texture_manager;
+
 	};
 
 }

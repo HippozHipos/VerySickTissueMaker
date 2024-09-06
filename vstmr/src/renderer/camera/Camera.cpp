@@ -22,6 +22,16 @@ namespace vstmr {
 		m_world_up = up;
 	}
 
+	glm::vec3 PerspectiveCamera::Up()
+	{
+		return m_up;
+	}
+
+	glm::vec3 PerspectiveCamera::Right()
+	{
+		return m_right;
+	}
+
 	void PerspectiveCamera::UpdateVectors()
 	{
 		m_forward.x = cos(glm::radians(Rotation.z)) * cos(glm::radians(Rotation.y));

@@ -1,15 +1,10 @@
 #include "SceneContainer.h"
-
+#include "diagnostics/Logger.h"
 namespace vstmr {
 
-	SceneContainer::SceneContainer() :
-		m_entity{ 0 }
+	SceneContainer::SceneContainer() 
 	{
-	}
-
-	SceneContainer::SceneContainer(entt::entity entity) :
-		m_entity{ entity }
-	{
+		_SetEntity(ECS::registry.create());
 	}
 
 	void SceneContainer::_SetEntity(entt::entity entity)

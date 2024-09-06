@@ -34,13 +34,17 @@ namespace vstmr {
 	void Shaders::LoadShaderSource(const char* path, std::string& source)
 	{
 		std::ifstream inStream{ path };
-		if (errno != 0)
+
+		if (!inStream.is_open()) 
 		{
-			VSTM_CD_LOGERROR("[VSTM Error]Error code: {}\nError description: {}\n", errno, strerror(errno));
+			VSTM_CD_LOGERROR("[VSTM Error] Error opening file: {}\nError code: {}\nError description: {}\n", path, errno, strerror(errno));
+			return;
 		}
+
 		std::ostringstream oss;
-		oss << inStream.rdbuf();
-		source = oss.str();
+		oss << inStream.rdbuf();  
+		source = oss.str(); 
+
 	}
 
 	void Shaders::SetVertexShaderPath(const char* path)

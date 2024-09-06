@@ -1,10 +1,9 @@
 #pragma once
-
-#include "Behaviour.h"
+#include "SceneContainer.h"
 
 namespace vstmr {
 
-	class Component : public Behaviour
+	class Component : public SceneContainer
 	{
 	public:
 		virtual ~Component() = default;

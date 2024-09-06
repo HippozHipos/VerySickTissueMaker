@@ -30,8 +30,8 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 			src/resourceLoader/*.cpp
 			src/vstmr/*.h
 			src/vstmr/*.cpp
-			src/ui/imgui/*h
-			src/ui/imgui/*cpp
+			src/ui/imgui/*.h
+			src/ui/imgui/*.cpp
 )
 
 add_library(${PROJECT_NAME} ${source_files})

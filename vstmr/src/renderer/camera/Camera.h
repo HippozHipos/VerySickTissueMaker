@@ -31,6 +31,10 @@ namespace vstmr {
 
 		void ProcessMouseScroll(float yoffset);
 
+		glm::vec3 Right();
+
+		glm::vec3 Up();
+
 	public:
 		glm::vec3 Position{ 0.0f, 0.0f, -5.0f, };
 		glm::vec3 Rotation{ 0.0f, 0.0f, 90.0f };
@@ -43,7 +47,7 @@ namespace vstmr {
 		glm::mat4 m_projection;
 
 		// Camera settings
-		float m_movement_speed = 2.5f;
+		float m_movement_speed = 10;
 		float m_mouse_sensitivity = 0.1f;
 		float m_zoom = 45.0f;
 
