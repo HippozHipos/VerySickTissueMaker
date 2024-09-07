@@ -18,7 +18,7 @@ namespace vstmr {
 
 	void Renderer::Render()
 	{
-		m_mesh_renderer.Light();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		m_mesh_renderer.Render();
 	}
 }

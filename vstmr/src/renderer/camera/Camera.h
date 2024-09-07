@@ -47,7 +47,7 @@ namespace vstmr {
 		glm::mat4 m_projection;
 
 		// Camera settings
-		float m_movement_speed = 10;
+		float m_movement_speed = 5;
 		float m_mouse_sensitivity = 0.1f;
 		float m_zoom = 45.0f;
 

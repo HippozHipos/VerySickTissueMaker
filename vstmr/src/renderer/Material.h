@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Shaders.h"
-#include "ECS/Component.h"
+#include "ECS/SceneContainer.h"
 
 namespace vstmr {
 
-	class Material : public Component
+	class Material : public SceneContainer
 	{
 	public:
 		Material();

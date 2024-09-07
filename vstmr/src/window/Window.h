@@ -1,13 +1,13 @@
 #pragma once
 
-#include "ECS/Component.h"
-
 #include <bitset>
 #include <glfw/glfw3.h>
 
+#include "ECS/SceneContainer.h"
+
 namespace vstmr {
 
-	class Window : public Component
+	class Window : public SceneContainer
 	{
 		friend void keyCallback(GLFWwindow*, int, int, int, int);
 		friend void mouseButtonCallback(GLFWwindow*, int, int, int);

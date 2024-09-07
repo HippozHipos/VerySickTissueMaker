@@ -18,8 +18,8 @@
 namespace vstmr {
 
 	Application::Application() :
-		m_window{ AddComponent<Window>(600, 600, "Very sick tissue maker") },
-		m_renderer{ AddComponent<Renderer>() }
+		m_window{ Add<Window>(600, 600, "Very sick tissue maker") },
+		m_renderer{ Add<Renderer>() }
 	{
 		m_renderer.Init();
 	}

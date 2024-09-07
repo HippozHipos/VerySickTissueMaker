@@ -6,14 +6,14 @@
 #include "Shaders.h"
 #include "BufferSetStore.h"
 
-#include "ECS/Component.h"
+#include "ECS/SceneContainer.h"
 #include "camera/Camera.h"
 #include "componentProcessors/MeshRendererProcessor.h"
 
 namespace vstmr {
 
 	class Window;
-	class Renderer : public Component
+	class Renderer : public SceneContainer
 	{
 	public:
 		Renderer() = default;

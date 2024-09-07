@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Vector.h"
-#include "ECS/Component.h"
+#include "ECS/SceneContainer.h"
 
 namespace vstmr {
 
-	struct Transform : public Component
+	struct Transform : public SceneContainer
 	{
 		glm::vec3 position;
 		glm::vec3 rotation;

@@ -4,7 +4,7 @@ namespace vstmr {
 
 	SceneObject::SceneObject()
 	{
-		AddComponent<Transform>();
+		Add<Transform>();
 	}
 
 }

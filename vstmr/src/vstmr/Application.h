@@ -31,8 +31,8 @@ namespace vstmr {
 		void ImGuiDraw();
 
 	protected:
-		Renderer& m_renderer;
 		Window& m_window;
+		Renderer& m_renderer;
 
 		//probably should add some of the bellow as components as needed
 		bool m_running = true;

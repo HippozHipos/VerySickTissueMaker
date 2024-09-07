@@ -8,32 +8,13 @@ namespace vstm {
     public:
         LowploySceneRenderer()
         {
-            vstmr::Transform& transform = GetComponent<vstmr::Transform>();
+            vstmr::Transform& transform = Get<vstmr::Transform>();
             transform.position = { 0, 0, 0 };
             transform.rotation = { 0, 0, 0 };
-            vstmr::MeshRenderer& meshRenderer = AddContainer<vstmr::MeshRenderer>();
-            meshRenderer.GetComponent<vstmr::Material>().color = { 1.0f, 1.0f, 0.0f };
-            vstmr::VectorComponent<vstmr::MeshComponent>& meshes = meshRenderer.GetComponent<vstmr::VectorComponent<vstmr::MeshComponent>>();
+            vstmr::MeshRenderer& meshRenderer = Add<vstmr::MeshRenderer>();
+            meshRenderer.Get<vstmr::Material>().color = { 1.0f, 1.0f, 0.0f };
+            vstmr::VectorComponent<vstmr::MeshComponent>& meshes = meshRenderer.Get<vstmr::VectorComponent<vstmr::MeshComponent>>();
             vstmr::MeshLoader::Load("../../../../vstmr/assets/models/lowpoly.obj", meshes.vector);
-            for (vstmr::MeshComponent& mesh : meshes.vector)
-            {
-                mesh.SetupMesh();
-            }
-        }
-    };
-
-    class CubeRenderer : public vstmr::SceneObject
-    {
-    public:
-        CubeRenderer()
-        {
-            vstmr::Transform& transform = GetComponent<vstmr::Transform>();
-            transform.position = { 0, 0, 0 };
-            transform.rotation = { 0, 0, 0 };
-            vstmr::MeshRenderer& meshRenderer = AddContainer<vstmr::MeshRenderer>();
-            meshRenderer.GetComponent<vstmr::Material>().color = { 1.0f, 0.0f, 0.0f };
-            vstmr::VectorComponent<vstmr::MeshComponent>& meshes = meshRenderer.GetComponent<vstmr::VectorComponent<vstmr::MeshComponent>>();
-            vstmr::MeshLoader::Load("../../../../vstmr/assets/models/cube.obj", meshes.vector);
             for (vstmr::MeshComponent& mesh : meshes.vector)
             {
                 mesh.SetupMesh();
@@ -46,14 +27,14 @@ namespace vstm {
     public:
         Light()
         {
-            vstmr::Transform& transform = GetComponent<vstmr::Transform>();
-            transform.position = { 0, 3, 5 };
+            vstmr::Transform& transform = Get<vstmr::Transform>();
+            transform.position = { 0.0f, 20, 5 };
             transform.rotation = { 0, 0, 0 };
             transform.scale = { 0.2f, 0.2f, 0.2f };
-            vstmr::PointLight& light = AddComponent<vstmr::PointLight>();
-            vstmr::MeshRenderer& meshRenderer = AddContainer<vstmr::MeshRenderer>();
+            vstmr::PointLight& light = Add<vstmr::PointLight>();
+            vstmr::MeshRenderer& meshRenderer = Add<vstmr::MeshRenderer>();
             color = &light.color;
-            vstmr::VectorComponent<vstmr::MeshComponent>& meshes = meshRenderer.GetComponent<vstmr::VectorComponent<vstmr::MeshComponent>>();
+            vstmr::VectorComponent<vstmr::MeshComponent>& meshes = meshRenderer.Get<vstmr::VectorComponent<vstmr::MeshComponent>>();
             vstmr::MeshLoader::Load("../../../../vstmr/assets/models/cube.obj", meshes.vector);
             for (vstmr::MeshComponent& mesh : meshes.vector)
             {
@@ -64,7 +45,7 @@ namespace vstm {
     public:
         void Update(vstmr::Window& window, float deltaTime, vstmr::PerspectiveCamera& camera)
         {
-            vstmr::Transform& transform = GetComponent<vstmr::Transform>();
+            vstmr::Transform& transform = Get<vstmr::Transform>();
             if (window.KeyHeld(GLFW_KEY_T))
                 transform.position.y += 5 * deltaTime;
             if (window.KeyHeld(GLFW_KEY_F))
@@ -105,7 +86,7 @@ namespace vstm {
         {            
             LowploySceneRenderer lcs{};
             
-       }
+        }
 
         void Update(float deltaTime) override
         {
@@ -144,10 +125,8 @@ namespace vstm {
         }
 
     private:
-        //UkeleleRenderer renderUkulele;
         float m_background[4] = { 1.0f, 0.5f, 0.0f, 1.0f };
         glm::vec3 color = { 0.4f, 1.0f, 0.1f };
-       // CubeRenderer cubeRenderer;
         Light light{};
     };
 

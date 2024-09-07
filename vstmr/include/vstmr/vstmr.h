@@ -11,7 +11,6 @@
 #include "src/vstmr/Application.h"
 
 #include "src/ECS/SceneContainer.h"
-#include "src/ECS/Component.h"
 
 #include "src/renderer/Material.h"
 #include "src/renderer/MeshComponent.h"

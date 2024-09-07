@@ -2,7 +2,7 @@
 #include <vector>
 #include <glm/glm.hpp>
 
-#include "ECS/Component.h"
+#include "ECS/SceneContainer.h"
 
 #include "renderer/buffers/VertexArray.h"
 #include "renderer/buffers/VertexBuffer.h"
@@ -10,7 +10,7 @@
 
 namespace vstmr {
 	
-	struct MeshComponent : public Component
+	struct MeshComponent : public SceneContainer
 	{
 		struct VertexData
 		{
