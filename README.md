@@ -2,7 +2,7 @@ __vstm__ - Very Sick Tissue Maker
 
 __vstmr__ - Very Sick Tissue Maker Renderer
 
-![image](https://github.com/user-attachments/assets/37f6d7c4-aed5-4b6d-a16e-7ac8289f13f4)
+![image](https://github.com/user-attachments/assets/f6220bac-05b2-45ca-82f7-b622d68d4966)
 ![image](https://github.com/user-attachments/assets/61ebce81-ee67-496c-9949-1ac69e07f848)
 
 
