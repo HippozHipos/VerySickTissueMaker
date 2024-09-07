@@ -11,10 +11,11 @@
 #include "src/vstmr/Application.h"
 
 #include "src/ECS/SceneContainer.h"
+#include "src/ECS/SceneObject.h"
+#include "src/ECS/BehaviouralSceneObject.h"
 
 #include "src/renderer/Material.h"
 #include "src/renderer/MeshComponent.h"
-#include "src/renderer/SceneObject.h"
 #include "src/renderer/MeshRenderer.h"
 #include "src/renderer/Quad.h"
 

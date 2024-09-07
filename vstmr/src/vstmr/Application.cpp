@@ -40,6 +40,7 @@ namespace vstmr {
 		HandleErrorActions();
 
 		Start();
+		m_behaviour_processor.CallStart();
 
 		while (!m_window.IsClosed())// && m_running)
 		{

@@ -1,5 +1,7 @@
 #pragma once
+
 #include "ECS.h"
+#include "diagnostics/Logger.h"
 
 namespace vstmr {
 

@@ -22,7 +22,7 @@ namespace vstm {
         }
     };
 
-    class Light : public vstmr::SceneObject
+    class Light : public vstmr::BehaviouralSceneObject<Light>
     {
     public:
         Light()
@@ -30,7 +30,7 @@ namespace vstm {
             vstmr::Transform& transform = Get<vstmr::Transform>();
             transform.position = { 0.0f, 20, 5 };
             transform.rotation = { 0, 0, 0 };
-            transform.scale = { 0.2f, 0.2f, 0.2f };
+            transform.scale = { 0.05f, 0.05f, 0.05f };
             vstmr::PointLight& light = Add<vstmr::PointLight>();
             vstmr::MeshRenderer& meshRenderer = Add<vstmr::MeshRenderer>();
             color = &light.color;
@@ -43,7 +43,22 @@ namespace vstm {
         }
 
     public:
-        void Update(vstmr::Window& window, float deltaTime, vstmr::PerspectiveCamera& camera)
+        void Start()
+        {
+            VSTM_CD_LOGINFO("Hello");
+        }
+
+        void Update()
+        {
+
+        }
+
+        void End()
+        {
+
+        }
+
+        /*void Update(vstmr::Window& window, float deltaTime, vstmr::PerspectiveCamera& camera)
         {
             vstmr::Transform& transform = Get<vstmr::Transform>();
             if (window.KeyHeld(GLFW_KEY_T))
@@ -66,9 +81,9 @@ namespace vstm {
             if (window.KeyHeld(GLFW_KEY_C))
                 transform.rotation.z += 20 * deltaTime;
 
-        }
+        }*/
 
-        void ui()
+        void UI()
         {
             ImGui::Begin("Light Color w");
             ImGui::ColorPicker4("Light Color", &color->r);
@@ -107,7 +122,7 @@ namespace vstm {
             {
                 m_window.DefaultCursor();
             }
-            light.Update(m_window, deltaTime, m_renderer.camera);
+            //light.Update(m_window, deltaTime, m_renderer.camera);
             m_renderer.camera.UpdateVectors();
         }
 
@@ -120,8 +135,6 @@ namespace vstm {
             ImGui::Begin("Ukulele");
             ImGui::ColorPicker4("Ukulele color", &color[0]);
             ImGui::End();
-
-            light.ui();
         }
 
     private:
