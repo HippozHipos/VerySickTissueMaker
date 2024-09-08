@@ -27,7 +27,8 @@ namespace vstm {
                 camera.ProcessKeyboardMovement(0.001f,
                     key.Held(GLFW_KEY_W), key.Held(GLFW_KEY_S),
                     key.Held(GLFW_KEY_A), key.Held(GLFW_KEY_D),
-                    key.Held(GLFW_KEY_LEFT_CONTROL), key.Held(GLFW_KEY_SPACE));
+                    key.Held(GLFW_KEY_LEFT_CONTROL), key.Held(GLFW_KEY_SPACE)
+                );
 
                 camera.ProcessMouseMovement(mouse.GetChangeX(), mouse.GetChangeY());
             }
@@ -36,6 +37,14 @@ namespace vstm {
                 window.DefaultCursor();
             }
             camera.UpdateVectors();
+        }
+
+        void UI()
+        {
+            Camera& camera = ECS::registry.view<Camera>().get<Camera>((entt::entity)0);
+            ImGui::Begin("Twin turbo, 12800HP, Twin exhaust, NOS infused feet.");
+            ImGui::DragFloat("Scale", &camera.MovementSpeed, 0.1f); // update the current velocity based on slider.
+            ImGui::End();
         }
     };
 

@@ -55,7 +55,8 @@ namespace vstmr {
 
 	void Camera::ProcessKeyboardMovement(float deltaTime, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey)
 	{
-		float velocity = m_movement_speed * deltaTime;
+		//float velocity = m_movement_speed * deltaTime;
+		float velocity = MovementSpeed * deltaTime;
 		if (forwardKey)
 			Position += m_forward * velocity;
 		if (backKey)
