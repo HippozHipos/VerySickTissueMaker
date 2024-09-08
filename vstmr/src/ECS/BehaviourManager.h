@@ -58,15 +58,15 @@ namespace vstmr {
 			}
 			if constexpr (HasStartMethod<T>::value)
 			{
-				m_start_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(thing)->Start(); }));
+				m_start_functions.push_back(std::pair<void*, std::function<void()>>(static_cast<void*>(thing), [thing] { static_cast<T*>(thing)->Start(); }));
 			}
 			if constexpr (HasUpdateMethod<T>::value)
 			{
-				m_update_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(thing)->Update(); }));
+				m_update_functions.push_back(std::pair<void*, std::function<void()>>(static_cast<void*>(thing), [thing] { static_cast<T*>(thing)->Update(); }));
 			}
 			if constexpr (HasUIMethod<T>::value)
 			{
-				m_gui_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(thing)->UI(); }));
+				m_gui_functions.push_back(std::pair<void*, std::function<void()>>(static_cast<void*>(thing), [thing] { static_cast<T*>(thing)->UI(); }));
 			}
 		}
 
