@@ -7,6 +7,7 @@ namespace vstmr {
 
     //This is so we can share same instance of BehaviourManager 
     //across all the instances of BehaviouralSceneObject<T>
+    //REMINDER: Needs to be moved later but it can chill here for now
     struct BehaviourManagerStore
     {   
         static BehaviourManager& GetBehaviourManager()
@@ -20,30 +21,11 @@ namespace vstmr {
     class BehaviouralSceneObject : public SceneObject
     {
     public:
+        virtual ~BehaviouralSceneObject() = default;
+    public:
         BehaviouralSceneObject()
         {
-            BehaviourManagerStore::GetBehaviourManager().AddBehaviour<BehaviouralSceneObject<Derived>>(*this);
-        }
-
-    public:
-        void StartCaller() 
-        {
-            static_cast<Derived*>(this)->Start();
-        }
-
-        void UpdateCaller()
-        {
-            static_cast<Derived*>(this)->Update();
-        }
-
-        void UICaller()
-        {
-            static_cast<Derived*>(this)->UI();
-        }
-
-        void EndCaller()
-        {
-            static_cast<Derived*>(this)->End();
-        }    
+            BehaviourManagerStore::GetBehaviourManager().AddBehaviour<BehaviouralSceneObject, Derived>(*this);
+        } 
     };
 }

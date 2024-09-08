@@ -5,8 +5,6 @@
 #include "renderer/Texture.h"
 #include "timer/Timer.h"
 
-#include "componentProcessors/BehaviourProcessor.h"
-
 struct ImGuiIO;
 
 namespace vstmr {
@@ -21,13 +19,6 @@ namespace vstmr {
 		void HandleErrorActions();
 		void Run();
 
-	public:
-		//client
-		virtual void Start();
-		virtual void Update(float deltaTime);
-		virtual void ImGui(ImGuiIO& io);
-		virtual void End();
-
 	private:
 		void ImGuiSetup();
 		void ImGuiDraw();
@@ -40,8 +31,6 @@ namespace vstmr {
 		bool m_running = true;
 		Timer<float> m_timer{};
 		TextureManager m_texture_manager;
-		
-		BehaviourProcessor m_behaviour_processor;
 	};
 
 }

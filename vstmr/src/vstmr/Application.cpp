@@ -12,6 +12,8 @@
 #include "timer/timer.h"
 #include "ui/imgui/ImGuiDarkTheme.h"
 
+#include "ECS/BehaviouralSceneObject.h"
+
 #include "renderer/BufferSetStore.h"
 #include "ResourceLoader/MeshLoader.h"
 
@@ -39,14 +41,14 @@ namespace vstmr {
 		ErrorHandler::Handle();
 		HandleErrorActions();
 
-		Start();
-		m_behaviour_processor.CallStart();
+		BehaviourManagerStore::GetBehaviourManager().CallAllStartFunctions();
 
 		while (!m_window.IsClosed())// && m_running)
 		{
 			float deltaTime = m_timer.getDeltaTime();
 
-			Update(deltaTime);
+			BehaviourManagerStore::GetBehaviourManager().CallAllUpdateFunctions();
+
 			m_renderer.Render();
 			ImGuiDraw();
 
@@ -55,7 +57,7 @@ namespace vstmr {
 			ErrorHandler::Handle();
 			HandleErrorActions();
 		}
-		End();
+		BehaviourManagerStore::GetBehaviourManager().CallAllEndFunctions();
 	}
 
 	void Application::ImGuiSetup()
@@ -81,11 +83,8 @@ namespace vstmr {
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
-		// Setup Platform/Renderer backends
 		ImGui_ImplGlfw_InitForOpenGL(m_window.GetGLFWWindow(), true);
-#ifdef __EMSCRIPTEN__
-		ImGui_ImplGlfw_InstallEmscriptenCallbacks(window, "#canvas");
-#endif
+
 		const char* glsl_version = "#version 130";
 		ImGui_ImplOpenGL3_Init(glsl_version);
 	}
@@ -96,16 +95,12 @@ namespace vstmr {
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		ImGui(io);
-		ImGui::DockSpace(ImGui::GetID("MyDockspace"), ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
+		BehaviourManagerStore::GetBehaviourManager().CallAllUIFunctions();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		// Update and Render additional Platform Windows
-		// (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
-		//  For this specific demo app we could also call glfwMakeContextCurrent(window) directly)
+		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			ImGui::UpdatePlatformWindows();
@@ -113,12 +108,6 @@ namespace vstmr {
 			glfwMakeContextCurrent(m_window.GetGLFWWindow());
 		}
 	}
-
-	//default overrides
-	void Application::Start() {}
-	void Application::Update(float deltaTime) {}
-	void Application::ImGui(ImGuiIO& io) {}
-	void Application::End() {}
 
 	void Application::HandleErrorActions()
 	{
