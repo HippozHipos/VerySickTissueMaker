@@ -49,24 +49,24 @@ namespace vstmr {
 
 	public:
 		template<template<class> class BehaviouralSceneObject, class T>
-		void AddBehaviour(BehaviouralSceneObject<T>& thing)
+		void AddBehaviour(BehaviouralSceneObject<T>* thing)
 		{
 			//call prestart
 			if constexpr (HasPreStartMethod<T>::value)
 			{
-				static_cast<T*>(&thing)->PreStart();
+				static_cast<T*>(thing)->PreStart();
 			}
 			if constexpr (HasStartMethod<T>::value)
 			{
-				m_start_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(&thing)->Start(); }));
+				m_start_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(thing)->Start(); }));
 			}
 			if constexpr (HasUpdateMethod<T>::value)
 			{
-				m_update_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(&thing)->Update(); }));
+				m_update_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(thing)->Update(); }));
 			}
 			if constexpr (HasUIMethod<T>::value)
 			{
-				m_gui_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(&thing)->UI(); }));
+				m_gui_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(thing)->UI(); }));
 			}
 		}
 
@@ -76,21 +76,21 @@ namespace vstmr {
 		void CallAllEndFunctions() const;
 
 		template<template<class> class BehaviouralSceneObject, class T>
-		void RemoveBehaviour(BehaviouralSceneObject<T>& thing)
+		void RemoveBehaviour(BehaviouralSceneObject<T>* thing)
 		{
 			if constexpr (HasEndMethod<T>::value)
 			{
-				static_cast<T*>(&thing)->End();
+				static_cast<T*>(thing)->End();
 			}
 
 			if constexpr (HasPostEndMethod<T>::value)
 			{
-				static_cast<T*>(&thing)->PostEnd();
+				static_cast<T*>(thing)->PostEnd();
 			}
 
-			RemoveBehaviourFromList(m_start_functions, &thing);
-			RemoveBehaviourFromList(m_update_functions, &thing);
-			RemoveBehaviourFromList(m_gui_functions, &thing);
+			RemoveBehaviourFromList(m_start_functions, thing);
+			RemoveBehaviourFromList(m_update_functions, thing);
+			RemoveBehaviourFromList(m_gui_functions, thing);
 		}
 
 	private:

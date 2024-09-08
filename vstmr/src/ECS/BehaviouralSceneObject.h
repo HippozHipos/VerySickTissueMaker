@@ -20,16 +20,15 @@ namespace vstmr {
     template<typename Derived>
     class BehaviouralSceneObject : public SceneObject
     {
-    public:
-        virtual ~BehaviouralSceneObject()
-        {
-            BehaviourManagerStore::GetBehaviourManager().RemoveBehaviour<BehaviouralSceneObject, Derived>(*this);
-        }
-
-    public:
+    public:     
         BehaviouralSceneObject()
         {
-            BehaviourManagerStore::GetBehaviourManager().AddBehaviour<BehaviouralSceneObject, Derived>(*this);
+            BehaviourManagerStore::GetBehaviourManager().AddBehaviour<BehaviouralSceneObject, Derived>(this);
         } 
+
+        virtual ~BehaviouralSceneObject()
+        {
+            BehaviourManagerStore::GetBehaviourManager().RemoveBehaviour<BehaviouralSceneObject, Derived>(this);
+        }
     };
 }

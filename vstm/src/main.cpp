@@ -11,11 +11,6 @@ namespace vstm {
             VSTM_CD_LOGINFO("Pre start from ThingInSceneWithBehaviour");
         }
 
-        void Start()
-        {
-            VSTM_CD_LOGINFO("Start from ThingInSceneWithBehaviour");
-        }
-
         void End()
         {
             VSTM_CD_LOGINFO("End from ThingInSceneWithBehaviour");
@@ -25,14 +20,7 @@ namespace vstm {
         {
             VSTM_CD_LOGINFO("PostEnd from ThingInSceneWithBehaviour");
         }
-
-        void UI()
-        {
-            ImGui::Begin("Color window");
-            ImGui::ColorPicker3("Pick", color);
-            ImGui::End();
-        }
-        float color[3] = { 0.0f, 0.0f, 0.0f };
+        
     };
 
     class AnotherThingInSceneWithBehaviour : public vstmr::BehaviouralSceneObject<AnotherThingInSceneWithBehaviour>
@@ -57,6 +45,15 @@ namespace vstm {
         {
             VSTM_CD_LOGINFO("PostEnd from AnotherThingInSceneWithBehaviour");
         }
+
+        void UI()
+        {
+            ImGui::Begin("Color window");
+            ImGui::ColorPicker3("Pick", color);
+            ImGui::End();
+        }
+
+        float color[3] = { 0.0f, 0.0f, 0.0f };
     };
 
     class Application : public vstmr::Application
