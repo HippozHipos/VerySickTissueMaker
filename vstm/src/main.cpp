@@ -6,9 +6,9 @@ namespace vstm {
     class ThingInSceneWithBehaviour : public vstmr::BehaviouralSceneObject<ThingInSceneWithBehaviour>
     {
     public:
-        void Start()
+        void PreStart()
         {
-            VSTM_CD_LOGINFO("ThingInSceneWithBehaviour was created before AnotherThingInSceneWithBehaviour");
+            VSTM_CD_LOGINFO("ThingInSceneWithBehaviour was created after AnotherThingInSceneWithBehaviour");
         }
 
         void UI()
@@ -20,10 +20,10 @@ namespace vstm {
         float color[3] = { 0.0f, 0.0f, 0.0f };
     };
 
-    class AnotherThingInSceneWithBehaviour : public vstmr::BehaviouralSceneObject<AnotherThingInSceneWithBehaviour >
+    class AnotherThingInSceneWithBehaviour : public vstmr::BehaviouralSceneObject<AnotherThingInSceneWithBehaviour>
     {
     public:
-        void Start()
+        void PreStart()
         {
             VSTM_CD_LOGINFO("Hello from AnotherThingInSceneWithBehaviour");
         }
@@ -37,8 +37,10 @@ namespace vstm {
     class Application : public vstmr::Application
     {
     public:
-        
-        ThingInSceneWithBehaviour thing{};
+        Application()
+        {
+            ThingInSceneWithBehaviour thing{};
+        }
         AnotherThingInSceneWithBehaviour anotherthing{};
     };
 

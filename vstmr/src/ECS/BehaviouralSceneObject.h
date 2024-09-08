@@ -7,7 +7,7 @@ namespace vstmr {
 
     //This is so we can share same instance of BehaviourManager 
     //across all the instances of BehaviouralSceneObject<T>
-    //REMINDER: Needs to be moved later but it can chill here for now
+    //REMINDER: Needs to be moved somewhere else
     struct BehaviourManagerStore
     {   
         static BehaviourManager& GetBehaviourManager()
@@ -21,7 +21,11 @@ namespace vstmr {
     class BehaviouralSceneObject : public SceneObject
     {
     public:
-        virtual ~BehaviouralSceneObject() = default;
+        virtual ~BehaviouralSceneObject()
+        {
+            BehaviourManagerStore::GetBehaviourManager().RemoveBehaviour<BehaviouralSceneObject, Derived>(*this);
+        }
+
     public:
         BehaviouralSceneObject()
         {

@@ -57,7 +57,6 @@ namespace vstmr {
 			ErrorHandler::Handle();
 			HandleErrorActions();
 		}
-		BehaviourManagerStore::GetBehaviourManager().CallAllEndFunctions();
 	}
 
 	void Application::ImGuiSetup()

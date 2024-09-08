@@ -15,6 +15,8 @@ namespace vstmr {
 
 	//defaults
 	template <class T, class = void>
+	struct HasPreStartMethod : std::false_type {};
+	template <class T, class = void>
 	struct HasStartMethod : std::false_type {};
 	template <class T, class = void>
 	struct HasUpdateMethod : std::false_type {};
@@ -22,8 +24,13 @@ namespace vstmr {
 	struct HasUIMethod : std::false_type {};
 	template <class T, class = void>
 	struct HasEndMethod : std::false_type {};
+	template <class T, class = void>
+	struct HasPostEndMethod : std::false_type {};
+
 
 	//has methods
+	template <class T>
+	struct HasPreStartMethod<T, std::void_t<decltype(std::declval<T>().PreStart())>> : std::true_type {};
 	template <class T>
 	struct HasStartMethod<T, std::void_t<decltype(std::declval<T>().Start())>> : std::true_type {};
 	template <class T>
@@ -32,6 +39,8 @@ namespace vstmr {
 	struct HasUIMethod<T, std::void_t<decltype(std::declval<T>().UI())>> : std::true_type {};
 	template <class T>
 	struct HasEndMethod<T, std::void_t<decltype(std::declval<T>().End())>> : std::true_type {};
+	template <class T>
+	struct HasPostEndMethod<T, std::void_t<decltype(std::declval<T>().PostEnd())>> : std::true_type {};
 
 	class BehaviourManager
 	{
@@ -42,21 +51,22 @@ namespace vstmr {
 		template<template<class> class BehaviouralSceneObject, class T>
 		void AddBehaviour(BehaviouralSceneObject<T>& thing)
 		{
+			//call prestart
+			if constexpr (HasPreStartMethod<T>::value)
+			{
+				static_cast<T*>(&thing)->PreStart();
+			}
 			if constexpr (HasStartMethod<T>::value)
 			{
-				m_start_functions.push_back([&thing] { static_cast<T*>(&thing)->Start(); });
+				m_start_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(&thing)->Start(); }));
 			}
 			if constexpr (HasUpdateMethod<T>::value)
 			{
-				m_update_functions.push_back([&thing] { static_cast<T*>(&thing)->Update(); });
+				m_update_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(&thing)->Update(); }));
 			}
 			if constexpr (HasUIMethod<T>::value)
 			{
-				m_gui_functions.push_back([&thing] { static_cast<T*>(&thing)->UI(); });
-			}
-			if constexpr (HasEndMethod<T>::value)
-			{
-				m_end_functions.push_back([&thing] { static_cast<T*>(&thing)->End(); });
+				m_gui_functions.push_back(std::pair<void*, std::function<void()>>(&thing, [&thing] { static_cast<T*>(&thing)->UI(); }));
 			}
 		}
 
@@ -65,11 +75,42 @@ namespace vstmr {
 		void CallAllUIFunctions() const;
 		void CallAllEndFunctions() const;
 
+		template<template<class> class BehaviouralSceneObject, class T>
+		void RemoveBehaviour(BehaviouralSceneObject<T>& thing)
+		{
+			if constexpr (HasEndMethod<T>::value)
+			{
+				static_cast<T*>(&thing)->End();
+			}
+
+			if constexpr (HasPostEndMethod<T>::value)
+			{
+				static_cast<T*>(&thing)->PostEnd();
+			}
+
+			RemoveBehaviourFromList(m_start_functions, &thing);
+			RemoveBehaviourFromList(m_update_functions, &thing);
+			RemoveBehaviourFromList(m_gui_functions, &thing);
+		}
+
 	private:
-		std::vector<std::function<void()>> m_start_functions;
-		std::vector<std::function<void()>> m_update_functions;
-		std::vector<std::function<void()>> m_gui_functions;
-		std::vector<std::function<void()>> m_end_functions;
+		template<class T>
+		void RemoveBehaviourFromList(std::list<std::pair<void*, std::function<void()>>>& list, T* thing)
+		{
+			for (auto it = list.begin(); it != list.end(); it++)
+			{
+				if (static_cast<T*>(it->first) == thing)
+				{
+					it = list.erase(it);
+					return;
+				}
+			}
+		}
+
+	private:
+		std::list<std::pair<void*, std::function<void()>>> m_start_functions;
+		std::list<std::pair<void*, std::function<void()>>> m_update_functions;
+		std::list<std::pair<void*, std::function<void()>>> m_gui_functions;
 	};
 
 }

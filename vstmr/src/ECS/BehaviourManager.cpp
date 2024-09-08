@@ -4,33 +4,25 @@ namespace vstmr {
 
     void BehaviourManager::CallAllStartFunctions() const
     {
-        for (auto& function : m_start_functions)
+        for (auto& pair : m_start_functions)
         {
-            function();
+            pair.second();
         }
     }
 
     void BehaviourManager::CallAllUpdateFunctions() const
     {
-        for (auto& function : m_update_functions)
+        for (auto& pair : m_update_functions)
         {
-            function();
+            pair.second();
         }
     }
 
     void BehaviourManager::CallAllUIFunctions() const
     {
-        for (auto& function : m_gui_functions)
+        for (auto& pair : m_gui_functions)
         {
-            function();
-        }
-    }
-
-    void BehaviourManager::CallAllEndFunctions() const
-    {
-        for (auto& function : m_end_functions)
-        {
-            function();
+            pair.second();
         }
     }
 }
