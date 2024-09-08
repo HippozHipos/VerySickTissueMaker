@@ -8,7 +8,22 @@ namespace vstm {
     public:
         void PreStart()
         {
-            VSTM_CD_LOGINFO("ThingInSceneWithBehaviour was created after AnotherThingInSceneWithBehaviour");
+            VSTM_CD_LOGINFO("Pre start from ThingInSceneWithBehaviour");
+        }
+
+        void Start()
+        {
+            VSTM_CD_LOGINFO("Start from ThingInSceneWithBehaviour");
+        }
+
+        void End()
+        {
+            VSTM_CD_LOGINFO("End from ThingInSceneWithBehaviour");
+        }
+
+        void PostEnd()
+        {
+            VSTM_CD_LOGINFO("PostEnd from ThingInSceneWithBehaviour");
         }
 
         void UI()
@@ -23,14 +38,24 @@ namespace vstm {
     class AnotherThingInSceneWithBehaviour : public vstmr::BehaviouralSceneObject<AnotherThingInSceneWithBehaviour>
     {
     public:
+        void Start()
+        {
+            VSTM_CD_LOGINFO("Start from AnotherThingInSceneWithBehaviour");
+        }
+
         void PreStart()
         {
-            VSTM_CD_LOGINFO("Hello from AnotherThingInSceneWithBehaviour");
+            VSTM_CD_LOGINFO("PreStart from AnotherThingInSceneWithBehaviour");
         }
 
         void End()
         {
-            VSTM_CD_LOGINFO("Bye from AnotherThingInSceneWithBehaviour");
+            VSTM_CD_LOGINFO("End from AnotherThingInSceneWithBehaviour");
+        }
+
+        void PostEnd()
+        {
+            VSTM_CD_LOGINFO("PostEnd from AnotherThingInSceneWithBehaviour");
         }
     };
 
