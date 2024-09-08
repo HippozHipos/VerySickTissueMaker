@@ -4,15 +4,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <functional>
 
+#include "ECS/SceneObject.h"
+
 namespace vstmr {
 
-	class Camera {};
-
-	class PerspectiveCamera : public Camera
+	class Camera : public SceneObject
 	{
 	public:
-		PerspectiveCamera() = default;
-		PerspectiveCamera(float fovy, float aspect, float near, float far);
+		Camera(float fovy, float aspect, float near, float far);
 
 	public:
 		const glm::mat4& GetProjectionMatrix();
@@ -30,6 +29,8 @@ namespace vstmr {
 		void ProcessMouseMovement(float xoffset, float yoffset, bool constrain_pitch = true);
 
 		void ProcessMouseScroll(float yoffset);
+
+		void RecalculateProjectionMatrix(float fovy, float aspect, float near, float far);
 
 		glm::vec3 Right();
 

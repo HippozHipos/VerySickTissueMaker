@@ -39,6 +39,9 @@ namespace vstmr {
 
 		GLFWwindow* GetGLFWWindow();
 
+		//REMINDER: temporary solution
+		void RecalculateCameraProjection();
+
 	private:
 		void InitOpengl(int width, int height);
 

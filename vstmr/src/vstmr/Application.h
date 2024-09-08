@@ -21,6 +21,9 @@ namespace vstmr {
 		Mouse& mouse;
 		Window& window;
 		Renderer& renderer;
+
+		//just here for now since camera systme isnt implemented
+		vstmr::Camera& camera;
 	};
 
 	class Application

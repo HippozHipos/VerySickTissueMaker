@@ -5,6 +5,9 @@
 #include "diagnostics/Openglerror.h"
 #include "diagnostics/Logger.h"
 
+//REMINDER: TEMPORARY SOLUTION, NEED TO CHANGE
+#include "renderer/camera/Camera.h"
+
 // Callbacks
 namespace vstmr {
 
@@ -60,6 +63,7 @@ namespace vstmr {
 		glViewport(0,0, width, height);
 		window->m_width = width;
 		window->m_height = height;
+		window->RecalculateCameraProjection();
 	}
 }
 
@@ -165,5 +169,12 @@ namespace vstmr {
 	GLFWwindow* Window::GetGLFWWindow() 
 	{ 
 		return m_pwindow; 
+	}
+
+	//REMINDER: TEMPORARY SOLUTION
+	void Window::RecalculateCameraProjection()
+	{
+		ECS::registry.view<Camera>().get<Camera>((entt::entity)0).
+			RecalculateProjectionMatrix(glm::radians(90.0f), (float)m_width / m_height, 0.001, 1000);
 	}
 }

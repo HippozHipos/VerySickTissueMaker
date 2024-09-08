@@ -18,6 +18,8 @@ namespace vstmr {
 	public:
 		MeshRenderer();
 
+	public:
+		bool wireframe_mode = false;
 	};
 
 }

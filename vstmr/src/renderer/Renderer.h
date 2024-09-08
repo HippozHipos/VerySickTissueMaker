@@ -22,10 +22,6 @@ namespace vstmr {
 		void Init();
 		void Render();
 
-	public:
-		//Camera can chill here for now
-		vstmr::PerspectiveCamera camera{ glm::radians(90.0f), 1, 0.001, 1000 };
-
 	private:
 		MeshRendererProcessor m_mesh_renderer;
 		

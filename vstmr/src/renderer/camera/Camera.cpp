@@ -2,37 +2,42 @@
 
 namespace vstmr {
 
-	PerspectiveCamera::PerspectiveCamera(float fovy, float aspect, float near, float far)
+	Camera::Camera(float fovy, float aspect, float near, float far)
+	{
+		RecalculateProjectionMatrix(fovy, aspect, near, far);
+	}
+
+	void Camera::RecalculateProjectionMatrix(float fovy, float aspect, float near, float far)
 	{
 		m_projection = glm::perspective(fovy, aspect, near, far);
 	}
 
-	const glm::mat4& PerspectiveCamera::GetProjectionMatrix()
+	const glm::mat4& Camera::GetProjectionMatrix()
 	{
 		return m_projection;
 	}
 
-	glm::mat4 PerspectiveCamera::GetViewMatrix()
+	glm::mat4 Camera::GetViewMatrix()
 	{
 		return glm::lookAt(Position, Position + m_forward, m_up);
 	}
 
-	void PerspectiveCamera::SetWorldUp(const glm::vec3& up)
+	void Camera::SetWorldUp(const glm::vec3& up)
 	{
 		m_world_up = up;
 	}
 
-	glm::vec3 PerspectiveCamera::Up()
+	glm::vec3 Camera::Up()
 	{
 		return m_up;
 	}
 
-	glm::vec3 PerspectiveCamera::Right()
+	glm::vec3 Camera::Right()
 	{
 		return m_right;
 	}
 
-	void PerspectiveCamera::UpdateVectors()
+	void Camera::UpdateVectors()
 	{
 		m_forward.x = cos(glm::radians(Rotation.z)) * cos(glm::radians(Rotation.y));
 		m_forward.y = sin(glm::radians(Rotation.y));
@@ -43,12 +48,12 @@ namespace vstmr {
 		m_up = glm::normalize(glm::cross(m_right, m_forward));
 	}
 
-	const glm::vec3& PerspectiveCamera::GetForwardVector()
+	const glm::vec3& Camera::GetForwardVector()
 	{
 		return m_forward;
 	}
 
-	void PerspectiveCamera::ProcessKeyboardMovement(float deltaTime, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey)
+	void Camera::ProcessKeyboardMovement(float deltaTime, int forwardKey, int backKey, int leftKey, int rightKey, int upKey, int downKey)
 	{
 		float velocity = m_movement_speed * deltaTime;
 		if (forwardKey)
@@ -65,7 +70,7 @@ namespace vstmr {
 			Position += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
 	}
 
-	void PerspectiveCamera::ProcessMouseMovement(float xoffset, float yoffset, bool constrain_pitch)
+	void Camera::ProcessMouseMovement(float xoffset, float yoffset, bool constrain_pitch)
 	{
 		xoffset *= m_mouse_sensitivity;
 		yoffset *= m_mouse_sensitivity;
@@ -84,7 +89,7 @@ namespace vstmr {
 		UpdateVectors();
 	}
 
-	void PerspectiveCamera::ProcessMouseScroll(float yoffset)
+	void Camera::ProcessMouseScroll(float yoffset)
 	{
 		m_zoom -= (float)yoffset;
 		if (m_zoom < 1.0f)

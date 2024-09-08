@@ -5,6 +5,7 @@
 
 #include "input/Keyboard.h"
 #include "input/Mouse.h"
+#include "window/Window.h"
 
 namespace vstmr {
 
@@ -27,6 +28,12 @@ namespace vstmr {
 		{
 			auto view = ECS::registry.view<Mouse>();
 			return view.get<Mouse>(entt::entity(0));
+		}
+
+		Window& GetWindow()
+		{
+			auto view = ECS::registry.view<Window>();
+			return view.get<Window>(entt::entity(0));
 		}
 	};
 

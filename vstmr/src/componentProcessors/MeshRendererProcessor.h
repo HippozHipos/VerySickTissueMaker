@@ -6,7 +6,7 @@
 
 namespace vstmr {
 
-	struct PerspectiveCamera;
+	struct Camera;
 	struct Transform;
 	struct Material;
 
@@ -15,7 +15,7 @@ namespace vstmr {
 		void Render();
 	private:
 		void ProcessLighting(MeshRenderer& renderer, Material& material);
-		void RenderMesh(PerspectiveCamera& camera, MeshRenderer& renderer, Transform& transform, VectorComponent<MeshComponent>& meshes, Material& material);
+		void RenderMesh(Camera& camera, MeshRenderer& renderer, Transform& transform, VectorComponent<MeshComponent>& meshes, Material& material);
 	};
 
 }

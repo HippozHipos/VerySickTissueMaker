@@ -16,13 +16,8 @@ namespace vstmr {
 
 	void MeshRendererProcessor::Render()
 	{
-		//REMINDER: FIXME; quick dirty hack for now since i have put camera in renderer
-		auto rendererView = ECS::registry.view<Renderer>();
-		PerspectiveCamera camera;
-		for (auto entity : rendererView)
-		{
-			camera = rendererView.get<Renderer>(entity).camera;
-		}
+		//REMINDER: FIXME; quick dirty hack for now since i have put camera in application container
+		Camera& camera = ECS::registry.view<Camera>().get<Camera>((entt::entity)0);	
 
 		auto view = ECS::registry.view<MeshRenderer>();
 		for (auto entity : view)
@@ -53,7 +48,7 @@ namespace vstmr {
 	}
 
 	void MeshRendererProcessor::RenderMesh(
-		PerspectiveCamera& camera, MeshRenderer& renderer, 
+		Camera& camera, MeshRenderer& renderer, 
 		Transform& transform, VectorComponent<MeshComponent>& meshes, 
 		Material& material)
 	{
@@ -69,6 +64,11 @@ namespace vstmr {
 
 		material.shaders.SetMat4f("model", model);
 
+		if (renderer.wireframe_mode)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 		for (MeshComponent& mesh : meshes.vector)
 		{
 			mesh.vertex_array.Bind();
@@ -81,6 +81,8 @@ namespace vstmr {
 			material.shaders.SetMat4f("projection", camera.GetProjectionMatrix());
 			material.shaders.SetMat4f("view", camera.GetViewMatrix());
 			material.shaders.SetVec3f("materialColor", material.color);
+
+			
 
 			glDrawElements(GL_TRIANGLES, mesh.index_data.size(), GL_UNSIGNED_INT, nullptr);
 		}

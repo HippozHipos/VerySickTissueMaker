@@ -2,32 +2,32 @@
 
 namespace vstmr {
 
-	bool Mouse::MouseButtonPressed(int button)
+	bool Mouse::ButtonPressed(int button)
 	{
 		return m_mouse_pressed[button];
 	}
 
-	bool Mouse::MouseButtonHeld(int button)
+	bool Mouse::ButtonHeld(int button)
 	{
 		return m_mouse_held[button];
 	}
 
-	float Mouse::GetMouseX() const
+	float Mouse::GetX() const
 	{
 		return m_mousex;
 	}
 
-	float Mouse::GetMouseY() const
+	float Mouse::GetY() const
 	{
 		return m_mousey;
 	}
 
-	float Mouse::GetMouseChangeX() const
+	float Mouse::GetChangeX() const
 	{
 		return m_mouse_changex;
 	}
 
-	float Mouse::GetMouseChangeY() const
+	float Mouse::GetChangeY() const
 	{
 		return m_mouse_changey;
 	}
