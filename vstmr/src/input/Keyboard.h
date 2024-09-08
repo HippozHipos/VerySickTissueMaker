@@ -2,12 +2,12 @@
 
 #include <bitset>
 
+#include "ECS/SceneContainer.h"
+
+class GLFWwindow;
 namespace vstmr {
 
-	//forward declare for callback
-	class GLFWwindow;
-
-	class Keyboard
+	class Keyboard : public SceneContainer
 	{
 		friend class Window;
 		friend void keyCallback(GLFWwindow*, int, int, int, int);
@@ -16,8 +16,9 @@ namespace vstmr {
 		~Keyboard() = default;
 
 	public:
-		bool KeyPressed(int key) const;
-		bool KeyHeld(int key) const;
+		bool Pressed(int key) const;
+		bool Held(int key) const;
+		void ResetKeysPressed();
 
 	private:
 		void OnKeyPress(int key);

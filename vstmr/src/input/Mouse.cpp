@@ -46,6 +46,27 @@ namespace vstmr {
 		return scrollx;
 	}
 
+	void Mouse::Update()
+	{
+		m_mouse_pressed.reset();
+		m_mouse_changex = m_mousex - m_last_mousex;
+		m_mouse_changey = m_last_mousey - m_mousey;
+		m_last_mousex = m_mousex;
+		m_last_mousey = m_mousey;
+	}
+
+	void Mouse::OnMouseMove(int x, int y)
+	{
+		m_mousex = static_cast<float>(x);
+		m_mousey = static_cast<float>(y);
+	}
+
+	void Mouse::OnMouseScroll(int x, int y)
+	{
+		m_scrollx = static_cast<float>(x);
+		m_scrolly = static_cast<float>(y);
+	}
+
 	void Mouse::OnMousePress(int button)
 	{
 		m_mouse_pressed[button] = true;

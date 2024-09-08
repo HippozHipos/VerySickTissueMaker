@@ -19,11 +19,17 @@
 
 namespace vstmr {
 
-	Application::Application() :
-		m_window{ Add<Window>(600, 600, "Very sick tissue maker") },
-		m_renderer{ Add<Renderer>() }
+	ApplicationContainer::ApplicationContainer() :
+		keyboard{ Add<Keyboard>() },
+		mouse{ Add<Mouse>() },
+		window{ Add<Window>(600, 600, "Very sick tissue maker", keyboard, mouse) },
+		renderer{ Add<Renderer>() }
 	{
-		m_renderer.Init();
+	}
+
+	Application::Application() 
+	{
+		m_container.renderer.Init();
 	}
 
 	Application::~Application()
@@ -43,16 +49,16 @@ namespace vstmr {
 
 		BehaviourManagerStore::GetBehaviourManager().CallAllStartFunctions();
 
-		while (!m_window.IsClosed())// && m_running)
+		while (!m_container.window.IsClosed())// && m_running)
 		{
 			float deltaTime = m_timer.getDeltaTime();
 
 			BehaviourManagerStore::GetBehaviourManager().CallAllUpdateFunctions();
 
-			m_renderer.Render();
+			m_container.renderer.Render();
 			ImGuiDraw();
 
-			m_window.Update();
+			m_container.window.Update();
 			glfwPollEvents();
 			ErrorHandler::Handle();
 			HandleErrorActions();
@@ -82,7 +88,7 @@ namespace vstmr {
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
-		ImGui_ImplGlfw_InitForOpenGL(m_window.GetGLFWWindow(), true);
+		ImGui_ImplGlfw_InitForOpenGL(m_container.window.GetGLFWWindow(), true);
 
 		const char* glsl_version = "#version 130";
 		ImGui_ImplOpenGL3_Init(glsl_version);
@@ -104,7 +110,7 @@ namespace vstmr {
 		{
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(m_window.GetGLFWWindow());
+			glfwMakeContextCurrent(m_container.window.GetGLFWWindow());
 		}
 	}
 

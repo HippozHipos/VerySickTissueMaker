@@ -13,12 +13,12 @@ namespace vstmr {
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window && action == GLFW_PRESS)
 		{
-			window->OnKeyPress(key);
-			window->OnKeyHeld(key);
+			window->m_keyboard.OnKeyPress(key);
+			window->m_keyboard.OnKeyHeld(key);
 		}
 		else if (window && action == GLFW_RELEASE)
 		{
-			window->OnKeyRelease(key);
+			window->m_keyboard.OnKeyRelease(key);
 		}
 	}
 
@@ -27,12 +27,12 @@ namespace vstmr {
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window && action == GLFW_PRESS)
 		{
-			window->OnMousePress(button);
-			window->OnMouseHeld(button);
+			window->m_mouse.OnMousePress(button);
+			window->m_mouse.OnMouseHeld(button);
 		}
 		else if (window && action == GLFW_RELEASE)
 		{
-			window->OnMouseRelease(button);
+			window->m_mouse.OnMouseRelease(button);
 		}
 	}
 
@@ -41,8 +41,7 @@ namespace vstmr {
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window)
 		{
-			window->m_mousex = static_cast<float>(xpos);
-			window->m_mousey = static_cast<float>(ypos);
+			window->m_mouse.OnMouseMove(xpos, ypos);
 		}
 	}
 
@@ -51,8 +50,7 @@ namespace vstmr {
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window)
 		{
-			window->m_scrollx = static_cast<float>(xoffset);
-			window->m_scrolly = static_cast<float>(yoffset);
+			window->m_mouse.OnMouseScroll(xoffset, yoffset);
 		}
 	}
 
@@ -68,8 +66,9 @@ namespace vstmr {
 // Actual Window functions
 namespace vstmr {
 
-	Window::Window(int width, int height, const char* title,
+	Window::Window(int width, int height, const char* title, Keyboard& keyboard, Mouse& mouse,
 		GLFWmonitor* monitor, GLFWwindow* share) :
+		m_keyboard{ keyboard }, m_mouse{ mouse },
 		m_width{ width }, m_height{ height }
 	{
 		VSTM_TRACE_LOGINFO("Window constructed");
@@ -106,12 +105,8 @@ namespace vstmr {
 
 	void Window::Update()
 	{
-		m_keys_pressed.reset();
-		m_mouse_pressed.reset();
-		m_mouse_changex = m_mousex - m_last_mousex;
-		m_mouse_changey = m_last_mousey - m_mousey;
-		m_last_mousex = m_mousex;
-		m_last_mousey = m_mousey;
+		m_keyboard.ResetKeysPressed();
+		m_mouse.Update();
 		glfwSwapBuffers(m_pwindow);
 	}
 
@@ -123,50 +118,6 @@ namespace vstmr {
 	bool Window::IsClosed()
 	{
 		return glfwWindowShouldClose(m_pwindow);
-	}
-
-	bool Window::KeyPressed(int key)
-	{
-		return m_keys_pressed[key];
-	}
-
-	bool Window::KeyHeld(int key)
-	{
-		return m_keys_held[key];
-	}
-
-	float Window::GetMouseX()
-	{
-		return m_mousex;
-	}
-
-	float Window::GetMouseY()
-	{
-		return m_mousey;
-	}
-
-	float Window::GetMouseChangeX()
-	{
-		return m_mouse_changex;
-	}
-
-	float Window::GetMouseChangeY()
-	{
-		return m_mouse_changey;
-	}
-
-	float Window::GetScrollX()
-	{
-		double scrollx = m_scrollx;
-		m_scrolly = 0.0;
-		return scrollx;
-	}
-
-	float Window::GetScrollY()
-	{
-		double scrollx = m_scrolly;
-		m_scrolly = 0.0;
-		return scrollx;
 	}
 
 	float Window::GetWidth()
@@ -184,16 +135,6 @@ namespace vstmr {
 		glfwSetCursorPos(m_pwindow, static_cast<double>(x), static_cast<double>(y));
 	}
 
-	bool Window::MouseButtonPressed(int button)
-	{
-		return m_mouse_pressed[button];
-	}
-
-	bool Window::MouseButtonHeld(int button)
-	{
-		return m_mouse_held[button];
-	}
-
 	void Window::DisableCursor()
 	{
 		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -207,36 +148,6 @@ namespace vstmr {
 	void Window::ClearColor(float r, float g, float b, float a)
 	{
 		glClearColor(r, g, b, a);
-	}
-
-	void Window::OnKeyPress(int key)
-	{
-		m_keys_pressed[key] = true;
-	}
-
-	void Window::OnKeyHeld(int key)
-	{
-		m_keys_held[key] = true;
-	}
-
-	void Window::OnKeyRelease(int key)
-	{
-		m_keys_held[key] = false;
-	}
-
-	void Window::OnMousePress(int button)
-	{
-		m_mouse_pressed[button] = true;
-	}
-
-	void Window::OnMouseHeld(int button)
-	{
-		m_mouse_held[button] = true;
-	}
-
-	void Window::OnMouseRelease(int button)
-	{
-		m_mouse_held[button] = false;
 	}
 
 	void Window::InitOpengl(int width, int height)

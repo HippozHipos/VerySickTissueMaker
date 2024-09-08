@@ -2,9 +2,12 @@
 
 #include <bitset>
 
+#include "ECS/SceneContainer.h"
+
+class GLFWwindow;
 namespace vstmr {
 
-	class Mouse
+	class Mouse : public SceneContainer
 	{
 		friend class Window;
 		friend void mouseButtonCallback(GLFWwindow*, int, int, int);
@@ -26,7 +29,11 @@ namespace vstmr {
 		float GetScrollX();
 		float GetScrollY();
 
+		void Update();
+
 	private:
+		void OnMouseMove(int x, int y);
+		void OnMouseScroll(int x, int y);
 		void OnMousePress(int button);
 		void OnMouseHeld(int button);
 		void OnMouseRelease(int button);

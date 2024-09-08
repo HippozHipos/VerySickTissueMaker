@@ -2,12 +2,12 @@
 
 namespace vstmr {
 
-	bool Keyboard::KeyPressed(int key) const
+	bool Keyboard::Pressed(int key) const
 	{
 		return m_keys_pressed[key];
 	}
 
-	bool Keyboard::KeyHeld(int key) const
+	bool Keyboard::Held(int key) const
 	{
 		return m_keys_held[key];
 	}
@@ -25,6 +25,11 @@ namespace vstmr {
 	void Keyboard::OnKeyRelease(int key)
 	{
 		m_keys_held[key] = false;
+	}
+
+	void Keyboard::ResetKeysPressed()
+	{
+		m_keys_pressed.reset();
 	}
 
 }

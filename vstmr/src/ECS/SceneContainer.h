@@ -42,7 +42,7 @@ namespace vstmr {
 			return view.get<std::decay_t<T>>(m_parent);
 		}
 
-	private:
+	public:
 		entt::entity m_entity;
 		entt::entity m_parent;
 		std::vector<entt::entity> m_children;

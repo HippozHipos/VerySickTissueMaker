@@ -5,11 +5,25 @@
 #include "renderer/Texture.h"
 #include "timer/Timer.h"
 
+#include "input/Keyboard.h"
+#include "input/Mouse.h"
+
 struct ImGuiIO;
 
 namespace vstmr {
 
-	class Application : public SceneContainer
+	//This just makes everything super convenient since it makes these things 
+	//readily available within any scene object
+	struct ApplicationContainer : public SceneContainer
+	{
+		ApplicationContainer();
+		Keyboard& keyboard;
+		Mouse& mouse;
+		Window& window;
+		Renderer& renderer;
+	};
+
+	class Application
 	{
 	public:
 		Application();
@@ -23,9 +37,8 @@ namespace vstmr {
 		void ImGuiSetup();
 		void ImGuiDraw();
 
-	protected:
-		Window& m_window;
-		Renderer& m_renderer;
+	private:
+		ApplicationContainer m_container;
 
 		//probably should add some of the bellow as components as needed
 		bool m_running = true;

@@ -16,6 +16,8 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 			src/ECS/*.cpp
 			src/diagnostics/*.h
 			src/diagnostics/*.cpp
+			src/input/*.h
+			src/input/*.cpp
 			src/window/*.h
 			src/window/*.cpp
 			src/renderer/*.h

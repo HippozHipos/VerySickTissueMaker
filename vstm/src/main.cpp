@@ -20,30 +20,25 @@ namespace vstm {
         {
             VSTM_CD_LOGINFO("PostEnd from ThingInSceneWithBehaviour");
         }
-        
+       
     };
 
     class AnotherThingInSceneWithBehaviour : public vstmr::BehaviouralSceneObject<AnotherThingInSceneWithBehaviour>
     {
     public:
-        void Start()
+        void Update()
         {
-            VSTM_CD_LOGINFO("Start from AnotherThingInSceneWithBehaviour");
-        }
+            vstmr::Keyboard& keyboard = GetKeyboard();
+            if (keyboard.Held(GLFW_KEY_W))
+            {
+                std::cout << "Ws in the chat\n";
+            }
 
-        void PreStart()
-        {
-            VSTM_CD_LOGINFO("PreStart from AnotherThingInSceneWithBehaviour");
-        }
-
-        void End()
-        {
-            VSTM_CD_LOGINFO("End from AnotherThingInSceneWithBehaviour");
-        }
-
-        void PostEnd()
-        {
-            VSTM_CD_LOGINFO("PostEnd from AnotherThingInSceneWithBehaviour");
+            vstmr::Mouse& mouse = GetMouse();
+            if (mouse.MouseButtonPressed(GLFW_MOUSE_BUTTON_LEFT))
+            {
+                std::cout << "Left clicks in the chat\n";
+            }
         }
 
         void UI()
