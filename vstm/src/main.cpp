@@ -89,7 +89,7 @@ namespace vstm {
             MeshRenderer& meshRenderer = Add<vstmr::MeshRenderer>();
             meshRenderer.Get<Material>().color = { 1.0f, 1.0f, 0.0f };
             VectorComponent<MeshComponent>& meshes = meshRenderer.Get<VectorComponent<MeshComponent>>();
-            MeshLoader::Load("../../../../vstmr/assets/models/ukulele.obj", meshes.vector);
+            MeshLoader::Load("../../../../vstmr/assets/models/chopper.obj", meshes.vector);
             for (vstmr::MeshComponent& mesh : meshes.vector)
             {
                 mesh.SetupMesh();

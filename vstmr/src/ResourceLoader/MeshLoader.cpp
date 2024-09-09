@@ -18,51 +18,55 @@ namespace vstmr {
 		ProcessNode(scene->mRootNode, scene, meshes);
 	}
 
-	void MeshLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<MeshComponent>& meshes)
-	{
-		MeshComponent mesh;
-		for (int i = 0; i < node->mNumMeshes; i++)
-		{
-			aiMesh* assMesh = scene->mMeshes[node->mMeshes[i]];
-			for (int j = 0; j < assMesh->mNumVertices; j++)
-			{
-				MeshComponent::VertexData vd;
+    void MeshLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<MeshComponent>& meshes)
+    {
+        for (unsigned int i = 0; i < node->mNumMeshes; i++)
+        {
+            MeshComponent mesh;
+            aiMesh* assMesh = scene->mMeshes[node->mMeshes[i]];
 
-				vd.vertices.x = assMesh->mVertices[j].x;
-				vd.vertices.y = assMesh->mVertices[j].y;
-				vd.vertices.z = assMesh->mVertices[j].z;
+            mesh.vertex_data.reserve(assMesh->mNumVertices);
+            for (unsigned int j = 0; j < assMesh->mNumVertices; j++)
+            {
+                MeshComponent::VertexData vd;
+                vd.vertices = glm::vec3(assMesh->mVertices[j].x, assMesh->mVertices[j].y, assMesh->mVertices[j].z);
 
-				if (assMesh->mNormals)
-				{
-					vd.normals.x = assMesh->mNormals[j].x;
-					vd.normals.y = assMesh->mNormals[j].y;
-					vd.normals.z = assMesh->mNormals[j].z;
-				}
+                if (assMesh->mNormals)
+                {
+                    vd.normals = glm::vec3(assMesh->mNormals[j].x, assMesh->mNormals[j].y, assMesh->mNormals[j].z);
+                }
 
-				if (assMesh->mTextureCoords[0])
-				{
-					vd.texture.x = assMesh->mTextureCoords[0][j].x;
-					vd.texture.y = assMesh->mTextureCoords[0][j].y;
-				}
-				else
-				{
-					vd.texture = glm::vec2(0.0f, 0.0f);
-				}
-				mesh.vertex_data.push_back(vd);
-			}
-			for (int j = 0; j < assMesh->mNumFaces; j++)
-			{
-				aiFace face = assMesh->mFaces[j];
-				for (int k = 0; k < face.mNumIndices; k++)
-				{
-					mesh.index_data.push_back(face.mIndices[k]);
-				}
-			}
-		}
-		meshes.push_back(mesh);
-		for (unsigned int i = 0; i < node->mNumChildren; i++)
-		{
-			ProcessNode(node->mChildren[i], scene, meshes);
-		}
-	}
+                if (assMesh->mTextureCoords[0])
+                {
+                    vd.texture = glm::vec2(assMesh->mTextureCoords[0][j].x, assMesh->mTextureCoords[0][j].y);
+                }
+                else
+                {
+                    vd.texture = glm::vec2(0.0f, 0.0f);
+                }
+
+                mesh.vertex_data.push_back(vd);
+            }
+
+            mesh.index_data.reserve(assMesh->mNumFaces * 3);
+            for (unsigned int j = 0; j < assMesh->mNumFaces; j++)
+            {
+                aiFace face = assMesh->mFaces[j];
+                for (unsigned int k = 0; k < face.mNumIndices; k++)
+                {
+                    mesh.index_data.push_back(face.mIndices[k]);
+                }
+            }
+
+            if (!mesh.vertex_data.empty() && !mesh.index_data.empty())
+            {
+                meshes.push_back(std::move(mesh));
+            }
+        }
+
+        for (unsigned int i = 0; i < node->mNumChildren; i++)
+        {
+            ProcessNode(node->mChildren[i], scene, meshes);
+        }
+    }
 }

@@ -75,14 +75,9 @@ namespace vstmr {
 			mesh.index_buffer.Bind();
 			mesh.vertex_buffer.Bind();
 
-			/*mesh.vertex_buffer.BufferSubData((void*)mesh.vertex_data.data(), mesh.VertexBufferSize(), 0);
-			mesh.index_buffer.BufferData((void*)mesh.index_data.data(), mesh.IndexBufferSize(), 0);*/
-
 			material.shaders.SetMat4f("projection", camera.GetProjectionMatrix());
 			material.shaders.SetMat4f("view", camera.GetViewMatrix());
 			material.shaders.SetVec3f("materialColor", material.color);
-
-			
 
 			glDrawElements(GL_TRIANGLES, mesh.index_data.size(), GL_UNSIGNED_INT, nullptr);
 		}
