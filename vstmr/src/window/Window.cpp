@@ -8,9 +8,10 @@
 //REMINDER: TEMPORARY SOLUTION, NEED TO CHANGE
 #include "renderer/camera/Camera.h"
 
-// Callbacks
+
 namespace vstmr {
 
+	// Callbacks
 	void keyCallback(GLFWwindow* glfwwindow, int key, int scancode, int action, int mods)
 	{
 		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
@@ -65,10 +66,8 @@ namespace vstmr {
 		window->m_height = height;
 		window->RecalculateCameraProjection();
 	}
-}
 
-// Actual Window functions
-namespace vstmr {
+    //Window functions
 
 	Window::Window(int width, int height, const char* title, Keyboard& keyboard, Mouse& mouse,
 		GLFWmonitor* monitor, GLFWwindow* share) :

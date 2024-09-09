@@ -8,7 +8,7 @@
 #include "input/Keyboard.h" 
 #include "input/Mouse.h"
 
-struct ImGuiIO;
+#include "UI/imgui/OurImGui.h"
 
 namespace vstmr {
 
@@ -36,11 +36,8 @@ namespace vstmr {
 		void Run();
 
 	private:
-		void ImGuiSetup();
-		void ImGuiDraw();
-
-	private:
 		ApplicationContainer m_container;
+		OurImGui m_imgui;
 		bool m_running = true;
 	};
 
