@@ -13,6 +13,7 @@ namespace vstmr {
         const GLchar* message,
         const void* userParam)
     {
+#ifndef NDEBUG
         if (type == GL_DEBUG_TYPE_ERROR)
         {
             VSTM_CD_LOGERROR("ERROR, [GL Callback]: Type = {}, severity = {}, message = {}\n",
@@ -29,6 +30,7 @@ namespace vstmr {
                 message
             );
         }
+#endif
 
         //stderr, "[GL Error Callback]: %s type = 0x%x, severity = 0x%x, message = %s\n",
         //    (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
