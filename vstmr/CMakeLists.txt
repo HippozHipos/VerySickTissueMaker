@@ -14,29 +14,33 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 		src/*.cpp
 			src/ECS/*.h
 			src/ECS/*.cpp
-			src/diagnostics/*.h
-			src/diagnostics/*.cpp
-			src/input/*.h
-			src/input/*.cpp
-			src/window/*.h
-			src/window/*.cpp
-			src/renderer/*.h
-			src/renderer/*.cpp
-				src/renderer/buffers/*.h
-				src/renderer/buffers/*.cpp
-				src/renderer/camera/*.h
-				src/renderer/camera/*.cpp
-			src/componentProcessors/*.h
-			src/componentProcessors/*.cpp
-			src/resourceLoader/*.h
-			src/resourceLoader/*.cpp
-			src/vstmr/*.h
-			src/vstmr/*.cpp
-			src/ui/imgui/*.h
-			src/ui/imgui/*.cpp
+			src/Diagnostics/*.h
+			src/Diagnostics/*.cpp
+			src/Input/*.h
+			src/Input/*.cpp
+			src/Window/*.h
+			src/Window/*.cpp
+			src/Renderer/*.h
+			src/Renderer/*.cpp
+				src/renderer/Buffers/*.h
+				src/renderer/Buffers/*.cpp
+				src/renderer/Camera/*.h
+				src/renderer/Camera/*.cpp
+			src/ECSSystems/*.h
+			src/ECSSystems/*.cpp
+			src/ResourceLoader/*.h
+			src/ResourceLoader/*.cpp
+			src/Main/*.h
+			src/Main/*.cpp
+			src/UI/imgui/*.h
+			src/UI/imgui/*.cpp
 )
 
 add_library(${PROJECT_NAME} ${source_files})
+
+#
+#						start compile 3rdParty
+#
 
 #set variables
 set(GLFW_INCLUDES	"3rdParty/glfw/include")
@@ -47,7 +51,7 @@ set(STB_INCLUDES	"3rdParty/stb")
 set(ASSIMP_INCLUDES	"3rdParty/assimp/include")
 set(IMGUI_INCLUDES	"3rdParty/imgui")
 set(IMGUI_BACKENDS_INCLUDES	"3rdParty/imgui/backends")
-set(INTT_INCLUDES	"3rdParty/entt/src")
+set(ENTT_INCLUDES	"3rdParty/entt/src")
 
 if (Debug)
 	set(ASSIMP_CONFIG_INCLUDE	"out/build/x64-Debug/3rdparty/assimp/include")
@@ -87,22 +91,36 @@ add_subdirectory("3rdParty/glm")
 #	assimp
 add_subdirectory("3rdParty/assimp")
 
-#	assimp
+#	imgui
 add_subdirectory("3rdParty/imgui")
 
-#	assimp
+#	entt
 add_subdirectory("3rdParty/entt")
 
 #include the directories to resolve relative file references: "../../3rdparty/imgui" -> "3rdparty/imgui"
-target_include_directories(${PROJECT_NAME} PUBLIC ${GLFW_INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${GLAD_INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${SPDLOG_INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${STB_INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${ASSIMP_INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${ASSIMP_CONFIG_INCLUDE})
-target_include_directories(${PROJECT_NAME} PUBLIC ${IMGUI_INCLUDES})
-target_include_directories(${PROJECT_NAME} PUBLIC ${INTT_INCLUDES})
+set(INTERNAL_AND_EXTERNAL_INCLUDES
+    ${GLFW_INCLUDES}
+    ${GLAD_INCLUDES}
+    ${GLM_INCLUDES}
+	${IMGUI_INCLUDES}
+    "include"
+    "src"
+    "./"
+)
+set(INTERNAL_ONLY_INCLUDES
+    ${SPDLOG_INCLUDES}
+    ${STB_INCLUDES}
+    ${ENTT_INCLUDES}
+	${ASSIMP_INCLUDES}
+    ${ASSIMP_CONFIG_INCLUDE}
+)
+
+target_include_directories(${PROJECT_NAME} 
+    PUBLIC 
+        ${INTERNAL_AND_EXTERNAL_INCLUDES}
+	PRIVATE
+        ${INTERNAL_ONLY_INCLUDES}
+)
 
 #questionable shenanigans but i really dont feel like giving a single fuck rn 
 #(its to make these includes accessible to VerySickTissueMaker_Application)
@@ -114,8 +132,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC "./")
 #						end compile 3rdParty
 #
 
-#set includes for the tissue maker files
-
 
 target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES}
 				glad 
@@ -124,4 +140,5 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_LIBRARIES}
 				glfw 
 				assimp::assimp 
 				imgui
-				EnTT)
+				EnTT
+)

@@ -8,7 +8,7 @@
 #include "src/renderer/Texture.h"
 #include "src/renderer/camera/Camera.h"
 #include "src/window/Window.h"
-#include "src/vstmr/Application.h"
+#include "src/Main/Application.h"
 
 #include "src/ECS/SceneContainer.h"
 #include "src/ECS/SceneObject.h"
@@ -23,4 +23,4 @@
 
 #include "src/ResourceLoader/MeshLoader.h"
 
-#include "src/vstmr/EntryPoint.h"
+#include "src/Main/EntryPoint.h"

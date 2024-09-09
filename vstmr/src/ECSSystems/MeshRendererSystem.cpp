@@ -2,7 +2,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "MeshRendererProcessor.h"
+#include "MeshRendererSystem.h"
+
 #include "renderer/MeshComponent.h"
 #include "renderer/MeshRenderer.h"
 #include "diagnostics/OpenglError.h"
@@ -14,7 +15,7 @@
 
 namespace vstmr {
 
-	void MeshRendererProcessor::Render()
+	void MeshRendererSystem::Render()
 	{
 		//REMINDER: FIXME; quick dirty hack for now since i have put camera in application container
 		Camera& camera = ECS::registry.view<Camera>().get<Camera>((entt::entity)0);	
@@ -33,7 +34,7 @@ namespace vstmr {
 		CheckOpenGLError();
 	}
 
-	void MeshRendererProcessor::ProcessLighting(MeshRenderer& renderer,  Material& material)
+	void MeshRendererSystem::ProcessLighting(MeshRenderer& renderer,  Material& material)
 	{
 		material.shaders.Use();
 
@@ -47,7 +48,7 @@ namespace vstmr {
 		}
 	}
 
-	void MeshRendererProcessor::RenderMesh(
+	void MeshRendererSystem::RenderMesh(
 		Camera& camera, MeshRenderer& renderer, 
 		Transform& transform, VectorComponent<MeshComponent>& meshes, 
 		Material& material)

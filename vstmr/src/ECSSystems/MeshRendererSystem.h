@@ -10,7 +10,7 @@ namespace vstmr {
 	struct Transform;
 	struct Material;
 
-	struct MeshRendererProcessor
+	struct MeshRendererSystem
 	{
 		void Render();
 	private:

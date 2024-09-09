@@ -122,6 +122,7 @@ namespace vstm {
             meshRenderer.Get<Material>().color = { 1.0f, 1.0f, 0.0f };
             VectorComponent<MeshComponent>& meshes = meshRenderer.Get<VectorComponent<MeshComponent>>();
             MeshLoader::Load("../../../../vstmr/assets/models/cube.obj", meshes.vector);
+
             for (vstmr::MeshComponent& mesh : meshes.vector)
             {
                 mesh.SetupMesh();

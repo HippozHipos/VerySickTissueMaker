@@ -4,11 +4,10 @@
 #include <memory>
 
 #include "Shaders.h"
-#include "BufferSetStore.h"
 
 #include "ECS/SceneContainer.h"
 #include "camera/Camera.h"
-#include "componentProcessors/MeshRendererProcessor.h"
+#include "ECSSystems/MeshRendererSystem.h"
 
 namespace vstmr {
 
@@ -23,7 +22,7 @@ namespace vstmr {
 		void Render();
 
 	private:
-		MeshRendererProcessor m_mesh_renderer;
+		MeshRendererSystem m_mesh_renderer;
 		
 	};
 

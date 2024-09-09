@@ -162,7 +162,7 @@ namespace vstmr {
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
 		{
-			VSTM_CD_LOGINFO("Texture \"{}\" already exists. Attempting to update texture", name);
+			VSTM_CD_LOGINFO("Texture \"{}\" already exists. Attempting to overwrite texture", name);
 		}
 		else
 		{
