@@ -97,8 +97,8 @@ namespace vstmr {
 		if (!success) {
 			GLchar infoLog[512];
 			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", 0, infoLog);
-			VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}\n", 0, infoLog);
+			VSTM_DEBUG_LOGERROR("Error code: {}\nError description: {}\n", 0, infoLog);
+			VSTM_CON_LOGERROR("Error code: {}\nError description: {}\n", 0, infoLog);
 		}
 		CheckOpenGLError();
 		return shader;

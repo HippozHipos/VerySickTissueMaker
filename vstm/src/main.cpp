@@ -43,7 +43,7 @@ namespace vstm {
         {
             Camera& camera = ECS::registry.view<Camera>().get<Camera>((entt::entity)0);
             ImGui::Begin("Twin turbo, 12800HP, Twin exhaust, NOS infused feet.");
-            ImGui::DragFloat("Scale", &camera.MovementSpeed, 0.1f); // update the current velocity based on slider.
+            ImGui::DragFloat("Scale", &camera.MovementSpeed, 0.1f); 
             ImGui::End();
         }
     };

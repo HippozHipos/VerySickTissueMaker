@@ -163,6 +163,8 @@ namespace vstmr {
 			return;
 		}
 		glViewport(0, 0, width, height);
+		glEnable(GL_DEBUG_OUTPUT);
+		glDebugMessageCallback(OpenglErrorMessageCallback, 0);
 		CheckOpenGLError();
 	}
 
