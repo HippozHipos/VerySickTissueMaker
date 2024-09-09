@@ -19,11 +19,14 @@
 
 namespace vstmr {
 
+	//This just makes everything super convenient since it makes these things 
+	//readily available within any scene object
 	ApplicationContainer::ApplicationContainer() :
 		keyboard{ Add<Keyboard>() },
 		mouse{ Add<Mouse>() },
 		window{ Add<Window>(600, 600, "Very sick tissue maker", keyboard, mouse) },
 		renderer{ Add<Renderer>() },
+		timer{ Add<Timer>() },
 		camera{ Add<Camera>(glm::radians(90.0f), 1, 0.001, 1000) }
 	{
 	}
@@ -52,14 +55,13 @@ namespace vstmr {
 
 		while (!m_container.window.IsClosed())// && m_running)
 		{
-			float deltaTime = m_timer.getDeltaTime();
-
 			BehaviourManagerStore::GetBehaviourManager().CallAllUpdateFunctions();
 
 			m_container.renderer.Render();
 			ImGuiDraw();
 
 			m_container.window.Update();
+			m_container.timer.UpdateDeltaTime();
 			glfwPollEvents();
 			ErrorHandler::Handle();
 			HandleErrorActions();

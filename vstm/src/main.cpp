@@ -24,7 +24,7 @@ namespace vstm {
             {
                 window.DisableCursor();
 
-                camera.ProcessKeyboardMovement(0.001f,
+                camera.ProcessKeyboardMovement(GetTimer().GetDeltaTime(),
                     key.Held(GLFW_KEY_W), key.Held(GLFW_KEY_S),
                     key.Held(GLFW_KEY_A), key.Held(GLFW_KEY_D),
                     key.Held(GLFW_KEY_LEFT_CONTROL), key.Held(GLFW_KEY_SPACE));
