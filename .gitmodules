@@ -16,6 +16,3 @@
 [submodule "vstmr/3rdparty/entt"]
 	path = vstmr/3rdparty/entt
 	url = https://github.com/skypjack/entt.git
-[submodule "vstmr/3rdparty/imgui"]
-	path = vstmr/3rdparty/imgui
-	url = https://github.com/PencilPushr/imgui
