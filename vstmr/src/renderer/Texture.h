@@ -7,7 +7,6 @@
 #include <memory>
 #include "diagnostics/OpenglError.h"
 
-//need to m
 
 namespace vstmr {
 
@@ -29,7 +28,6 @@ namespace vstmr {
 		std::unordered_map<std::string, std::shared_ptr<Texture>> m_texture_map;
 	};
 
-	//Move is not allowed because we store pointer to texture in texture manager. Moving texture would invalidate texture stored in texture manager.
 	class Texture
 	{
 		friend Texture TextureManager::HardCopy(const std::string& name, const Texture& other);
@@ -39,10 +37,10 @@ namespace vstmr {
 		Texture(unsigned char* data, int width, int height, int channels, bool genMipmap);
 
 		Texture(const Texture& other);
-		Texture& operator=(const Texture& other);
+		Texture operator=(const Texture& other);
 
-		Texture(Texture&& other) noexcept = delete;
-		Texture operator=(Texture&& other) = delete;
+		Texture(Texture&& other) noexcept;
+		Texture& operator=(Texture&& other) noexcept;
 
 		~Texture() = default;
 
@@ -71,6 +69,7 @@ namespace vstmr {
 
 	private:
 		void MemberWiseCopyToThis(const Texture& other);
+		unsigned int GetFormatFromChannels(int channels);
 
 	private:
 		std::shared_ptr<unsigned char> m_data = nullptr;

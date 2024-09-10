@@ -4,6 +4,9 @@ out vec4 FragColor;
 
 in vec3 Normal;
 in vec3 FragPos;
+in vec2 Texture;
+
+uniform sampler2D sampler2d;
 
 uniform vec3 lightColor;
 uniform vec3 lightPos;
@@ -21,5 +24,5 @@ void main()
 	vec3 ambient = ambientStrength * lightColor;
 
 	vec3 result = (ambient + diffuse) * materialColor;//(ambient + diffuse) * materialColor;
-	FragColor = vec4(result, 1.0);
+	FragColor = texture(sampler2d, Texture) * vec4(result, 1.0);
 }

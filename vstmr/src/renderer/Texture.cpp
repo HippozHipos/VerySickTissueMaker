@@ -1,9 +1,15 @@
 #define STB_IMAGE_IMPLEMENTATION
+#ifdef STBI_NO_JPEG
+	#undef STBI_NO_JPEG
+#endif
 #include <stb/stb_image.h>
 
 #include "Texture.h"
 #include "diagnostics/Logger.h"
 #include "diagnostics/OpenglError.h"
+#include "diagnostics/Assert.h"
+
+#include "iostream"
 
 namespace {
 
@@ -15,6 +21,7 @@ namespace {
 }
 
 namespace vstmr {
+
 
 	Texture::Texture() :
 		m_path{ "Texture not loaded from path AND isn't a valid opengl texture" }
@@ -36,7 +43,7 @@ namespace vstmr {
 		MemberWiseCopyToThis(other);
 	}
 
-	Texture& Texture::operator=(const Texture& other)
+	Texture Texture::operator=(const Texture& other)
 	{
 		if (this != &other)
 		{
@@ -45,35 +52,71 @@ namespace vstmr {
 		return *this;
 	}
 
+	Texture::Texture(Texture&& other) noexcept
+	{
+		m_data = std::move(other.m_data);
+		m_width = other.m_width;
+		m_height = other.m_height;
+		m_color_channels = other.m_color_channels;
+		m_path = other.m_path;
+		m_texture_id = other.m_texture_id;
+	}
+
+	Texture& Texture::operator=(Texture&& other) noexcept
+	{
+		m_data = std::move(other.m_data);
+		other.m_data = nullptr;
+		m_width = other.m_width;
+		m_height = other.m_height;
+		m_color_channels = other.m_color_channels;
+		m_path = other.m_path;
+		m_texture_id = other.m_texture_id;
+		return *this;
+	}
+
 	void Texture::Load(const std::string& path, bool genMipmap)
 	{
 		m_path = path;
 		m_data = std::shared_ptr<unsigned char>(stbi_load(path.c_str(), &m_width, &m_height, &m_color_channels, 0), textureMemoryDeleter());
-		glGenTextures(1, &m_texture_id);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id);
-		GLenum format = (m_color_channels == 4) ? GL_RGBA : GL_RGB;
-		glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
-		if (genMipmap)
+		if (m_data)
 		{
-			GenerateMipMap();
+			glGenTextures(1, &m_texture_id);
+			glBindTexture(GL_TEXTURE_2D, m_texture_id);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			unsigned int format = GetFormatFromChannels(m_color_channels);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
+			if (genMipmap)
+			{
+				GenerateMipMap();
+			}
 		}
-		CheckOpenGLError();
+		else
+		{
+			VSTM_CD_LOGERROR("{}", stbi_failure_reason());
+		}
 	}
 
 	void Texture::Load(unsigned char* data, int width, int height, int channels, bool genMipmap)
 	{
 		m_data = std::shared_ptr<unsigned char>(data, textureMemoryDeleter());;
-		m_width = width; m_height = height; m_color_channels = channels;
-		m_path = "Texture not loaded from path";
-		glGenTextures(1, &m_texture_id);
-		glBindTexture(GL_TEXTURE_2D, m_texture_id);
-		GLenum format = (m_color_channels == 4) ? GL_RGBA : GL_RGB;
-		glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
-		if (genMipmap)
+		if (m_data)
 		{
-			GenerateMipMap();
+			m_width = width; m_height = height; m_color_channels = channels;
+			m_path = "Texture not loaded from path";
+			glGenTextures(1, &m_texture_id);
+			glBindTexture(GL_TEXTURE_2D, m_texture_id);
+			unsigned int format = (m_color_channels == 4) ? GL_RGBA : GL_RGB;
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
+			if (genMipmap)
+			{
+				GenerateMipMap();
+			}
 		}
-		CheckOpenGLError();
+		else
+		{
+			VSTM_CD_LOGERROR("{}", stbi_failure_reason());
+		}
 	}
 
 	unsigned char* Texture::GetRawData()
@@ -162,23 +205,26 @@ namespace vstmr {
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
 		{
-			VSTM_CD_LOGINFO("Texture \"{}\" already exists. Attempting to overwrite texture", name);
+			VSTM_TRACE_LOGINFO("Texture \"{}\" already exists. Returned already existing texture", name);
+			return *it->second;
 		}
 		else
 		{
-			VSTM_CD_LOGINFO("Texture \"{}\" not found. Attempting to create new texture", name);
+			VSTM_TRACE_LOGINFO("Texture \"{}\" not found. Attempting to create new texture", name);
 		}
-		m_texture_map[name] = std::make_shared<Texture>(path, genMipmap);
-		if (m_texture_map[name]->GetRawData() == nullptr)
+		std::shared_ptr<Texture> tex = std::make_shared<Texture>(path, genMipmap);
+		if (!tex->GetRawData())
 		{
-			VSTM_CD_LOGERROR("Failed to create texture \"{}\"", name);
+			VSTM_CD_LOGERROR("Failed to create texture \"{}\". Default texture returned", name);
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("Texture \"{}\" created", name);
+			VSTM_TRACE_LOGERROR("Texture \"{}\" created", name);
+			m_texture_map[name] = tex;
+			return *tex;
 		}
 
-		return *m_texture_map[name].get();
+		return *m_texture_map["default"];
 	}
 
 	Texture TextureManager::Get(const std::string& name)
@@ -186,12 +232,12 @@ namespace vstmr {
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
 		{
-			return *it->second.get();
+			return *it->second;
 		}
 		else
 		{
-			VSTM_CD_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned", name);
-			return  *m_texture_map["default"].get();
+			VSTM_TRACE_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned", name);
+			return  *m_texture_map["default"];
 		}
 	}
 
@@ -224,21 +270,36 @@ namespace vstmr {
 						)).second)
 				{
 					VSTM_CD_LOGINFO("Given texture hardcopied as \"{}\"", name);
-					return *m_texture_map[name].get();
+					return *m_texture_map[name];
 				}
 				VSTM_CD_LOGINFO("Failed to hardcopy gived texture as \"{}\". Default texture returned", name);
-				return *m_texture_map["default"].get();
+				return *m_texture_map["default"];
 			}
 			else
 			{
 				VSTM_CD_LOGERROR("Failed to allocate memory to hardcopy given texture as \"{}\". Default texture returned", name);
-				return *m_texture_map["default"].get();
+				return *m_texture_map["default"];
 			}
 		}
 
 		VSTM_CD_LOGWARN("Attempt to hard copy invalid texture as \"{}\". Default texture returned", name);
-		return *m_texture_map["default"].get();
+		return *m_texture_map["default"];
 	}
+
+	unsigned int Texture::GetFormatFromChannels(int channels)
+	{
+		switch (channels)
+		{
+			case 1: return GL_RED;         // Grayscale
+			case 2: return GL_RG;          // Grayscale + Alpha
+			case 3: return GL_RGB;         // RGB
+			case 4: return GL_RGBA;        // RGBA
+			default:
+				VSTMR_ASSERT(false, "Unsupported number of channels");
+				return 0;
+		}
+	}
+
 
 	Texture TextureManager::HardCopy(const std::string& name, const std::string& other)
 	{

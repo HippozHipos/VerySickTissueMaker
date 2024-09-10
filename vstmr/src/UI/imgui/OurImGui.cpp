@@ -12,10 +12,8 @@ namespace vstmr {
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
-		//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
-		//io.ConfigViewportsNoAutoMerge = true;
-		//io.ConfigViewportsNoTaskBarIcon = true;
 
 		ApplyImGuiDarkTheme();
 
@@ -38,7 +36,7 @@ namespace vstmr {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-
+		RenderMainDockspace();
 		BehaviourManagerStore::GetBehaviourManager().CallAllUIFunctions();
 
 		ImGui::Render();
@@ -51,6 +49,29 @@ namespace vstmr {
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(window);
 		}
+	}
+
+	void OurImGui::RenderMainDockspace()
+	{
+		ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImGui::SetNextWindowPos(viewport->Pos);
+		ImGui::SetNextWindowSize(viewport->Size);
+		ImGui::SetNextWindowViewport(viewport->ID);
+
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar |
+			ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
+			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
+			ImGuiWindowFlags_NoNavFocus;  // Removed ImGuiWindowFlags_NoBackground
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+		ImGui::Begin("Main Dockspace", nullptr, window_flags);
+		ImGui::PopStyleVar(2);
+
+		ImGuiID dockspace_id = ImGui::GetID("MainWindowDockspace");
+		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), window_flags);
+
+		ImGui::End();
 	}
 
 	void OurImGui::Destroy()

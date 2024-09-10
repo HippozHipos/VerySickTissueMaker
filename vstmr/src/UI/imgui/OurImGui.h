@@ -12,6 +12,8 @@ namespace vstmr {
 	public:
 		void Start(GLFWwindow* window);
 		void Render(GLFWwindow* window);
+		void RenderMainDockspace();
+
 		void Destroy();
 	};
 

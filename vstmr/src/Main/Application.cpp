@@ -19,7 +19,7 @@ namespace vstmr {
 		renderer{ Add<Renderer>() },
 		timer{ Add<Timer>() },
 
-		camera{ Add<Camera>(glm::radians(90.0f), 1, 0.001, 1000) }//temporarily here
+		camera{ Add<Camera>(glm::radians(90.0f), 1, 0.001, 10000) }//temporarily here
 	{
 	}
 

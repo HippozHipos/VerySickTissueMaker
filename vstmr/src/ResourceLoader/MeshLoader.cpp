@@ -1,24 +1,33 @@
 #include "MeshLoader.h"
 #include "diagnostics/Logger.h"
+#include "diagnostics/assert.h"
 
 namespace vstmr {
 
-	//Very basic for now - just loads vertex position and index data
-	void MeshLoader::Load(const char* path, std::vector<MeshComponent>& meshes)
+	void MeshLoader::Load(const char* path, MeshRenderer& renderer, TextureManager& texmanager)
 	{
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FlipUVs);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			VSTM_CD_LOGERROR("ERROR", importer.GetErrorString());
+			VSTM_CD_LOGERROR("Mesh loading error", importer.GetErrorString());
 			return;
 		}
 
-		ProcessNode(scene->mRootNode, scene, meshes);
+		ProcessNode(scene->mRootNode, scene, renderer, texmanager);
+        if (renderer.material.textures.size() > renderer.meshes.size())
+            assert(false && "Mesh loading failed due to incorrect data");
+
+        int missing = renderer.meshes.size() - renderer.material.textures.size();
+        VSTM_CD_LOGWARN("{} default textures used for the model", missing);
+        for (int i = 0; i < missing; i++)
+        {
+            renderer.material.textures.push_back(texmanager.Get("default"));
+        }
 	}
 
-    void MeshLoader::ProcessNode(aiNode* node, const aiScene* scene, std::vector<MeshComponent>& meshes)
+    void MeshLoader::ProcessNode(aiNode* node, const aiScene* scene, MeshRenderer& renderer, TextureManager& texmanager)
     {
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
@@ -60,13 +69,54 @@ namespace vstmr {
 
             if (!mesh.vertex_data.empty() && !mesh.index_data.empty())
             {
-                meshes.push_back(std::move(mesh));
+                renderer.meshes.push_back(std::move(mesh));
+            }
+
+            if (assMesh->mMaterialIndex >= 0)
+            {
+                LoadTextures(scene, assMesh, renderer, texmanager);
             }
         }
 
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
-            ProcessNode(node->mChildren[i], scene, meshes);
+            ProcessNode(node->mChildren[i], scene, renderer, texmanager);
         }
     }
+
+    void MeshLoader::LoadTextures(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager)
+    {
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_DIFFUSE);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_SPECULAR);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_NORMALS);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_AMBIENT);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_HEIGHT);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_EMISSIVE);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_OPACITY);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_METALNESS);
+        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_DIFFUSE_ROUGHNESS);
+    }
+
+
+    void MeshLoader::LoadTexture(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager, aiTextureType type)
+    {
+        aiMaterial* material = scene->mMaterials[assMesh->mMaterialIndex];
+        if (!material) return;
+
+        for (unsigned int j = 0; j < material->GetTextureCount(type); j++)
+        {
+            aiString path;
+            if (material->GetTexture(type, j, &path) == AI_SUCCESS)
+            {
+                std::string fullpath = std::string{ "..\\..\\..\\..\\vstmr\\assets\\models\\" } + path.C_Str();
+                Texture texture = texmanager.Load(fullpath, fullpath, true); // Use path as texture name
+                renderer.material.textures.push_back(texture);
+            }
+            else
+            {
+                VSTM_CD_LOGERROR("Failed to get texture of type", static_cast<int>(type), "for material index", assMesh->mMaterialIndex);
+            }
+        }
+    }
+
 }

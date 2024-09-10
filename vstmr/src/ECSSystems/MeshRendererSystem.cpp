@@ -25,8 +25,8 @@ namespace vstmr {
 		{
 			MeshRenderer& renderer = view.get<MeshRenderer>(entity);
 			Transform& transform = renderer.GetParent<Transform>();
-			VectorComponent<MeshComponent>& meshes = renderer.Get<VectorComponent<MeshComponent>>();
-			Material& material = renderer.Get<Material>();
+			std::vector<MeshComponent>& meshes = renderer.meshes;
+			Material& material = renderer.material;
 
 			ProcessLighting(renderer, material);
 			RenderMesh(camera, renderer, transform, meshes, material);
@@ -50,7 +50,7 @@ namespace vstmr {
 
 	void MeshRendererSystem::RenderMesh(
 		Camera& camera, MeshRenderer& renderer, 
-		Transform& transform, VectorComponent<MeshComponent>& meshes, 
+		Transform& transform, std::vector<MeshComponent>& meshes, 
 		Material& material)
 	{
 		glm::mat4 model = glm::mat4(1.0f);
@@ -69,8 +69,9 @@ namespace vstmr {
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		else
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-		for (MeshComponent& mesh : meshes.vector)
+		
+		int i = 0;
+		for (MeshComponent& mesh : meshes)
 		{
 			mesh.vertex_array.Bind();
 			mesh.index_buffer.Bind();
@@ -79,6 +80,9 @@ namespace vstmr {
 			material.shaders.SetMat4f("projection", camera.GetProjectionMatrix());
 			material.shaders.SetMat4f("view", camera.GetViewMatrix());
 			material.shaders.SetVec3f("materialColor", material.color);
+
+			glActiveTexture(GL_TEXTURE0);
+			material.textures[i++].Bind();
 
 			glDrawElements(GL_TRIANGLES, mesh.index_data.size(), GL_UNSIGNED_INT, nullptr);
 		}
