@@ -36,7 +36,7 @@ namespace vstmr {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		RenderMainDockspace();
+		//RenderMainDockspace();
 		BehaviourManagerStore::GetBehaviourManager().CallAllUIFunctions();
 
 		ImGui::Render();
@@ -58,18 +58,17 @@ namespace vstmr {
 		ImGui::SetNextWindowSize(viewport->Size);
 		ImGui::SetNextWindowViewport(viewport->ID);
 
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoTitleBar |
 			ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
 			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
-			ImGuiWindowFlags_NoNavFocus;  // Removed ImGuiWindowFlags_NoBackground
+			ImGuiWindowFlags_NoNavFocus; 
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-		ImGui::Begin("Main Dockspace", nullptr, window_flags);
+		ImGui::Begin("Main Dockspace", nullptr, windowFlags);
 		ImGui::PopStyleVar(2);
 
-		ImGuiID dockspace_id = ImGui::GetID("MainWindowDockspace");
-		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), window_flags);
+		ImGui::DockSpace(ImGui::GetID("MainWindowDockspace"), ImVec2(0.0f, 0.0f), windowFlags);
 
 		ImGui::End();
 	}
