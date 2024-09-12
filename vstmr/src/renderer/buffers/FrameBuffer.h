@@ -20,7 +20,7 @@ namespace vstmr {
 		void Destroy();
 		bool HasTextureAttachment();
 		void CreateAttachments(int width, int height);
-		Texture GetTexure();
+		Texture GetTexture();
 		int GetWidth();
 		int GetHeight();
 

@@ -33,7 +33,7 @@ namespace vstmr {
 		{
 			m_frame_buffer.CreateAttachments(ImGui::GetWindowWidth(), ImGui::GetWindowHeight());	
 		}
-		ImTextureID texture = (ImTextureID)m_frame_buffer.GetTexure().Id();
+		ImTextureID texture = (ImTextureID)m_frame_buffer.GetTexture().Id();
 		ImGui::Image(texture, ImGui::GetWindowSize(), ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::End();
 	}

@@ -52,7 +52,7 @@ namespace vstmr {
 		CheckOpenGLError();
 	}
 
-	Texture FrameBuffer::GetTexure()
+	Texture FrameBuffer::GetTexture()
 	{
 		return m_texture_attachment;
 	}

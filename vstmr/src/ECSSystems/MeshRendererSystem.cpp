@@ -20,10 +20,10 @@
 
 namespace vstmr {
 
-	MeshRendererSystem::MeshRendererSystem(std::unordered_map<std::string, VstmrImGuiViewport>& viewportMap) :
-		m_viewport_map{ viewportMap }
+	MeshRendererSystem::MeshRendererSystem(std::unordered_map<std::string, VstmrImGuiViewport>& viewportMap, 
+		MainPlatformWindowRenderer& mainWinRenderer) :
+		m_viewport_map{ viewportMap }, m_main_window_renderer{ mainWinRenderer }
 	{
-
 	}
 
 	void MeshRendererSystem::Render()
@@ -35,13 +35,27 @@ namespace vstmr {
 			if (camera.active)
 			{
 				auto it = m_viewport_map.find(camera.target_viewport.c_str());
-				if (it == m_viewport_map.end())
+				bool isMainPlatformWindow = camera.target_viewport == "Main Platform Window";
+				if (it == m_viewport_map.end() && !isMainPlatformWindow)
 				{
 					VSTM_CON_LOGWARN("Trying to render to viewport that doesn't exist: {}", camera.target_viewport.c_str());
 					return;
 				}
-				it->second.BindFrameBuffer();
-				Graphics::UpdateViewport(0, 0, it->second.GetWidth(), it->second.GetHeight());
+				if (isMainPlatformWindow)
+				{
+					FrameBuffer::UnBind();
+					/*Window& window = ECS::registry.view<Window>().get<Window>((entt::entity)0);
+					if (window.GetWidth() != m_main_window_renderer.GetWidth() || window.GetHeight() != m_main_window_renderer.GetHeight())
+					{
+						m_main_window_renderer.ResizeContext(window.GetWidth(), window.GetHeight());
+					}
+					m_main_window_renderer.BindFrameBuffer();*/
+				}
+				else
+				{
+					it->second.BindFrameBuffer();
+					Graphics::UpdateViewport(0, 0, it->second.GetWidth(), it->second.GetHeight());
+				}
 				Graphics::ClearBuffer(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				auto meshRenderers = ECS::registry.view<MeshRenderer>();
 				for (auto& entityInner : meshRenderers)
@@ -52,8 +66,13 @@ namespace vstmr {
 					ProcessLighting(renderer);
 					RenderMesh(camera, renderer, transform);
 				}
+/*				if (isMainPlatformWindow)
+				{
+					m_main_window_renderer.Render();
+				}	*/				
 			}
 		}
+		VertexArray::UnBind();
 		FrameBuffer::UnBind();
 	}
 

@@ -10,6 +10,12 @@
 
 namespace vstmr {
 
+	Renderer::Renderer(int width, int height) :
+		m_main_window_renderer{ width, height },
+		m_mesh_renderer{ m_viewport_map, m_main_window_renderer }
+	{
+	}
+
 	void Renderer::Init()
 	{
 		glEnable(GL_DEPTH_TEST);

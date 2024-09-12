@@ -16,7 +16,7 @@ namespace vstmr {
 		keyboard{ Add<Keyboard>() },
 		mouse{ Add<Mouse>() },
 		window{ Add<Window>(600, 600, "Very sick tissue maker", keyboard, mouse) },
-		renderer{ Add<Renderer>() },
+		renderer{ Add<Renderer>(window.GetWidth(), window.GetHeight()) },
 		timer{ Add<Timer>() }
 	{
 	}

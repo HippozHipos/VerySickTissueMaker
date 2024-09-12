@@ -8,7 +8,7 @@
 #include "UI/imgui/VstmrImGuiViewport.h"
 
 namespace vstmr {
-
+	struct MainPlatformWindowRenderer;
 	struct Camera;
 	struct Transform;
 	struct Material;
@@ -16,7 +16,8 @@ namespace vstmr {
 	struct MeshRendererSystem
 	{
 	public:
-		MeshRendererSystem(std::unordered_map<std::string, VstmrImGuiViewport>& viewportMap);
+		MeshRendererSystem(std::unordered_map<std::string, VstmrImGuiViewport>& viewportMap, 
+			MainPlatformWindowRenderer& mainWinRenderer);
 
 	public:
 		void Render();
@@ -27,6 +28,7 @@ namespace vstmr {
 	
 	private:
 		std::unordered_map<std::string, VstmrImGuiViewport>& m_viewport_map;
+		MainPlatformWindowRenderer& m_main_window_renderer;
 	};
 
 }

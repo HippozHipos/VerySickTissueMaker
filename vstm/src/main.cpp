@@ -10,14 +10,7 @@ namespace vstm {
     public:
         void Start()
         {
-            GetRenderer().CreateViewport("Editor viewport1");
-        }
-
-        //just  to test
-        void Update()
-        {
-            FrameBuffer::UnBind();
-            Graphics::ClearColor(0.2f, 0.2f, 0.2f, 1);
+            GetRenderer().CreateViewport("Editor1");
         }
     };
 
@@ -27,7 +20,7 @@ namespace vstm {
         void Start()
         {
             Camera& camera = Add<Camera>(glm::radians(90.0f), 1, 0.001, 10000);
-            camera.target_viewport = "Editor viewport1";
+            camera.target_viewport = "Main Platform Window";
         }
 
         void Update()
@@ -215,7 +208,7 @@ namespace vstm {
         Application()
         {
             tm.Init();
-            config_flag = Application::ENABLE_VIEWPORTS | Application::SETUP_MAIN_WINDOW_AS_DOCKSPACE;
+            config_flag = Application::ENABLE_VIEWPORTS;// | Application::SETUP_MAIN_WINDOW_AS_DOCKSPACE;
         }
  
         Editor editor{};

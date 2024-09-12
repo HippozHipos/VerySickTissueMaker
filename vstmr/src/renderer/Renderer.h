@@ -8,6 +8,7 @@
 #include "ECS/SceneContainer.h"
 #include "UI/imgui/VstmrImGuiViewport.h"
 #include "ECSSystems/MeshRendererSystem.h"
+#include "MainPlatformWindowRenderer.h"
 
 namespace vstmr {
 
@@ -15,7 +16,7 @@ namespace vstmr {
 	class Renderer : public SceneContainer
 	{
 	public:
-		Renderer() = default;
+		Renderer(int width, int height);
 		
 	public:
 		void Init();
@@ -25,7 +26,8 @@ namespace vstmr {
 
 	private:
 		std::unordered_map<std::string, VstmrImGuiViewport> m_viewport_map;
-		MeshRendererSystem m_mesh_renderer{ m_viewport_map };
+		MeshRendererSystem m_mesh_renderer;
+		MainPlatformWindowRenderer m_main_window_renderer;
 	};
 
 }
