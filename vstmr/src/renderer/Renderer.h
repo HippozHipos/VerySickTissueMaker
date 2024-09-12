@@ -6,7 +6,7 @@
 #include "Shaders.h"
 
 #include "ECS/SceneContainer.h"
-#include "camera/Camera.h"
+#include "UI/imgui/VstmrImGuiViewport.h"
 #include "ECSSystems/MeshRendererSystem.h"
 
 namespace vstmr {
@@ -20,10 +20,12 @@ namespace vstmr {
 	public:
 		void Init();
 		void Render();
+		void RenderImGuiViewport();
+		void CreateViewport(const char* name);
 
 	private:
-		MeshRendererSystem m_mesh_renderer;
-		
+		std::unordered_map<std::string, VstmrImGuiViewport> m_viewport_map;
+		MeshRendererSystem m_mesh_renderer{ m_viewport_map };
 	};
 
 }

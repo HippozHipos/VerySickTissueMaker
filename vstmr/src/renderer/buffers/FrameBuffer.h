@@ -1,3 +1,5 @@
+#pragma once
+
 #include "renderer/Texture.h"
 #include "RenderBuffer.h"
 
@@ -7,28 +9,33 @@ namespace vstmr {
 	{
 	public:
 		FrameBuffer() = default;
+		~FrameBuffer();
 
 	public:
 		void Init();
 		void Bind();
+		void BindRenderBuffer();
+		static void BindDefault();
 		static void UnBind();
 		void Destroy();
-		void SetChannels(int format);
-
 		bool HasTextureAttachment();
-		bool HasRenderBufferAttachment();
+		void CreateAttachments(int width, int height);
+		Texture GetTexure();
+		int GetWidth();
+		int GetHeight();
 
-		Texture CreateTextureAttachment(int width, int height);
+	private:
+		void CreateTextureAttachment(int width, int height);
 		void CreateRenderBufferAttachment(int width, int height);
 
 	private:
 		Texture m_texture_attachment{};
 		RenderBuffer m_render_buffer{};
 
-		bool m_has_texture_attachment = false;
 		bool m_has_render_buffer_attachment = false;
 
-		uint8_t m_channels = 3;
+		int m_width = 0;
+		int m_height = 0;
 		unsigned int m_buffer_id{};
 	};
 

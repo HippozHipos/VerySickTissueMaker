@@ -1,6 +1,11 @@
 #pragma once
 
 #include <bitset>
+
+#ifndef GLFW_INCLUDE_NONE 
+	#define GLFW_INCLUDE_NONE 
+#endif
+
 #include <glfw/glfw3.h>
 
 #include "ECS/SceneContainer.h"
@@ -35,12 +40,7 @@ namespace vstmr {
 		void DisableCursor();
 		void DefaultCursor();
 
-		void ClearColor(float r, float g, float b, float a);
-
 		GLFWwindow* GetGLFWWindow();
-
-		//REMINDER: temporary solution
-		void RecalculateCameraProjection();
 
 	private:
 		void InitOpengl(int width, int height);

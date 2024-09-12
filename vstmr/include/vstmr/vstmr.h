@@ -6,7 +6,6 @@
 
 #include "src/renderer/Renderer.h"
 #include "src/renderer/Texture.h"
-#include "src/renderer/camera/Camera.h"
 #include "src/window/Window.h"
 #include "src/Main/Application.h"
 
@@ -22,5 +21,8 @@
 #include "src/renderer/PointLight.h"
 
 #include "src/ResourceLoader/MeshLoader.h"
+
+#include "renderer/Camera.h"
+#include "renderer/Graphics.h"
 
 #include "src/Main/EntryPoint.h"

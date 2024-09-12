@@ -6,19 +6,32 @@
 #include "diagnostics/OpenglError.h"
 #include "window/Window.h"
 
+#include "Graphics.h"
+
 namespace vstmr {
 
 	void Renderer::Init()
 	{
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		
 		CheckOpenGLError();
+	}
+
+	void Renderer::CreateViewport(const char* name)
+	{
+		m_viewport_map.insert(std::pair<const char*, VstmrImGuiViewport>(name, VstmrImGuiViewport{ name }));
+	}
+
+	void Renderer::RenderImGuiViewport()
+	{
+		for (auto& [_, viewport] : m_viewport_map) 
+		{
+			viewport.Render();
+		}
 	}
 
 	void Renderer::Render()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		m_mesh_renderer.Render();
 	}
 }

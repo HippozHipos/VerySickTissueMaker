@@ -17,18 +17,8 @@ namespace vstmr {
 		mouse{ Add<Mouse>() },
 		window{ Add<Window>(600, 600, "Very sick tissue maker", keyboard, mouse) },
 		renderer{ Add<Renderer>() },
-		timer{ Add<Timer>() },
-
-		camera{ Add<Camera>(glm::radians(90.0f), 1, 0.001, 10000) }//temporarily here
+		timer{ Add<Timer>() }
 	{
-	}
-
-	Application::Application() 
-	{
-		m_imgui.Start(m_container.window.GetGLFWWindow());
-		m_container.renderer.Init();
-		ErrorHandler::Handle();
-		HandleErrorActions();
 	}
 
 	Application::~Application()
@@ -37,15 +27,24 @@ namespace vstmr {
 		glfwTerminate();
 	}
 
+	void Application::Start()
+	{
+		m_imgui.Start(m_container.window.GetGLFWWindow(), config_flag);
+		m_container.renderer.Init();
+		ErrorHandler::Handle();
+		HandleErrorActions();
+		BehaviourManagerStore::GetBehaviourManager().CallAllStartFunctions();
+	}
+
 	void Application::Run()
 	{
-		BehaviourManagerStore::GetBehaviourManager().CallAllStartFunctions();
+		Start();
 		while (!m_container.window.IsClosed() && m_running)
 		{
 			//frame start
 			BehaviourManagerStore::GetBehaviourManager().CallAllUpdateFunctions();
 			m_container.renderer.Render();
-			m_imgui.Render(m_container.window.GetGLFWWindow());
+			m_imgui.Render(m_container.window.GetGLFWWindow(), m_container.renderer, config_flag);
 
 			//frame end
 			m_container.window.Update();
@@ -61,7 +60,6 @@ namespace vstmr {
 			switch (ErrorHandler::GetAction(i))
 			{
 				case ErrorHandler::TerminateApplication: m_running = false;
-
 			}
 		}
 	}

@@ -7,6 +7,7 @@
 #include "input/Mouse.h"
 #include "window/Window.h"
 #include "timer/Timer.h"
+#include "renderer/Renderer.h"
 
 namespace vstmr {
 
@@ -41,6 +42,12 @@ namespace vstmr {
 		{
 			auto view = ECS::registry.view<Timer>();
 			return view.get<Timer>(entt::entity(0));
+		}
+
+		Renderer& GetRenderer()
+		{
+			auto view = ECS::registry.view<Renderer>();
+			return view.get<Renderer>(entt::entity(0));
 		}
 	};
 

@@ -14,7 +14,7 @@ namespace vstmr {
 	public:
 		Material material;
 		std::vector<MeshComponent> meshes;
-		bool wireframe_mode = false;
+		int draw_mode = GL_FILL;
 	};
 
 }

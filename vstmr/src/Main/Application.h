@@ -20,24 +20,29 @@ namespace vstmr {
 		Window& window;
 		Renderer& renderer;
 		Timer& timer;
-
-		//just here for now since camera systme isnt implemented
-		vstmr::Camera& camera;
 	};
 
 	class Application
 	{
 	public:
-		Application();
+		Application() = default;
 		virtual ~Application();
 
 	public:
 		void HandleErrorActions();
+		void Start();
 		void Run();
+
+	public:
+		static constexpr int SETUP_MAIN_WINDOW_AS_DOCKSPACE = 1 << 0;
+		static constexpr int ENABLE_VIEWPORTS = 1 << 1;
+
+	protected:
+		int config_flag = 0;
 
 	private:
 		ApplicationContainer m_container;
-		OurImGui m_imgui;
+		OurImGui m_imgui{};
 		bool m_running = true;
 	};
 

@@ -2,26 +2,30 @@
 #include "ui/imgui/ImGuiDarkTheme.h"
 #include "ECS/BehaviouralSceneObject.h"
 
+#include "renderer/Graphics.h"
+#include "Main/Application.h"
+
 namespace vstmr {
 
-	void OurImGui::Start(GLFWwindow* window)
+	void OurImGui::Start(GLFWwindow* window, int config_flag)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      
 
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+		if (config_flag & Application::ENABLE_VIEWPORTS)
+			io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;    
+		if (config_flag & Application::SETUP_MAIN_WINDOW_AS_DOCKSPACE)
+			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         
 
 		ApplyImGuiDarkTheme();
 
-		// When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
 		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			style.WindowRounding = 0.0f;
+			style.WindowRounding = 0.1f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
@@ -31,13 +35,19 @@ namespace vstmr {
 		ImGui_ImplOpenGL3_Init(glsl_version);
 	}
 
-	void OurImGui::Render(GLFWwindow* window)
+	void OurImGui::Render(GLFWwindow* window, Renderer& renderer, int config_flag)
 	{	
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		//RenderMainDockspace();
+		if (config_flag & Application::SETUP_MAIN_WINDOW_AS_DOCKSPACE)
+			ImGui::DockSpaceOverViewport(ImGui::GetID("Main dockspace"), ImGui::GetMainViewport());
+
+		ImGui::ShowDemoWindow();
+		ImGui::ShowMetricsWindow();
+
 		BehaviourManagerStore::GetBehaviourManager().CallAllUIFunctions();
+		renderer.RenderImGuiViewport();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -49,28 +59,6 @@ namespace vstmr {
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(window);
 		}
-	}
-
-	void OurImGui::RenderMainDockspace()
-	{
-		ImGuiViewport* viewport = ImGui::GetMainViewport();
-		ImGui::SetNextWindowPos(viewport->Pos);
-		ImGui::SetNextWindowSize(viewport->Size);
-		ImGui::SetNextWindowViewport(viewport->ID);
-
-		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoTitleBar |
-			ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus |
-			ImGuiWindowFlags_NoNavFocus; 
-
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-		ImGui::Begin("Main Dockspace", nullptr, windowFlags);
-		ImGui::PopStyleVar(2);
-
-		ImGui::DockSpace(ImGui::GetID("MainWindowDockspace"), ImVec2(0.0f, 0.0f), windowFlags);
-
-		ImGui::End();
 	}
 
 	void OurImGui::Destroy()

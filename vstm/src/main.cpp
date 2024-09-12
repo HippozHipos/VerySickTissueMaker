@@ -5,44 +5,86 @@ using namespace vstmr;
 
 namespace vstm {
 
-    class Character : public BehaviouralSceneObject<Character>
+    class Editor : public BehaviouralSceneObject<Editor>
     {
     public:
+        void Start()
+        {
+            GetRenderer().CreateViewport("Editor viewport1");
+        }
+
+        //just  to test
         void Update()
         {
-            //Quick dirty back because its stored in application container
-            Camera& camera = ECS::registry.view<Camera>().get<Camera>((entt::entity)0);
+            FrameBuffer::UnBind();
+            Graphics::ClearColor(0.2f, 0.2f, 0.2f, 1);
+        }
+    };
 
+    class Character1 : public BehaviouralSceneObject<Character1>
+    {
+    public:
+        void Start()
+        {
+            Camera& camera = Add<Camera>(glm::radians(90.0f), 1, 0.001, 10000);
+            camera.target_viewport = "Editor viewport1";
+        }
 
+        void Update()
+        {            
+            Get<Camera>().Update();
+        }
+
+        void UI()
+        {
+            ImGui::Begin("Twin turbo, 12800HP, Twin exhaust, NOS infused feet.");
+            ImGui::DragFloat("Scale", &Get<Camera>().movement_speed, 0.1f);
+            ImGui::End();
+            ProcessKeyboardMovement();
+            ProcessMouseMovement();
+        }
+
+    private:
+        void ProcessKeyboardMovement()
+        {
+            Camera& camera = Get<Camera>();
             Keyboard& key = GetKeyboard();
             Mouse& mouse = GetMouse();
             Window& window = GetWindow();
-
-            if (mouse.ButtonHeld(GLFW_MOUSE_BUTTON_RIGHT))
+            if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
             {
                 window.DisableCursor();
-
-                camera.ProcessKeyboardMovement(GetTimer().GetDeltaTime(),
-                    key.Held(GLFW_KEY_W), key.Held(GLFW_KEY_S),
-                    key.Held(GLFW_KEY_A), key.Held(GLFW_KEY_D),
-                    key.Held(GLFW_KEY_LEFT_CONTROL), key.Held(GLFW_KEY_SPACE)
-                );
-
-                camera.ProcessMouseMovement(mouse.GetChangeX(), mouse.GetChangeY());
+                float velocity = camera.movement_speed * GetTimer().GetDeltaTime();
+                if (ImGui::IsKeyDown(ImGuiKey_W))
+                    camera.position += camera.Forward() * velocity;
+                if (ImGui::IsKeyDown(ImGuiKey_S))
+                    camera.position -= camera.Forward() * velocity;
+                if (ImGui::IsKeyDown(ImGuiKey_A))
+                    camera.position -= camera.Right() * velocity;
+                if (ImGui::IsKeyDown(ImGuiKey_D))
+                    camera.position += camera.Right() * velocity;
+                if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
+                    camera.position -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
+                if (ImGui::IsKeyDown(ImGuiKey_Space))
+                    camera.position += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
             }
             else
             {
                 window.DefaultCursor();
             }
-            camera.UpdateVectors();
         }
 
-        void UI()
+        void ProcessMouseMovement()
         {
-            Camera& camera = ECS::registry.view<Camera>().get<Camera>((entt::entity)0);
-            ImGui::Begin("Twin turbo, 12800HP, Twin exhaust, NOS infused feet.");
-            ImGui::DragFloat("Scale", &camera.MovementSpeed, 0.1f); 
-            ImGui::End();
+            Camera& camera = Get<Camera>();
+            Mouse& mouse = GetMouse();
+
+            if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
+            {
+                camera.rotation.z += mouse.ChangeX() * camera.mouse_sensitivity;
+                camera.rotation.y += mouse.ChangeY() * camera.mouse_sensitivity;
+                camera.rotation.y = std::min(89.0f, std::max(camera.rotation.y, -89.0f));
+            }
         }
     };
 
@@ -76,7 +118,6 @@ namespace vstm {
         {
             ImGui::Begin("Cube Settings");
             ImGui::ColorPicker3("Light color picker", &Get<MeshRenderer>().material.color[0]);
-            ImGui::Checkbox("Wireframode mode", &Get<MeshRenderer>().wireframe_mode);
             ImGui::DragFloat3("Position", &Get<vstmr::Transform>().position[0], 0.1f);
             ImGui::DragFloat3("Rotation", &Get<vstmr::Transform>().rotation[0], 0.1f);
             ImGui::DragFloat3("Scale", &Get<vstmr::Transform>().scale[0], 0.1f);
@@ -114,7 +155,6 @@ namespace vstm {
         {
             ImGui::Begin("Wolf Settings");
             ImGui::ColorPicker3("Light color picker", &Get<MeshRenderer>().material.color[0]);
-            ImGui::Checkbox("Wireframode mode", &Get<MeshRenderer>().wireframe_mode);
             ImGui::DragFloat3("Position", &Get<vstmr::Transform>().position[0], 0.1f);
             ImGui::DragFloat3("Rotation", &Get<vstmr::Transform>().rotation[0], 0.1f);
             ImGui::DragFloat3("Scale", &Get<vstmr::Transform>().scale[0], 0.1f);
@@ -175,10 +215,12 @@ namespace vstm {
         Application()
         {
             tm.Init();
+            config_flag = Application::ENABLE_VIEWPORTS | Application::SETUP_MAIN_WINDOW_AS_DOCKSPACE;
         }
  
+        Editor editor{};
         TextureManager tm;
-        Character character{};
+        Character1 character1{};
         Chineseplan051classdestoryer051 chinesedestroyer{ tm };
         Wolf wolf{ tm };
         Light light1{ tm };

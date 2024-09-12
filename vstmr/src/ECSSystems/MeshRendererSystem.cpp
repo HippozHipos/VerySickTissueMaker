@@ -1,3 +1,6 @@
+#include <imgui.h>
+#include <imgui_internal.h>
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -7,51 +10,68 @@
 #include "renderer/MeshComponent.h"
 #include "renderer/MeshRenderer.h"
 #include "diagnostics/OpenglError.h"
-#include "renderer/camera/Camera.h"
+#include "renderer/Camera.h"
 #include "renderer/Renderer.h"
 #include "renderer/Material.h"
 #include "renderer/Transform.h"
 #include "renderer/PointLight.h"
 
+#include "renderer/Graphics.h"
+
 namespace vstmr {
+
+	MeshRendererSystem::MeshRendererSystem(std::unordered_map<std::string, VstmrImGuiViewport>& viewportMap) :
+		m_viewport_map{ viewportMap }
+	{
+
+	}
 
 	void MeshRendererSystem::Render()
 	{
-		//REMINDER: FIXME; quick dirty hack for now since i have put camera in application container
-		Camera& camera = ECS::registry.view<Camera>().get<Camera>((entt::entity)0);	
-
-		auto view = ECS::registry.view<MeshRenderer>();
-		for (auto entity : view)
+		auto cameras = ECS::registry.view<Camera>();
+		for (auto& entityOuter : cameras)
 		{
-			MeshRenderer& renderer = view.get<MeshRenderer>(entity);
-			Transform& transform = renderer.GetParent<Transform>();
-			std::vector<MeshComponent>& meshes = renderer.meshes;
-			Material& material = renderer.material;
+			Camera& camera = cameras.get<Camera>(entityOuter);
+			if (camera.active)
+			{
+				auto it = m_viewport_map.find(camera.target_viewport.c_str());
+				if (it == m_viewport_map.end())
+				{
+					VSTM_CON_LOGWARN("Trying to render to viewport that doesn't exist: {}", camera.target_viewport.c_str());
+					return;
+				}
+				it->second.BindFrameBuffer();
+				Graphics::UpdateViewport(0, 0, it->second.GetWidth(), it->second.GetHeight());
+				Graphics::ClearBuffer(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				auto meshRenderers = ECS::registry.view<MeshRenderer>();
+				for (auto& entityInner : meshRenderers)
+				{
+					MeshRenderer& renderer = meshRenderers.get<MeshRenderer>(entityInner);
+					Transform& transform = renderer.GetParent<Transform>();
 
-			ProcessLighting(renderer, material);
-			RenderMesh(camera, renderer, transform, meshes, material);
+					ProcessLighting(renderer);
+					RenderMesh(camera, renderer, transform);
+				}
+			}
 		}
-		CheckOpenGLError();
+		FrameBuffer::UnBind();
 	}
 
-	void MeshRendererSystem::ProcessLighting(MeshRenderer& renderer,  Material& material)
+	void MeshRendererSystem::ProcessLighting(MeshRenderer& renderer)
 	{
-		material.shaders.Use();
+		renderer.material.shaders.Use();
 
 		auto view = ECS::registry.view<PointLight>();
 		for (auto entity : view)
 		{
 			PointLight& light = view.get<PointLight>(entity);
-			material.shaders.Use();
-			material.shaders.SetVec3f("lightColor", light.color);
-			material.shaders.SetVec3f("lightPos", light.GetParent<Transform>().position);
+			renderer.material.shaders.Use();
+			renderer.material.shaders.SetVec3f("lightColor", light.color);
+			renderer.material.shaders.SetVec3f("lightPos", light.GetParent<Transform>().position);
 		}
 	}
 
-	void MeshRendererSystem::RenderMesh(
-		Camera& camera, MeshRenderer& renderer, 
-		Transform& transform, std::vector<MeshComponent>& meshes, 
-		Material& material)
+	void MeshRendererSystem::RenderMesh(Camera& camera, MeshRenderer& renderer, Transform& transform)
 	{
 		glm::mat4 model = glm::mat4(1.0f);
 
@@ -63,28 +83,25 @@ namespace vstmr {
 
 		model = glm::translate(glm::mat4(1.0f), transform.position) * model;
 
-		material.shaders.SetMat4f("model", model);
+		renderer.material.shaders.SetMat4f("model", model);
 
-		if (renderer.wireframe_mode)
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		else
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		Graphics::SetPolygonDrawMode(renderer.draw_mode);
 		
 		int i = 0;
-		for (MeshComponent& mesh : meshes)
+		for (MeshComponent& mesh : renderer.meshes)
 		{
 			mesh.vertex_array.Bind();
 			mesh.index_buffer.Bind();
 			mesh.vertex_buffer.Bind();
 
-			material.shaders.SetMat4f("projection", camera.GetProjectionMatrix());
-			material.shaders.SetMat4f("view", camera.GetViewMatrix());
-			material.shaders.SetVec3f("materialColor", material.color);
+			renderer.material.shaders.SetMat4f("projection", camera.GetProjectionMatrix());
+			renderer.material.shaders.SetMat4f("view", camera.GetViewMatrix());
+			renderer.material.shaders.SetVec3f("materialColor", renderer.material.color);
 
-			glActiveTexture(GL_TEXTURE0);
-			material.textures[i++].Bind();
+			Graphics::SetActiveTextureSlot(GL_TEXTURE0);
+			renderer.material.textures[i++].Bind();
 
-			glDrawElements(GL_TRIANGLES, mesh.index_data.size(), GL_UNSIGNED_INT, nullptr);
+			Graphics::DrawIndexedTraingles(mesh.index_data.size());
 		}
 	}
 }

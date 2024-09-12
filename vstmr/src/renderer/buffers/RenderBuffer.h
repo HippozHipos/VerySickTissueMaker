@@ -1,3 +1,5 @@
+#pragma once
+
 namespace vstmr {
 
 	class RenderBuffer
@@ -9,6 +11,7 @@ namespace vstmr {
 		void Init();
 		void Bind();
 		static void UnBind();
+		void Destroy();
 		void MakeStorage(int widht, int height);
 		void AttachToFrameBuffer();
 

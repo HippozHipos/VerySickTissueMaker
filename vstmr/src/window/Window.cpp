@@ -6,7 +6,7 @@
 #include "diagnostics/Logger.h"
 
 //REMINDER: TEMPORARY SOLUTION, NEED TO CHANGE
-#include "renderer/camera/Camera.h"
+#include "renderer/Camera.h"
 
 
 namespace vstmr {
@@ -64,7 +64,6 @@ namespace vstmr {
 		glViewport(0,0, width, height);
 		window->m_width = width;
 		window->m_height = height;
-		window->RecalculateCameraProjection();
 	}
 
     //Window functions
@@ -148,11 +147,6 @@ namespace vstmr {
 		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
-	void Window::ClearColor(float r, float g, float b, float a)
-	{
-		glClearColor(r, g, b, a);
-	}
-
 	void Window::InitOpengl(int width, int height)
 	{
 		glfwMakeContextCurrent(m_pwindow);
@@ -170,12 +164,5 @@ namespace vstmr {
 	GLFWwindow* Window::GetGLFWWindow() 
 	{ 
 		return m_pwindow; 
-	}
-
-	//REMINDER: TEMPORARY SOLUTION
-	void Window::RecalculateCameraProjection()
-	{
-		ECS::registry.view<Camera>().get<Camera>((entt::entity)0).
-			RecalculateProjectionMatrix(glm::radians(90.0f), (float)m_width / m_height, 0.001, 1000);
 	}
 }

@@ -58,6 +58,7 @@ namespace vstmr {
 		void GenerateMipMap();
 		void Bind();
 		void AttachToFrameBuffer();
+		unsigned int Id();
 
 	public:
 		template<class... Parameters>

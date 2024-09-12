@@ -4,16 +4,16 @@
 #include <ui/imgui/imgui_impl_glfw.h>
 #include <ui/imgui/imgui_impl_opengl3.h>
 
+#include "renderer/Renderer.h"
+
 class GLFWwindow;
 namespace vstmr {
 
 	class OurImGui
 	{
 	public:
-		void Start(GLFWwindow* window);
-		void Render(GLFWwindow* window);
-		void RenderMainDockspace();
-
+		void Start(GLFWwindow* window, int config_flag);
+		void Render(GLFWwindow* window, Renderer& renderer, int config_flag);
 		void Destroy();
 	};
 

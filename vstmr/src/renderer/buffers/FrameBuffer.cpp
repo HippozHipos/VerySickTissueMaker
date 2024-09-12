@@ -5,15 +5,39 @@
 
 namespace vstmr {
 
+	FrameBuffer::~FrameBuffer()
+	{
+		if (m_has_render_buffer_attachment)
+		{
+			m_render_buffer.Destroy();
+		}
+	}
+
 	void FrameBuffer::Init()
 	{
 		glGenFramebuffers(1, &m_buffer_id);
+		m_render_buffer.Init();
 		CheckOpenGLError();
 	}
 
 	void FrameBuffer::Bind()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_buffer_id);
+	}
+
+	void FrameBuffer::BindRenderBuffer()
+	{
+		m_render_buffer.Bind();
+	}
+
+	int FrameBuffer::GetWidth()
+	{
+		return m_width;
+	}
+
+	int FrameBuffer::GetHeight()
+	{
+		return m_height;
 	}
 
 	void FrameBuffer::UnBind()
@@ -28,43 +52,44 @@ namespace vstmr {
 		CheckOpenGLError();
 	}
 
-	void FrameBuffer::SetChannels(int channels)
+	Texture FrameBuffer::GetTexure()
 	{
-		m_channels = channels;
+		return m_texture_attachment;
 	}
 
-	bool FrameBuffer::HasTextureAttachment()
+	void FrameBuffer::CreateAttachments(int width, int height)
 	{
-		return m_has_texture_attachment;
+		m_width = width;
+		m_height = height;
+		CreateTextureAttachment(width, height);
+		CreateRenderBufferAttachment(width, height);
 	}
 
-	bool FrameBuffer::HasRenderBufferAttachment()
+	void FrameBuffer::CreateTextureAttachment(int width, int height)
 	{
-		return m_has_render_buffer_attachment;
-	}
-
-	Texture FrameBuffer::CreateTextureAttachment(int width, int height)
-	{
-		m_has_texture_attachment = true;
-		Texture texture{ nullptr, width, height, m_channels, false };
+		Texture texture{ nullptr, width, height, 4, false };
 		texture.SetParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		texture.SetParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		Bind();
 		texture.AttachToFrameBuffer();
 		UnBind();
 		m_texture_attachment = texture;
-		return m_texture_attachment;
 	}
 
 	void FrameBuffer::CreateRenderBufferAttachment(int width, int height)
 	{
-		m_has_render_buffer_attachment = true;
+		if (m_has_render_buffer_attachment)
+		{
+			m_render_buffer.Destroy();
+			m_render_buffer.Init();
+		}
 		m_render_buffer.Bind();
 		m_render_buffer.MakeStorage(width, height);
-		RenderBuffer::UnBind();
 		Bind();
 		m_render_buffer.AttachToFrameBuffer();
 		UnBind();
+		RenderBuffer::UnBind();
+		m_has_render_buffer_attachment = true;
 	}
 
 }

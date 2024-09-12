@@ -55,6 +55,7 @@ namespace vstmr {
 	Texture::Texture(Texture&& other) noexcept
 	{
 		m_data = std::move(other.m_data);
+		other.m_data = nullptr;
 		m_width = other.m_width;
 		m_height = other.m_height;
 		m_color_channels = other.m_color_channels;
@@ -74,6 +75,7 @@ namespace vstmr {
 		return *this;
 	}
 
+	//REMINDER: FIXME - Should seperate out opengl functionality from loading functionality
 	void Texture::Load(const std::string& path, bool genMipmap)
 	{
 		m_path = path;
@@ -82,7 +84,7 @@ namespace vstmr {
 		{
 			glGenTextures(1, &m_texture_id);
 			glBindTexture(GL_TEXTURE_2D, m_texture_id);
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);///////HERE AND IN THE LOAD FUNCTION BELLOW - FIXME///////
 			unsigned int format = GetFormatFromChannels(m_color_channels);
 			glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
 			if (genMipmap)
@@ -98,24 +100,17 @@ namespace vstmr {
 
 	void Texture::Load(unsigned char* data, int width, int height, int channels, bool genMipmap)
 	{
-		m_data = std::shared_ptr<unsigned char>(data, textureMemoryDeleter());;
-		if (m_data)
+		m_data = std::shared_ptr<unsigned char>(data, textureMemoryDeleter());
+		m_width = width; m_height = height; m_color_channels = channels;
+		m_path = "Texture not loaded from path";
+		glGenTextures(1, &m_texture_id);
+		glBindTexture(GL_TEXTURE_2D, m_texture_id);
+		unsigned int format = (m_color_channels == 4) ? GL_RGBA : GL_RGB;
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
+		if (genMipmap)
 		{
-			m_width = width; m_height = height; m_color_channels = channels;
-			m_path = "Texture not loaded from path";
-			glGenTextures(1, &m_texture_id);
-			glBindTexture(GL_TEXTURE_2D, m_texture_id);
-			unsigned int format = (m_color_channels == 4) ? GL_RGBA : GL_RGB;
-			glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-			glTexImage2D(GL_TEXTURE_2D, 0, format, m_width, m_height, 0, format, GL_UNSIGNED_BYTE, m_data.get());
-			if (genMipmap)
-			{
-				GenerateMipMap();
-			}
-		}
-		else
-		{
-			VSTM_CD_LOGERROR("{}", stbi_failure_reason());
+			GenerateMipMap();
 		}
 	}
 
@@ -152,6 +147,11 @@ namespace vstmr {
 	bool Texture::Validate() const
 	{
 		return m_data != nullptr && m_width > 0 && m_height > 0;
+	}
+
+	unsigned int Texture::Id()
+	{
+		return m_texture_id;
 	}
 
 	void Texture::GenerateMipMap()

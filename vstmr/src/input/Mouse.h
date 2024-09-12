@@ -19,15 +19,15 @@ namespace vstmr {
 		~Mouse() = default;
 
 	public:
-		bool ButtonPressed(int button);
-		bool ButtonHeld(int button);
+		bool Pressed(int button);
+		bool Held(int button);
 
 		float GetX() const;
 		float GetY() const;
-		float GetChangeX() const;
-		float GetChangeY() const;
-		float GetScrollX();
-		float GetScrollY();
+		float ChangeX() const;
+		float ChangeY() const;
+		float ScrollX();
+		float ScrollY();
 
 		void Update();
 
