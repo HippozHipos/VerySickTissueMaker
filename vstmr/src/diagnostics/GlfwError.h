@@ -1,5 +1,7 @@
 #pragma once
 
+#include "pch.h"
+
 //Reminder from docs:
 //Note
 //The error callback is called by the thread where the error was generated.

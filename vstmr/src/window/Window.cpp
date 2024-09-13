@@ -8,7 +8,6 @@
 //REMINDER: TEMPORARY SOLUTION, NEED TO CHANGE
 #include "renderer/Camera.h"
 
-
 namespace be {
 
 	// Callbacks

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <filesystem>
-
 #include "renderer/MeshRenderer.h"
 
 #include <assimp/Importer.hpp>

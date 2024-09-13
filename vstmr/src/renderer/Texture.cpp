@@ -8,8 +8,6 @@
 #include "diagnostics/Logger.h"
 #include "diagnostics/OpenglError.h"
 
-#include "iostream"
-
 namespace {
 
 	struct textureMemoryDeleter

@@ -38,6 +38,7 @@ file (GLOB source_files CMAKE_CONFIGURE_DEPENDS
 
 add_library(${PROJECT_NAME} ${source_files})
 
+target_precompile_headers(${PROJECT_NAME} PRIVATE src/pch.h)
 #
 #						start compile 3rdParty
 #

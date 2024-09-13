@@ -1,6 +1,5 @@
 #include <glm/gtc/type_ptr.hpp>
-#include <fstream>
-#include <sstream>
+
 
 #include "Shaders.h"
 #include "diagnostics/OpenglError.h"

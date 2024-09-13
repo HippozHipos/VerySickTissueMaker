@@ -1,5 +1,5 @@
 #pragma once
-
+#include "pch.h"
 #include <type_traits>
 
 #include <glfw/glfw3.h>

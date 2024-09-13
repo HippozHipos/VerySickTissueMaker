@@ -52,7 +52,7 @@
  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
  * OTHER DEALINGS IN THE SOFTWARE.
  */
-
+#include "pch.h"
 #ifndef __gl3w_h_
 #define __gl3w_h_
 

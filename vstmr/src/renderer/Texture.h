@@ -1,10 +1,6 @@
 #pragma once
+#include "pch.h"
 #include <glad/glad.h>
-
-
-#include <string>
-#include <unordered_map>
-#include <memory>
 #include "diagnostics/OpenglError.h"
 
 

@@ -1,7 +1,6 @@
 #pragma once
-
+#include "pch.h"
 #include "diagnostics/Logger.h"
-
 #include <glad/glad.h>
 
 namespace be {

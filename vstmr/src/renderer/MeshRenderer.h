@@ -1,5 +1,5 @@
 #pragma once
-
+#include "pch.h"
 #include "ECS/SceneContainer.h"
 #include "MeshComponent.h"
 #include "Material.h"

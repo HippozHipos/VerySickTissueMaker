@@ -1,6 +1,5 @@
 #pragma once
-
-#include <bitset>
+#include "pch.h"
 
 #include "ECS/SceneContainer.h"
 

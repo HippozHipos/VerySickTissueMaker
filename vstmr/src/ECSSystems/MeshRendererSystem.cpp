@@ -38,7 +38,8 @@ namespace be {
 				bool isMainPlatformWindow = camera.target_viewport == "Main Platform Window";
 				if (it == m_viewport_map.end() && !isMainPlatformWindow)
 				{
-					Log(Logger::ERR, Logger::CON | Logger::DEB, "Trying to render to viewport that doesn't exist: {}", camera.target_viewport.c_str());
+					Log(Logger::ERR, Logger::CON | Logger::DEB,
+						"Trying to render to viewport that doesn't exist: {}", camera.target_viewport.c_str());
 					return;
 				}
 				if (isMainPlatformWindow)
