@@ -1,6 +1,6 @@
 #include "Mouse.h"
 
-namespace vstmr {
+namespace be {
 
 	bool Mouse::Pressed(int button)
 	{

@@ -1,7 +1,7 @@
 #include <imgui.h>
 #include "ImGuiDarkTheme.h"
 
-namespace vstmr {
+namespace be {
 
 	void ApplyImGuiDarkTheme()
 	{

@@ -7,7 +7,7 @@
 
 #include "UI/imgui/VstmrImGuiViewport.h"
 
-namespace vstmr {
+namespace be {
 	struct MainPlatformWindowRenderer;
 	struct Camera;
 	struct Transform;

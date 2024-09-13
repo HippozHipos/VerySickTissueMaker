@@ -5,7 +5,7 @@
 #include "Shaders.h"
 #include "diagnostics/OpenglError.h"
 
-namespace vstmr {
+namespace be {
 
 	Shaders::Shaders(const char* vertexPath, const char* fragmentPath)
 	{

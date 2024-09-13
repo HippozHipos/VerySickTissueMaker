@@ -9,7 +9,7 @@
 #include "timer/Timer.h"
 #include "renderer/Renderer.h"
 
-namespace vstmr {
+namespace be {
 
 	class SceneObject : public SceneContainer
 	{

@@ -1,6 +1,6 @@
 #include "SceneObject.h"
 
-namespace vstmr {
+namespace be {
 
 	SceneObject::SceneObject()
 	{

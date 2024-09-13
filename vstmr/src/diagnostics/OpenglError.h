@@ -4,7 +4,7 @@
 
 #include <glad/glad.h>
 
-namespace vstmr {
+namespace be {
 
     void GLAPIENTRY OpenglErrorMessageCallback(GLenum source,
         GLenum type,

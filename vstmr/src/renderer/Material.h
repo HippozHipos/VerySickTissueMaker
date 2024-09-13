@@ -4,7 +4,7 @@
 #include "ECS/SceneContainer.h"
 #include "Texture.h"
 
-namespace vstmr {
+namespace be {
 
 	class Material : public SceneContainer
 	{

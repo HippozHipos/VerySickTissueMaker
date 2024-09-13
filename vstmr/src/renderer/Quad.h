@@ -2,7 +2,7 @@
 
 #include "Texture.h"
 
-namespace vstmr {
+namespace be {
 
 	class Quad
 	{

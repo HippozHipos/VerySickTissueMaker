@@ -8,7 +8,7 @@
 #include "diagnostics/OpenglError.h"
 
 
-namespace vstmr {
+namespace be {
 
 	class Texture;
 	class TextureManager

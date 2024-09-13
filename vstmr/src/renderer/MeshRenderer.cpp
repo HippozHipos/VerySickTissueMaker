@@ -3,6 +3,6 @@
 
 #include "diagnostics/Logger.h"
 
-namespace vstmr {
+namespace be {
 
 }

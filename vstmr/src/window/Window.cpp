@@ -9,12 +9,12 @@
 #include "renderer/Camera.h"
 
 
-namespace vstmr {
+namespace be {
 
 	// Callbacks
 	void keyCallback(GLFWwindow* glfwwindow, int key, int scancode, int action, int mods)
 	{
-		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window && action == GLFW_PRESS)
 		{
 			window->m_keyboard.OnKeyPress(key);
@@ -28,7 +28,7 @@ namespace vstmr {
 
 	void mouseButtonCallback(GLFWwindow* glfwwindow, int button, int action, int mods)
 	{
-		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window && action == GLFW_PRESS)
 		{
 			window->m_mouse.OnMousePress(button);
@@ -42,7 +42,7 @@ namespace vstmr {
 
 	void mousePositionCallback(GLFWwindow* glfwwindow, double xpos, double ypos)
 	{
-		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window)
 		{
 			window->m_mouse.OnMouseMove(xpos, ypos);
@@ -51,7 +51,7 @@ namespace vstmr {
 
 	void scrollWheelCallback(GLFWwindow* glfwwindow, double xoffset, double yoffset)
 	{
-		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		if (window)
 		{
 			window->m_mouse.OnMouseScroll(xoffset, yoffset);
@@ -60,7 +60,7 @@ namespace vstmr {
 
 	void frameBufferSizeCallback(GLFWwindow* glfwwindow, int width, int height)
 	{
-		vstmr::Window* window = reinterpret_cast<vstmr::Window*>(glfwGetWindowUserPointer(glfwwindow));
+		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
 		glViewport(0,0, width, height);
 		window->m_width = width;
 		window->m_height = height;

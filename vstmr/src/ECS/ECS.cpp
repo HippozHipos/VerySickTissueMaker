@@ -1,3 +1,3 @@
 #include "ECS.h"
 
-entt::registry vstmr::ECS::registry{};
+entt::registry be::ECS::registry{};

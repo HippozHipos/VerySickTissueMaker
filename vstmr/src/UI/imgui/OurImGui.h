@@ -7,7 +7,7 @@
 #include "renderer/Renderer.h"
 
 class GLFWwindow;
-namespace vstmr {
+namespace be {
 
 	class OurImGui
 	{

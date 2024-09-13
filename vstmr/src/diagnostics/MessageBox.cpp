@@ -1,6 +1,6 @@
 #include "MessageBox.h"
 
-void vstmr::ErrorMessasgeBox(const std::string& title, const std::string& text)
+void be::ErrorMessasgeBox(const std::string& title, const std::string& text)
 {
 	
 #ifdef _WIN32

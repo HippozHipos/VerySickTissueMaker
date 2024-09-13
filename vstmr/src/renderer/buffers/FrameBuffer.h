@@ -3,7 +3,7 @@
 #include "renderer/Texture.h"
 #include "RenderBuffer.h"
 
-namespace vstmr {
+namespace be {
 
 	class FrameBuffer
 	{

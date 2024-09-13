@@ -3,7 +3,7 @@
 #include "IndexBuffer.h"
 #include "diagnostics/OpenglError.h"
 
-namespace vstmr
+namespace be
 {
 	void IndexBuffer::Init()
 	{

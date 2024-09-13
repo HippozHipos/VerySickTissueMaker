@@ -3,7 +3,7 @@
 #include "OpenglError.h"
 #include "diagnostics/Logger.h"
 
-namespace vstmr {
+namespace be {
 
     void GLAPIENTRY OpenglErrorMessageCallback(GLenum source,
         GLenum type,

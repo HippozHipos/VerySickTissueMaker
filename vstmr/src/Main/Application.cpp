@@ -5,10 +5,10 @@
 #include "Application.h"
 #include "diagnostics/Error.h"
 #include "timer/timer.h"
-
+#include "ResourceLoader/ModelLoader.h"
 #include "ECS/BehaviouralSceneObject.h"
 
-namespace vstmr {
+namespace be {
 
 	//This just makes everything super convenient since it makes these things 
 	//readily available within any scene object
@@ -29,6 +29,7 @@ namespace vstmr {
 
 	void Application::Start()
 	{
+		ModelLoader::SetAssetsFolderPath("..\\..\\..\\..\\vstmr\\assets\\models\\");//todo: make proper filesystem
 		m_imgui.Start(m_container.window.GetGLFWWindow(), config_flag);
 		m_container.renderer.Init();
 		ErrorHandler::Handle();

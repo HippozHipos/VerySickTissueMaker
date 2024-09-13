@@ -4,7 +4,7 @@
 #include "MeshComponent.h"
 #include "Material.h"
 
-namespace vstmr {
+namespace be {
 
 	class MeshRenderer : public SceneContainer
 	{

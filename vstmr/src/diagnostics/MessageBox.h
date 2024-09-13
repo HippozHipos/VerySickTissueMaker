@@ -7,7 +7,7 @@
 	#include <Windows.h>
 #endif
 
-namespace vstmr {
+namespace be {
 
 	void ErrorMessasgeBox(const std::string& title, const std::string& text);
 

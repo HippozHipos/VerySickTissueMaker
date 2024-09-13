@@ -10,7 +10,7 @@
 
 #include "UI/imgui/OurImGui.h"
 
-namespace vstmr {
+namespace be {
 
 	struct ApplicationContainer : public SceneContainer
 	{

@@ -1,6 +1,6 @@
 #include "Quad.h"
 
-namespace vstmr {
+namespace be {
 
 	Quad::Quad(float width, float height, float centerx, float centery)
 	{

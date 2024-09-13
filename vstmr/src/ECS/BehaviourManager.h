@@ -11,7 +11,7 @@
 //destructor that lets BehaviourManager know that it has been destroyed so that it will remove its assosiated
 //functions
 
-namespace vstmr {
+namespace be {
 
 	//defaults
 	template <class T, class = void>

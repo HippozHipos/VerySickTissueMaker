@@ -6,7 +6,7 @@
 
 #include "ECS/SceneObject.h"
 
-namespace vstmr {
+namespace be {
 
 	class Camera : public SceneObject
 	{

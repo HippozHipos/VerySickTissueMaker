@@ -2,7 +2,7 @@
 #include "diagnostics/Logger.h"
 #include "BehaviouralSceneObject.h"
 
-namespace vstmr {
+namespace be {
 
 	SceneContainer::SceneContainer() 
 	{

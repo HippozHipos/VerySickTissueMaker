@@ -3,9 +3,9 @@
 #include "Material.h"
 #include "Transform.h"
 #include "MeshComponent.h"
-#include "ResourceLoader/MeshLoader.h"
+#include "ResourceLoader/ModelLoader.h"
 
-namespace vstmr {
+namespace be {
 
 
 }

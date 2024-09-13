@@ -1,6 +1,6 @@
 #include "Material.h"
 
-namespace vstmr {
+namespace be {
 
 	Material::Material()
 	{

@@ -1,7 +1,7 @@
 #include "VstmrImGuiViewport.h"
 #include "renderer/Graphics.h"
 
-namespace vstmr {
+namespace be {
 
 	VstmrImGuiViewport::VstmrImGuiViewport(const char* name) :
 		m_name{ name }

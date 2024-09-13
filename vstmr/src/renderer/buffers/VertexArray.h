@@ -6,7 +6,7 @@
 #include <functional>
 #include <stdint.h>
 
-namespace vstmr {
+namespace be {
 
 	class VertexArray
 	{

@@ -7,7 +7,7 @@
 #include "Shaders.h"
 #include "Quad.h"
 
-namespace vstmr {
+namespace be {
 
 	class MainPlatformWindowRenderer
 	{

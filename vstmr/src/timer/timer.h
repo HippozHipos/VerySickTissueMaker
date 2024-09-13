@@ -4,7 +4,7 @@
 
 #include <glfw/glfw3.h>
 
-namespace vstmr {
+namespace be {
 
     template<typename T = double, typename = std::remove_cv_t<std::is_arithmetic<T>>>
     class GenericTimer : public SceneContainer

@@ -1,6 +1,6 @@
 #include "Keyboard.h"
 
-namespace vstmr {
+namespace be {
 
 	bool Keyboard::Pressed(int key) const
 	{

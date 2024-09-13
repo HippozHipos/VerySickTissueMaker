@@ -1,6 +1,6 @@
 #pragma once
 
-namespace vstmr {
+namespace be {
 
 	class Graphics
 	{

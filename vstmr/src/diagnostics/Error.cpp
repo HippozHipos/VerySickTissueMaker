@@ -6,7 +6,7 @@
 #include "Logger.h"
 #include "MessageBox.h"
 
-namespace vstmr {
+namespace be {
 
 
 	std::vector<Error> ErrorHandler::m_errors;

@@ -8,7 +8,7 @@
 
 #include "Graphics.h"
 
-namespace vstmr {
+namespace be {
 
 	Renderer::Renderer(int width, int height) :
 		m_main_window_renderer{ width, height },

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vstmr/vstmr.h>
 
-using namespace vstmr;
+using namespace be;
 
 namespace vstm {
 
@@ -20,7 +20,7 @@ namespace vstm {
         void Start()
         {
             Camera& camera = Add<Camera>(glm::radians(90.0f), 1, 0.001, 10000);
-            camera.target_viewport = "Main Platform Window";
+            camera.target_viewport = "Editor1";
         }
 
         void Update()
@@ -92,16 +92,16 @@ namespace vstm {
     public:
         void Start()
         {
-            Transform& transform = Get<vstmr::Transform>();
+            Transform& transform = Get<Transform>();
             transform.position = { 0, 0, 0 };
             transform.rotation = { 0, 0, 0 };
-            MeshRenderer& meshRenderer = Add<vstmr::MeshRenderer>();
+            MeshRenderer& meshRenderer = Add<MeshRenderer>();
             meshRenderer.material.color = { 1.0f, 1.0f, 0.0f };
-            MeshLoader::Load("../../../../vstmr/assets/models/ukulele.obj", meshRenderer, m_tm);
+            ModelLoader::Load("../../../../vstmr/assets/models/ukulele.obj", meshRenderer, m_tm);
             meshRenderer.material.textures[0] = Texture{
                 "C:\\Dev\\vstmr\\VerySickTissueMaker\\vstmr\\assets\\images\\wood.png"
                 };
-            for (vstmr::MeshComponent& mesh : meshRenderer.meshes)
+            for (MeshComponent& mesh : meshRenderer.meshes)
             {
                 mesh.SetupMesh();
             }
@@ -111,9 +111,9 @@ namespace vstm {
         {
             ImGui::Begin("Cube Settings");
             ImGui::ColorPicker3("Light color picker", &Get<MeshRenderer>().material.color[0]);
-            ImGui::DragFloat3("Position", &Get<vstmr::Transform>().position[0], 0.1f);
-            ImGui::DragFloat3("Rotation", &Get<vstmr::Transform>().rotation[0], 0.1f);
-            ImGui::DragFloat3("Scale", &Get<vstmr::Transform>().scale[0], 0.1f);
+            ImGui::DragFloat3("Position", &Get<Transform>().position[0], 0.1f);
+            ImGui::DragFloat3("Rotation", &Get<Transform>().rotation[0], 0.1f);
+            ImGui::DragFloat3("Scale", &Get<Transform>().scale[0], 0.1f);
             ImGui::End();
         }
 
@@ -132,13 +132,13 @@ namespace vstm {
     public:
         void Start()
         {
-            Transform& transform = Get<vstmr::Transform>();
+            Transform& transform = Get<Transform>();
             transform.position = { 0, 0, 0 };
             transform.rotation = { 0, 0, 0 };
-            MeshRenderer& meshRenderer = Add<vstmr::MeshRenderer>();
+            MeshRenderer& meshRenderer = Add<MeshRenderer>();
             meshRenderer.material.color = { 1.0f, 1.0f, 0.0f };
-            MeshLoader::Load("../../../../vstmr/assets/models/33-fbx/fbx/wolf.fbx", meshRenderer, m_tm);
-            for (vstmr::MeshComponent& mesh : meshRenderer.meshes)
+            ModelLoader::Load("../../../../vstmr/assets/models/33-fbx/fbx/wolf.fbx", meshRenderer, m_tm);
+            for (MeshComponent& mesh : meshRenderer.meshes)
             {
                 mesh.SetupMesh();
             }
@@ -148,9 +148,9 @@ namespace vstm {
         {
             ImGui::Begin("Wolf Settings");
             ImGui::ColorPicker3("Light color picker", &Get<MeshRenderer>().material.color[0]);
-            ImGui::DragFloat3("Position", &Get<vstmr::Transform>().position[0], 0.1f);
-            ImGui::DragFloat3("Rotation", &Get<vstmr::Transform>().rotation[0], 0.1f);
-            ImGui::DragFloat3("Scale", &Get<vstmr::Transform>().scale[0], 0.1f);
+            ImGui::DragFloat3("Position", &Get<Transform>().position[0], 0.1f);
+            ImGui::DragFloat3("Rotation", &Get<Transform>().rotation[0], 0.1f);
+            ImGui::DragFloat3("Scale", &Get<Transform>().scale[0], 0.1f);
             ImGui::End();
         }
 
@@ -170,16 +170,16 @@ namespace vstm {
     public:
         void Start()
         {
-            Transform& transform = Get<vstmr::Transform>();
+            Transform& transform = Get<Transform>();
             transform.position = { 0, 0, 0 };
             transform.rotation = { 0, 0, 0 };
             transform.scale = { 0.1f, 0.1f, 0.1f };
-            Add<vstmr::PointLight>();
+            Add<PointLight>();
             MeshRenderer& meshRenderer = Add<MeshRenderer>();
             meshRenderer.material.color = { 1.0f, 1.0f, 0.0f };
-            MeshLoader::Load("../../../../vstmr/assets/models/cube.obj", meshRenderer, m_tm);
+            ModelLoader::Load("../../../../vstmr/assets/models/cube.obj", meshRenderer, m_tm);
 
-            for (vstmr::MeshComponent& mesh : meshRenderer.meshes)
+            for (MeshComponent& mesh : meshRenderer.meshes)
             {
                 mesh.SetupMesh();
             }
@@ -189,7 +189,7 @@ namespace vstm {
         {
             ImGui::Begin("Light Color");
             ImGui::ColorPicker3("Light color picker", &Get<PointLight>().color[0]);
-            ImGui::DragFloat3("Light Position", &Get<vstmr::Transform>().position[0], 0.1f);
+            ImGui::DragFloat3("Light Position", &Get<Transform>().position[0], 0.1f);
             ImGui::End();
         }
 
@@ -202,7 +202,7 @@ namespace vstm {
 
     };
 
-    class Application : public vstmr::Application
+    class Application : public be::Application
     {
     public:
         Application()
@@ -221,7 +221,7 @@ namespace vstm {
 
 }
 
-vstmr::Application* vstmr::CreateApplication()
+be::Application* be::CreateApplication()
 {
     return new vstm::Application{};
 }

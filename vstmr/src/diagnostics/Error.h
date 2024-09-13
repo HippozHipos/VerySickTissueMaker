@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 
-namespace vstmr {
+namespace be {
 
 	class Error
 	{

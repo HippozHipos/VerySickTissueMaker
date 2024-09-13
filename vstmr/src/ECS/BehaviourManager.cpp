@@ -1,6 +1,6 @@
 #include "BehaviourManager.h"
 
-namespace vstmr {
+namespace be {
 
     void BehaviourManager::CallAllStartFunctions() const
     {

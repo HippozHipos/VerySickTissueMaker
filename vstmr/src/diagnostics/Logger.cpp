@@ -2,7 +2,7 @@
 
 #include "Logger.h"
 
-namespace vstmr {
+namespace be {
 
 	std::shared_ptr<spdlog::logger> Logger::s_console = spdlog::stdout_color_mt("VSTM Console");
 	std::shared_ptr<spdlog::logger> Logger::s_trace_file = 

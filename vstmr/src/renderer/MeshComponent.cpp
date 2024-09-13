@@ -2,7 +2,7 @@
 
 #include "MeshComponent.h"
 
-namespace vstmr {
+namespace be {
 
 	int MeshComponent::IndexBufferSize()
 	{

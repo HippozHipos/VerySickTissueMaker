@@ -10,7 +10,7 @@
 #include "ECSSystems/MeshRendererSystem.h"
 #include "MainPlatformWindowRenderer.h"
 
-namespace vstmr {
+namespace be {
 
 	class Window;
 	class Renderer : public SceneContainer

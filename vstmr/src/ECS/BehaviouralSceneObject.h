@@ -3,7 +3,7 @@
 #include "SceneObject.h"
 #include "BehaviourManager.h"
 
-namespace vstmr {
+namespace be {
 
     //This is so we can share same instance of BehaviourManager 
     //across all the instances of BehaviouralSceneObject<T>

@@ -8,7 +8,7 @@
 //it is not guaranteed to be valid after the callback has returned.If you wish to use it after that, 
 //you need to make your own copy of it before returning.
 
-namespace vstmr {
+namespace be {
 
 	void LogGLFWError(int errorCode, const char* desc);
 

@@ -3,7 +3,7 @@
 #include "Vector.h"
 #include "ECS/SceneContainer.h"
 
-namespace vstmr {
+namespace be {
 
 	struct Transform : public SceneContainer
 	{

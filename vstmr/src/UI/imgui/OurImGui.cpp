@@ -5,7 +5,7 @@
 #include "renderer/Graphics.h"
 #include "Main/Application.h"
 
-namespace vstmr {
+namespace be {
 
 	void OurImGui::Start(GLFWwindow* window, int config_flag)
 	{

@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-namespace vstmr {
+namespace be {
 
 	Camera::Camera(float fovy, float aspect, float near, float far)
 	{

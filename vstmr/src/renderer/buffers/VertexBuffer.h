@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-namespace vstmr
+namespace be
 {
 	class VertexBuffer
 	{

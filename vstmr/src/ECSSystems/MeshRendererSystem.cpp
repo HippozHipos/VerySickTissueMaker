@@ -18,7 +18,7 @@
 
 #include "renderer/Graphics.h"
 
-namespace vstmr {
+namespace be {
 
 	MeshRendererSystem::MeshRendererSystem(std::unordered_map<std::string, VstmrImGuiViewport>& viewportMap, 
 		MainPlatformWindowRenderer& mainWinRenderer) :
@@ -43,6 +43,8 @@ namespace vstmr {
 				}
 				if (isMainPlatformWindow)
 				{
+					//for now just unbind it (set to default framebuffer), but eventally we want to run the commented code bellow and build up 
+					//on it to enable off screen rendering for main window
 					FrameBuffer::UnBind();
 					/*Window& window = ECS::registry.view<Window>().get<Window>((entt::entity)0);
 					if (window.GetWidth() != m_main_window_renderer.GetWidth() || window.GetHeight() != m_main_window_renderer.GetHeight())

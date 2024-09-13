@@ -1,7 +1,7 @@
 #include "GlfwError.h"
 #include "Logger.h"
 
-namespace vstmr {
+namespace be {
 
 	void LogGLFWError(int errorCode, const char* desc)
 	{

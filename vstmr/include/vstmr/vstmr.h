@@ -20,7 +20,7 @@
 
 #include "src/renderer/PointLight.h"
 
-#include "src/ResourceLoader/MeshLoader.h"
+#include "src/ResourceLoader/ModelLoader.h"
 
 #include "renderer/Camera.h"
 #include "renderer/Graphics.h"

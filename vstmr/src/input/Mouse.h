@@ -5,7 +5,7 @@
 #include "ECS/SceneContainer.h"
 
 class GLFWwindow;
-namespace vstmr {
+namespace be {
 
 	class Mouse : public SceneContainer
 	{

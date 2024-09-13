@@ -3,7 +3,7 @@
 #include "FrameBuffer.h"
 #include "diagnostics/OpenglError.h"
 
-namespace vstmr {
+namespace be {
 
 	FrameBuffer::~FrameBuffer()
 	{

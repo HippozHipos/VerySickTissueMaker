@@ -2,7 +2,7 @@
 
 #include "Graphics.h "
 
-namespace vstmr {
+namespace be {
 
 	void Graphics::DrawIndexedTraingles(int numIndices)
 	{

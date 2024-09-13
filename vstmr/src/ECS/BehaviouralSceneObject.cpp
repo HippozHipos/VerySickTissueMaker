@@ -1,5 +1,5 @@
 #include "BehaviouralSceneObject.h"
 
-namespace vstmr {
+namespace be {
 
 }

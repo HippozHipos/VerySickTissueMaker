@@ -7,14 +7,14 @@
 #define VSTMR_ENTRY_POINT_ALREADY_DEFINED
 
 
-namespace vstmr {
+namespace be {
 	extern Application* CreateApplication();
 }
 
-int main()
+int main() 
 {
-	vstmr::Logger::Init();
-	vstmr::Application* app = vstmr::CreateApplication();
+	be::Logger::Init();
+	be::Application* app = be::CreateApplication();
 	app->Run();
 	delete app;
 }

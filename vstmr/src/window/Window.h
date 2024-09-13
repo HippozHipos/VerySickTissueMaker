@@ -13,7 +13,7 @@
 #include "input/Keyboard.h"
 #include "input/Mouse.h"
 
-namespace vstmr {
+namespace be {
 
 	class Window : public SceneContainer
 	{

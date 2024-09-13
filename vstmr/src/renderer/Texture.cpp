@@ -20,7 +20,7 @@ namespace {
 
 }
 
-namespace vstmr {
+namespace be {
 
 
 	Texture::Texture() :

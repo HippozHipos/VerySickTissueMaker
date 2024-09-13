@@ -3,7 +3,7 @@
 
 #include "renderer/buffers/FrameBuffer.h"
 
-namespace vstmr {
+namespace be {
 
 	class VstmrImGuiViewport
 	{

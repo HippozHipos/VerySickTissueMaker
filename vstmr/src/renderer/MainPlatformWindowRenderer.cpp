@@ -1,7 +1,7 @@
 #include "MainPlatformWindowRenderer.h"
 #include "Graphics.h"
 
-namespace vstmr {
+namespace be {
 
 	MainPlatformWindowRenderer::MainPlatformWindowRenderer(int width, int height)
 	{

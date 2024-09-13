@@ -3,7 +3,7 @@
 
 #include "ECS/SceneContainer.h"
 
-namespace vstmr {
+namespace be {
 
 	class PointLight : public SceneContainer
 	{

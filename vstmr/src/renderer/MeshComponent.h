@@ -8,7 +8,7 @@
 #include "renderer/buffers/VertexBuffer.h"
 #include "renderer/buffers/IndexBuffer.h"
 
-namespace vstmr {
+namespace be {
 	
 	struct MeshComponent : public SceneContainer
 	{

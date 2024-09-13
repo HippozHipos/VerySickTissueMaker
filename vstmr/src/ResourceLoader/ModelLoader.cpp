@@ -1,10 +1,12 @@
-#include "MeshLoader.h"
+#include "ModelLoader.h"
 #include "diagnostics/Logger.h"
 #include "diagnostics/assert.h"
 
-namespace vstmr {
+namespace be {
 
-	void MeshLoader::Load(const char* path, MeshRenderer& renderer, TextureManager& texmanager)
+    std::filesystem::path ModelLoader::m_path_to_assets{};
+
+	void ModelLoader::Load(const char* path, MeshRenderer& renderer, TextureManager& texmanager)
 	{
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -27,7 +29,7 @@ namespace vstmr {
         }
 	}
 
-    void MeshLoader::ProcessNode(aiNode* node, const aiScene* scene, MeshRenderer& renderer, TextureManager& texmanager)
+    void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, MeshRenderer& renderer, TextureManager& texmanager)
     {
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
@@ -84,7 +86,7 @@ namespace vstmr {
         }
     }
 
-    void MeshLoader::LoadTextures(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager)
+    void ModelLoader::LoadTextures(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager)
     {
         LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_DIFFUSE);
         LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_SPECULAR);
@@ -98,7 +100,7 @@ namespace vstmr {
     }
 
 
-    void MeshLoader::LoadTexture(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager, aiTextureType type)
+    void ModelLoader::LoadTexture(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager, aiTextureType type)
     {
         aiMaterial* material = scene->mMaterials[assMesh->mMaterialIndex];
         if (!material) return;
@@ -108,7 +110,7 @@ namespace vstmr {
             aiString path;
             if (material->GetTexture(type, j, &path) == AI_SUCCESS)
             {
-                std::string fullpath = std::string{ "..\\..\\..\\..\\vstmr\\assets\\models\\" } + path.C_Str();
+                std::string fullpath = m_path_to_assets.string() + path.C_Str();
                 Texture texture = texmanager.Load(fullpath, fullpath, true); // Use path as texture name
                 renderer.material.textures.push_back(texture);
             }
@@ -117,6 +119,11 @@ namespace vstmr {
                 VSTM_CD_LOGERROR("Failed to get texture of type", static_cast<int>(type), "for material index", assMesh->mMaterialIndex);
             }
         }
+    }
+
+    void ModelLoader::SetAssetsFolderPath(const std::filesystem::path& path)
+    {
+        m_path_to_assets = path;
     }
 
 }
