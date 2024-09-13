@@ -13,10 +13,10 @@ namespace be {
         const GLchar* message,
         const void* userParam)
     {
-#ifndef NDEBUG
         if (type == GL_DEBUG_TYPE_ERROR)
         {
-            VSTM_CD_LOGERROR("ERROR, [GL Callback]: Type = {}, severity = {}, message = {}\n",
+            Log(Logger::ERR, Logger::CON | Logger::DEB,
+                "[GL Callback]: Type = {}, severity = {}, message = {}\n",
                 type,
                 severity,
                 message
@@ -24,17 +24,13 @@ namespace be {
         }
         else
         {
-            VSTM_TRACE_LOGINFO("INFO, [GL Callback]: Type = {}, severity = {}, message = {}\n",
+            Log(Logger::INFO, Logger::TRC,
+                "[GL Callback]: Type = {}, severity = {}, message = {}\n",
                 type,
                 severity,
                 message
             );
         }
-#endif
-
-        //stderr, "[GL Error Callback]: %s type = 0x%x, severity = 0x%x, message = %s\n",
-        //    (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
-        //    type, severity, message)
     }
 
 }

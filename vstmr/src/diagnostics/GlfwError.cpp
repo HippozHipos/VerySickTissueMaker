@@ -25,11 +25,11 @@ namespace be {
 		int maxLogs = 10;
 		if (count < maxLogs + 1)
 		{
-			VSTM_DEBUG_LOGERROR("[GLFW Error]\nError code: {}\nError description: {}", errorCode, desc);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "[glfw error]\nError code: {}\nError description: {}", errorCode, desc);
 		}
 		else if (count == maxLogs + 1)
 		{
-			VSTM_DEBUG_LOGINFO("[NOTE] Log omitted because above error occurred more than 10 times");
+			Log(Logger::INFO, Logger::CON | Logger::DEB, "Log omitted because above error occurred more than 10 times");
 		}
 		lastError = errorCode;
 	}

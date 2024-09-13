@@ -37,7 +37,7 @@ namespace be {
 
 		if (!inStream.is_open()) 
 		{
-			VSTM_CD_LOGERROR("[VSTM Error] Error opening file: {}\nError code: {}\nError description: {}\n", path, errno, strerror(errno));
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Error opening file : {} Error code : {} Error description : {}", path, errno, strerror(errno));
 			return;
 		}
 
@@ -97,8 +97,8 @@ namespace be {
 		if (!success) {
 			GLchar infoLog[512];
 			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-			VSTM_DEBUG_LOGERROR("Error code: {}\nError description: {}\n", 0, infoLog);
-			VSTM_CON_LOGERROR("Error code: {}\nError description: {}\n", 0, infoLog);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Error code: {} Error description: {}", 0, infoLog);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Error code: {} Error description: {}", 0, infoLog);
 		}
 		CheckOpenGLError();
 		return shader;
@@ -125,8 +125,8 @@ namespace be {
 		if (!success)
 		{
 			GLchar infoLog[512];
-			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
-			VSTM_CON_LOGERROR("[VSTM Error]\nError code: {}\nError description: {}", 0, infoLog);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Error code: {} Error description: {}", 0, infoLog);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Error code: {} Error description: {}", 0, infoLog);
 		}
 
 		glDeleteShader(vertexShader);

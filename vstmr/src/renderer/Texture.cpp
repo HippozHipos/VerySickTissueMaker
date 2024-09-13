@@ -7,7 +7,6 @@
 #include "Texture.h"
 #include "diagnostics/Logger.h"
 #include "diagnostics/OpenglError.h"
-#include "diagnostics/Assert.h"
 
 #include "iostream"
 
@@ -94,7 +93,7 @@ namespace be {
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("{}", stbi_failure_reason());
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "{}", stbi_failure_reason());
 		}
 	}
 
@@ -196,7 +195,7 @@ namespace be {
 		}
 		else
 		{
-			VSTM_CD_LOGERROR("Failed to allocate memory for default texture");
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Failed to allocate memory for default texture");
 		}
 	}
 
@@ -205,21 +204,21 @@ namespace be {
 		auto it = m_texture_map.find(name);
 		if (it != m_texture_map.end())
 		{
-			VSTM_TRACE_LOGINFO("Texture \"{}\" already exists. Returned already existing texture", name);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Texture \"{}\" already exists. Returned already existing texture", name);
 			return *it->second;
 		}
 		else
 		{
-			VSTM_TRACE_LOGINFO("Texture \"{}\" not found. Attempting to create new texture", name);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Texture \"{}\" not found. Attempting to create new texture", name);
 		}
 		std::shared_ptr<Texture> tex = std::make_shared<Texture>(path, genMipmap);
 		if (!tex->GetRawData())
 		{
-			VSTM_CD_LOGERROR("Failed to create texture \"{}\". Default texture returned", name);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Failed to create texture \"{}\". Default texture returned", name);
 		}
 		else
 		{
-			VSTM_TRACE_LOGERROR("Texture \"{}\" created", name);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Texture \"{}\" created", name);
 			m_texture_map[name] = tex;
 			return *tex;
 		}
@@ -236,7 +235,7 @@ namespace be {
 		}
 		else
 		{
-			VSTM_TRACE_LOGINFO("Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned", name);
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Attempting to retrieve texture \"{}\" which doesnt exist. Default texture returned", name);
 			return  *m_texture_map["default"];
 		}
 	}
@@ -269,20 +268,20 @@ namespace be {
 						std::shared_ptr<Texture>(new Texture{ texture })
 						)).second)
 				{
-					VSTM_CD_LOGINFO("Given texture hardcopied as \"{}\"", name);
+					Log(Logger::ERR, Logger::CON | Logger::DEB, "Given texture hardcopied as \"{}\"", name);
 					return *m_texture_map[name];
 				}
-				VSTM_CD_LOGINFO("Failed to hardcopy gived texture as \"{}\". Default texture returned", name);
+				Log(Logger::ERR, Logger::CON | Logger::DEB, "Failed to hardcopy gived texture as \"{}\". Default texture returned", name);
 				return *m_texture_map["default"];
 			}
 			else
 			{
-				VSTM_CD_LOGERROR("Failed to allocate memory to hardcopy given texture as \"{}\". Default texture returned", name);
+				Log(Logger::ERR, Logger::CON | Logger::DEB, "Failed to allocate memory to hardcopy given texture as \"{}\". Default texture returned", name);
 				return *m_texture_map["default"];
 			}
 		}
 
-		VSTM_CD_LOGWARN("Attempt to hard copy invalid texture as \"{}\". Default texture returned", name);
+		Log(Logger::ERR, Logger::CON | Logger::DEB, "Attempt to hard copy invalid texture as \"{}\". Default texture returned", name);
 		return *m_texture_map["default"];
 	}
 
@@ -295,7 +294,7 @@ namespace be {
 			case 3: return GL_RGB;         // RGB
 			case 4: return GL_RGBA;        // RGBA
 			default:
-				VSTMR_ASSERT(false, "Unsupported number of channels");
+				assert(false && "Unsupported number of channels");
 				return 0;
 		}
 	}

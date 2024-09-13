@@ -41,7 +41,7 @@ namespace be {
 			{
 				case Error::WINDOW_CONSTRUCTION_FAILED: WindowConstructionFailed();
 			}
-			VSTM_DEBUG_LOGERROR("[VSTM Error]\nError code : {}\nError description: {}", error.Errorcode(), error.What());
+			Log(Logger::ERR, Logger::CON | Logger::DEB, "Error code : {} Error description: {}", error.Errorcode(), error.What());
 		}
 		m_errors.clear();
 	}

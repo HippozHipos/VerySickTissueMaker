@@ -4,16 +4,16 @@
 
 namespace be {
 
-	std::shared_ptr<spdlog::logger> Logger::s_console = spdlog::stdout_color_mt("VSTM Console");
+	std::shared_ptr<spdlog::logger> Logger::s_console = spdlog::stdout_color_mt("BE Console");
 	std::shared_ptr<spdlog::logger> Logger::s_trace_file = 
-		spdlog::rotating_logger_mt("VSTM Trace", "logs/VSTMTrace.txt", 1024 * 1024, 5);
+		spdlog::rotating_logger_mt("BE Trace", "logs/BE_Trace.txt", 1024 * 1024, 5);
 	std::shared_ptr<spdlog::logger> Logger::s_debug_file = 
-		spdlog::rotating_logger_mt("VSTM Debug", "logs/VSTMDebug.txt", 1024 * 1024, 5);
+		spdlog::rotating_logger_mt("BE Debug", "logs/BE_Debug.txt", 1024 * 1024, 5);
 
 
 	void Logger::Init()
 	{
-		const char* pattern = "[VSTMR LOG][%D][%H:%M:%S][%l][%n]\n[Source: %s][Line: %#]\n[Function: %!][Thread: %t]\n%v\n";
+		const char* pattern = "[BE LOG][%D][%H:%M:%S][%l][Thread: %t]\n%v";
 		s_console.get()->set_pattern(pattern);
 		s_trace_file.get()->set_pattern(pattern);
 		s_debug_file.get()->set_pattern(pattern);
@@ -21,17 +21,16 @@ namespace be {
 
 	std::shared_ptr<spdlog::logger> Logger::Console()
 	{
-		return spdlog::get("VSTM Console");
+		return spdlog::get("BE Console");
 	}
 
 	std::shared_ptr<spdlog::logger> Logger::Trace()
 	{
-		return spdlog::get("VSTM Trace");
+		return spdlog::get("BE Trace");
 	}
 
 	std::shared_ptr<spdlog::logger> Logger::Debug()
 	{
-		return spdlog::get("VSTM Debug");
+		return spdlog::get("BE Debug");
 	}
-
 }

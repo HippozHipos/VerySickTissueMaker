@@ -1,6 +1,5 @@
 #include "ModelLoader.h"
 #include "diagnostics/Logger.h"
-#include "diagnostics/assert.h"
 
 namespace be {
 
@@ -13,7 +12,7 @@ namespace be {
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			VSTM_CD_LOGERROR("Mesh loading error", importer.GetErrorString());
+            Log(Logger::ERR, Logger::CON | Logger::DEB, "Mesh loading error", importer.GetErrorString());
 			return;
 		}
 
@@ -22,7 +21,7 @@ namespace be {
             assert(false && "Mesh loading failed due to incorrect data");
 
         int missing = renderer.meshes.size() - renderer.material.textures.size();
-        VSTM_CD_LOGWARN("{} default textures used for the model", missing);
+        Log(Logger::ERR, Logger::CON | Logger::DEB, "{} default textures used for the model", missing);
         for (int i = 0; i < missing; i++)
         {
             renderer.material.textures.push_back(texmanager.Get("default"));
@@ -116,7 +115,7 @@ namespace be {
             }
             else
             {
-                VSTM_CD_LOGERROR("Failed to get texture of type", static_cast<int>(type), "for material index", assMesh->mMaterialIndex);
+                Log(Logger::ERR, Logger::CON | Logger::DEB, "Failed to get texture of type", static_cast<int>(type), "for material index", assMesh->mMaterialIndex);
             }
         }
     }
