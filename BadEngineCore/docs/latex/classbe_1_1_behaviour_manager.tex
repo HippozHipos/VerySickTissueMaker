@@ -1,0 +1,189 @@
+\doxysection{be\+::Behaviour\+Manager Class Reference}
+\hypertarget{classbe_1_1_behaviour_manager}{}\label{classbe_1_1_behaviour_manager}\index{be::BehaviourManager@{be::BehaviourManager}}
+
+
+Manages behaviours of scene objects by calling specific behaviour methods.  
+
+
+
+
+{\ttfamily \#include $<$Behaviour\+Manager.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_behaviour_manager_a51b14442a13c883f39c5fd407d26cff5}\label{classbe_1_1_behaviour_manager_a51b14442a13c883f39c5fd407d26cff5} 
+{\bfseries Behaviour\+Manager} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor for \doxylink{classbe_1_1_behaviour_manager}{Behaviour\+Manager}. \end{DoxyCompactList}\item 
+{\footnotesize template$<$template$<$ class $>$ class Behavioural\+Scene\+Object, class T $>$ }\\void \mbox{\hyperlink{classbe_1_1_behaviour_manager_ab0041f3e6c0e003588baddb159b6335d}{Add\+Behaviour}} (\mbox{\hyperlink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}}$<$ T $>$ \texorpdfstring{$\ast$}{*}thing)
+\begin{DoxyCompactList}\small\item\em Adds a behaviour object to the manager and calls the objects Pre\+Start method if it has one. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_behaviour_manager_a2e4a9831dbedfb6c33dce3c0ce0d626c}{Call\+All\+Start\+Functions}} () const
+\begin{DoxyCompactList}\small\item\em Calls all Start methods for added behaviour objects. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_behaviour_manager_a9500e935fd79bbfc78ce8f240a6f2aad}{Call\+All\+Update\+Functions}} () const
+\begin{DoxyCompactList}\small\item\em Calls all Update methods for added behaviour objects. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_behaviour_manager_abbfdd75c8e2f4a5b0abf4d426563475b}{Call\+All\+UIFunctions}} () const
+\begin{DoxyCompactList}\small\item\em Calls all UI methods for added behaviour objects. \end{DoxyCompactList}\item 
+{\footnotesize template$<$template$<$ class $>$ class Behavioural\+Scene\+Object, class T $>$ }\\void \mbox{\hyperlink{classbe_1_1_behaviour_manager_a00d3ee53c5740eb42ff870ddceb2c335}{Remove\+Behaviour}} (\mbox{\hyperlink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}}$<$ T $>$ \texorpdfstring{$\ast$}{*}thing)
+\begin{DoxyCompactList}\small\item\em Removes a behaviour function from the manager, invoking End and Post\+End if available. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class T $>$ }\\void \mbox{\hyperlink{classbe_1_1_behaviour_manager_a57eaa4418ad69969200d6dc4084fc082}{Remove\+Behaviour\+From\+List}} (std\+::list$<$ std\+::pair$<$ void \texorpdfstring{$\ast$}{*}, std\+::function$<$ void()$>$ $>$ $>$ \&list, T \texorpdfstring{$\ast$}{*}thing)
+\begin{DoxyCompactList}\small\item\em Removes a behaviour from a list of behaviour methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::list$<$ std\+::pair$<$ void \texorpdfstring{$\ast$}{*}, std\+::function$<$ void()$>$ $>$ $>$ \mbox{\hyperlink{classbe_1_1_behaviour_manager_ad3b4e2de9547fd8e4e14cb7e92c6b783}{m\+\_\+start\+\_\+functions}}
+\item 
+std\+::list$<$ std\+::pair$<$ void \texorpdfstring{$\ast$}{*}, std\+::function$<$ void()$>$ $>$ $>$ \mbox{\hyperlink{classbe_1_1_behaviour_manager_a332eaa577dad20f5050be9036db9908b}{m\+\_\+update\+\_\+functions}}
+\item 
+std\+::list$<$ std\+::pair$<$ void \texorpdfstring{$\ast$}{*}, std\+::function$<$ void()$>$ $>$ $>$ \mbox{\hyperlink{classbe_1_1_behaviour_manager_ab268fc1336562cabf46ad0a287294c71}{m\+\_\+gui\+\_\+functions}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages behaviours of scene objects by calling specific behaviour methods. 
+
+See related\+: \doxylink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}
+
+The \doxylink{classbe_1_1_behaviour_manager}{Behaviour\+Manager} class manages the behaviour method invocations of objects that inherit from \doxylink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object} class. It allows adding, removing, and invoking various methods related to object behaviour, such as Pre\+Start, Start, Update, UI, End, and Post\+End.
+
+The behaviour methods are checked using SFINAE (e.\+g., {\ttfamily \doxylink{structbe_1_1_has_pre_start_method}{Has\+Pre\+Start\+Method}}) and are only invoked if they are present in the object.
+
+The following behaviour methods can be managed\+:
+\begin{DoxyEnumerate}
+\item Pre\+Start -\/ Called once when the object is created.
+\item Start -\/ Called once after Pre\+Start.
+\item Update -\/ Called every frame.
+\item UI -\/ Called every frame for UI rendering (Im\+Gui).
+\item End -\/ Called once when the object is deleted.
+\item Post\+End -\/ Called once after End. 
+\end{DoxyEnumerate}
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbe_1_1_behaviour_manager_ab0041f3e6c0e003588baddb159b6335d}\index{be::BehaviourManager@{be::BehaviourManager}!AddBehaviour@{AddBehaviour}}
+\index{AddBehaviour@{AddBehaviour}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{AddBehaviour()}{AddBehaviour()}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_ab0041f3e6c0e003588baddb159b6335d} 
+template$<$template$<$ class $>$ class Behavioural\+Scene\+Object, class T $>$ \\
+void be\+::\+Behaviour\+Manager\+::\+Add\+Behaviour (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{thing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Adds a behaviour object to the manager and calls the objects Pre\+Start method if it has one. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \doxylink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}} & Class that the object with behaviour inherits from. \\
+\hline
+{\em T} & The specific type of the behaviour object (Will be the Derived template argument for \doxylink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}). \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em thing} & A pointer to the object being added. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_behaviour_manager_a2e4a9831dbedfb6c33dce3c0ce0d626c}\index{be::BehaviourManager@{be::BehaviourManager}!CallAllStartFunctions@{CallAllStartFunctions}}
+\index{CallAllStartFunctions@{CallAllStartFunctions}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{CallAllStartFunctions()}{CallAllStartFunctions()}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_a2e4a9831dbedfb6c33dce3c0ce0d626c} 
+void be\+::\+Behaviour\+Manager\+::\+Call\+All\+Start\+Functions (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Calls all Start methods for added behaviour objects. 
+
+Iterates through the list of registered objects and invokes their Start method. \Hypertarget{classbe_1_1_behaviour_manager_abbfdd75c8e2f4a5b0abf4d426563475b}\index{be::BehaviourManager@{be::BehaviourManager}!CallAllUIFunctions@{CallAllUIFunctions}}
+\index{CallAllUIFunctions@{CallAllUIFunctions}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{CallAllUIFunctions()}{CallAllUIFunctions()}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_abbfdd75c8e2f4a5b0abf4d426563475b} 
+void be\+::\+Behaviour\+Manager\+::\+Call\+All\+UIFunctions (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Calls all UI methods for added behaviour objects. 
+
+Iterates through the list of registered objects and invokes their UI method. \Hypertarget{classbe_1_1_behaviour_manager_a9500e935fd79bbfc78ce8f240a6f2aad}\index{be::BehaviourManager@{be::BehaviourManager}!CallAllUpdateFunctions@{CallAllUpdateFunctions}}
+\index{CallAllUpdateFunctions@{CallAllUpdateFunctions}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{CallAllUpdateFunctions()}{CallAllUpdateFunctions()}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_a9500e935fd79bbfc78ce8f240a6f2aad} 
+void be\+::\+Behaviour\+Manager\+::\+Call\+All\+Update\+Functions (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Calls all Update methods for added behaviour objects. 
+
+Iterates through the list of registered objects and invokes their Update method. \Hypertarget{classbe_1_1_behaviour_manager_a00d3ee53c5740eb42ff870ddceb2c335}\index{be::BehaviourManager@{be::BehaviourManager}!RemoveBehaviour@{RemoveBehaviour}}
+\index{RemoveBehaviour@{RemoveBehaviour}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{RemoveBehaviour()}{RemoveBehaviour()}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_a00d3ee53c5740eb42ff870ddceb2c335} 
+template$<$template$<$ class $>$ class Behavioural\+Scene\+Object, class T $>$ \\
+void be\+::\+Behaviour\+Manager\+::\+Remove\+Behaviour (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}}$<$ T $>$ \texorpdfstring{$\ast$}{*}}]{thing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Removes a behaviour function from the manager, invoking End and Post\+End if available. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \doxylink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}} & Class that the object with behaviour inherits from. \\
+\hline
+{\em T} & The specific type of the behaviour object (Will be the Derived template argument for \doxylink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}). \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em thing} & A pointer to the object being removed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_behaviour_manager_a57eaa4418ad69969200d6dc4084fc082}\index{be::BehaviourManager@{be::BehaviourManager}!RemoveBehaviourFromList@{RemoveBehaviourFromList}}
+\index{RemoveBehaviourFromList@{RemoveBehaviourFromList}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{RemoveBehaviourFromList()}{RemoveBehaviourFromList()}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_a57eaa4418ad69969200d6dc4084fc082} 
+template$<$class T $>$ \\
+void be\+::\+Behaviour\+Manager\+::\+Remove\+Behaviour\+From\+List (\begin{DoxyParamCaption}\item[{std\+::list$<$ std\+::pair$<$ void \texorpdfstring{$\ast$}{*}, std\+::function$<$ void()$>$ $>$ $>$ \&}]{list}{, }\item[{T \texorpdfstring{$\ast$}{*}}]{thing}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [private]}}
+
+
+
+Removes a behaviour from a list of behaviour methods. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The specific type of the behaviour object (Will be the Derived template argument for \doxylink{classbe_1_1_behavioural_scene_object}{Behavioural\+Scene\+Object}). \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em list} & The list of behaviour functions from which the object will be removed. \\
+\hline
+{\em thing} & A pointer to the object to remove from the list. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbe_1_1_behaviour_manager_ab268fc1336562cabf46ad0a287294c71}\index{be::BehaviourManager@{be::BehaviourManager}!m\_gui\_functions@{m\_gui\_functions}}
+\index{m\_gui\_functions@{m\_gui\_functions}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{m\_gui\_functions}{m\_gui\_functions}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_ab268fc1336562cabf46ad0a287294c71} 
+std\+::list$<$std\+::pair$<$void\texorpdfstring{$\ast$}{*}, std\+::function$<$void()$>$ $>$ $>$ be\+::\+Behaviour\+Manager\+::m\+\_\+gui\+\_\+functions\hspace{0.3cm}{\ttfamily [private]}}
+
+List of a pair of behaviour object\texorpdfstring{$\ast$}{*} and its UI method. \Hypertarget{classbe_1_1_behaviour_manager_ad3b4e2de9547fd8e4e14cb7e92c6b783}\index{be::BehaviourManager@{be::BehaviourManager}!m\_start\_functions@{m\_start\_functions}}
+\index{m\_start\_functions@{m\_start\_functions}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{m\_start\_functions}{m\_start\_functions}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_ad3b4e2de9547fd8e4e14cb7e92c6b783} 
+std\+::list$<$std\+::pair$<$void\texorpdfstring{$\ast$}{*}, std\+::function$<$void()$>$ $>$ $>$ be\+::\+Behaviour\+Manager\+::m\+\_\+start\+\_\+functions\hspace{0.3cm}{\ttfamily [private]}}
+
+List of a pair of behaviour object\texorpdfstring{$\ast$}{*} and its Start method. \Hypertarget{classbe_1_1_behaviour_manager_a332eaa577dad20f5050be9036db9908b}\index{be::BehaviourManager@{be::BehaviourManager}!m\_update\_functions@{m\_update\_functions}}
+\index{m\_update\_functions@{m\_update\_functions}!be::BehaviourManager@{be::BehaviourManager}}
+\doxysubsubsection{\texorpdfstring{m\_update\_functions}{m\_update\_functions}}
+{\footnotesize\ttfamily \label{classbe_1_1_behaviour_manager_a332eaa577dad20f5050be9036db9908b} 
+std\+::list$<$std\+::pair$<$void\texorpdfstring{$\ast$}{*}, std\+::function$<$void()$>$ $>$ $>$ be\+::\+Behaviour\+Manager\+::m\+\_\+update\+\_\+functions\hspace{0.3cm}{\ttfamily [private]}}
+
+List of a pair of behaviour object\texorpdfstring{$\ast$}{*} and its Update method. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+ECS/Behaviour\+Manager.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+ECS/Behaviour\+Manager.\+cpp\end{DoxyCompactItemize}

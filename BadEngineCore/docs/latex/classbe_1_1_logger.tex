@@ -1,0 +1,67 @@
+\doxysection{be\+::Logger Class Reference}
+\hypertarget{classbe_1_1_logger}{}\label{classbe_1_1_logger}\index{be::Logger@{be::Logger}}
+
+
+{\ttfamily \#include $<$Logger.\+h$>$}
+
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_logger_abfe610cc7aaf3ad4332818bad0579ff4}\label{classbe_1_1_logger_abfe610cc7aaf3ad4332818bad0579ff4} 
+static void {\bfseries Init} ()
+\item 
+\Hypertarget{classbe_1_1_logger_a408972a19ec2b25c592bac93f40a7576}\label{classbe_1_1_logger_a408972a19ec2b25c592bac93f40a7576} 
+static std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ {\bfseries Console} ()
+\item 
+\Hypertarget{classbe_1_1_logger_a36f42f44f8b50c6c1d04b2811143c3f6}\label{classbe_1_1_logger_a36f42f44f8b50c6c1d04b2811143c3f6} 
+static std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ {\bfseries Trace} ()
+\item 
+\Hypertarget{classbe_1_1_logger_a40eb31e6e0053cf0fdd2598454377369}\label{classbe_1_1_logger_a40eb31e6e0053cf0fdd2598454377369} 
+static std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ {\bfseries Debug} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_logger_a365755df6d45dea0c27f76f735827fc2}\label{classbe_1_1_logger_a365755df6d45dea0c27f76f735827fc2} 
+static std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ {\bfseries s\+\_\+console} = spdlog\+::stdout\+\_\+color\+\_\+mt("{}VSTM Console"{})
+\item 
+static std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ \mbox{\hyperlink{classbe_1_1_logger_af141d2a108714c5ee617cb4e1e2c1c6f}{s\+\_\+trace\+\_\+file}}
+\item 
+static std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ \mbox{\hyperlink{classbe_1_1_logger_afea3b0d2752e6fb885116c432b7a865f}{s\+\_\+debug\+\_\+file}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\doxylink{classbe_1_1_logger}{Logger} class. This class isn\textquotesingle{}t directly used for logging. Instead the logging macros are used. Logging macro has format BELOG\+\_\+(\+CON, TRC, DBG, CD)\+\_\+(\+INFO, WARN, ERR, CRIT) BELOG -\/ It is a bad engine logging macro CON -\/ It logs to console TRC -\/ It logs to a trace log file DBG -\/ It logs to a debug log file CD -\/ Log to both console and debug trace file INFO, WARN, ERR, CRIT -\/ Log levels Arguments -\/ First argument\+: format, second argument\+: values Example\+: BELOG\+\_\+\+DBG\+\_\+\+ERR("{}\+The value is \{\}"{}, 4) -\/ Logs "{}\+The value is 4"{} to dbg trace file. String formatting is the same used by fmt library. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbe_1_1_logger_afea3b0d2752e6fb885116c432b7a865f}\index{be::Logger@{be::Logger}!s\_debug\_file@{s\_debug\_file}}
+\index{s\_debug\_file@{s\_debug\_file}!be::Logger@{be::Logger}}
+\doxysubsubsection{\texorpdfstring{s\_debug\_file}{s\_debug\_file}}
+{\footnotesize\ttfamily \label{classbe_1_1_logger_afea3b0d2752e6fb885116c432b7a865f} 
+std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ be\+::\+Logger\+::s\+\_\+debug\+\_\+file\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ spdlog::rotating\_logger\_mt(\textcolor{stringliteral}{"{}VSTM\ Debug"{}},\ \textcolor{stringliteral}{"{}logs/VSTMDebug.txt"{}},\ 1024\ *\ 1024,\ 5)}
+
+\end{DoxyCode}
+\Hypertarget{classbe_1_1_logger_af141d2a108714c5ee617cb4e1e2c1c6f}\index{be::Logger@{be::Logger}!s\_trace\_file@{s\_trace\_file}}
+\index{s\_trace\_file@{s\_trace\_file}!be::Logger@{be::Logger}}
+\doxysubsubsection{\texorpdfstring{s\_trace\_file}{s\_trace\_file}}
+{\footnotesize\ttfamily \label{classbe_1_1_logger_af141d2a108714c5ee617cb4e1e2c1c6f} 
+std\+::shared\+\_\+ptr$<$ spdlog\+::logger $>$ be\+::\+Logger\+::s\+\_\+trace\+\_\+file\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ spdlog::rotating\_logger\_mt(\textcolor{stringliteral}{"{}VSTM\ Trace"{}},\ \textcolor{stringliteral}{"{}logs/VSTMTrace.txt"{}},\ 1024\ *\ 1024,\ 5)}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Diagnostics/Logger.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Diagnostics/Logger.\+cpp\end{DoxyCompactItemize}

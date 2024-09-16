@@ -1,0 +1,181 @@
+\doxysection{be\+::Keyboard Class Reference}
+\hypertarget{classbe_1_1_keyboard}{}\label{classbe_1_1_keyboard}\index{be::Keyboard@{be::Keyboard}}
+
+
+Manages the state of keyboard inputs for the "{}\+Main Platform Window"{} i.\+e. \doxylink{classbe_1_1_window}{Window} class.  
+
+
+
+
+{\ttfamily \#include $<$Keyboard.\+h$>$}
+
+Inheritance diagram for be\+::Keyboard\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classbe_1_1_keyboard}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_keyboard_a0112db4228f65b109c4f3024c94c6243}\label{classbe_1_1_keyboard_a0112db4228f65b109c4f3024c94c6243} 
+{\bfseries Keyboard} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor for the \doxylink{classbe_1_1_keyboard}{Keyboard} class. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_keyboard_ad58753b6a6ab64d9cdb4188be51ab0de}\label{classbe_1_1_keyboard_ad58753b6a6ab64d9cdb4188be51ab0de} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Keyboard} ()=default
+\begin{DoxyCompactList}\small\item\em Default destructor for the \doxylink{classbe_1_1_keyboard}{Keyboard} class. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classbe_1_1_keyboard_a1ab5e3e15527a0081989125ed012ba43}{Pressed}} (int key) const
+\begin{DoxyCompactList}\small\item\em Checks if a key was pressed. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classbe_1_1_keyboard_a9ddca33c5dbf653a893271102af1ed74}{Held}} (int key) const
+\begin{DoxyCompactList}\small\item\em Checks if a key is currently being held down. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_keyboard_a1eea9fd146c0f8270ee933f45d7ff191}{Reset\+Keys\+Pressed}} ()
+\begin{DoxyCompactList}\small\item\em Resets the state of keys that were pressed. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_container}{be\+::\+Scene\+Container}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Scene\+Container} ()
+\begin{DoxyCompactList}\small\item\em Constructor creates an entt\+::entity, which is the entity that identifies this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , class... Args$>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ac90d71a74d89b19906903f5462de30b9}{Add}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Adds an object to the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_abd87db14789f9fd4ddeedbdf9c69b056}{Get}} ()
+\begin{DoxyCompactList}\small\item\em Gets the object of given type from this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ad1126f3ce250f3db302315420a65df46}{Get\+Parent}} ()
+\begin{DoxyCompactList}\small\item\em Gets the parent container of this container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classbe_1_1_keyboard_a39d6eb975ef8deaf36fdf8b7a7ef0f38}{On\+Key\+Press}} (int key)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when a key is pressed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_keyboard_aafdf7cfaa7cb27a275ce41ea05c376a1}{On\+Key\+Held}} (int key)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when a key is held. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_keyboard_a75e7e173ba8ad66d9b8b2e49b0794bb7}{On\+Key\+Release}} (int key)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when a key is released. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_keyboard_a2fe38556e5243b91cb529e224aaec62b}\label{classbe_1_1_keyboard_a2fe38556e5243b91cb529e224aaec62b} 
+std\+::bitset$<$ \mbox{\hyperlink{classbe_1_1_keyboard_a51be0a2bd90f516142d09ba3516c80b6}{key\+Codes}} $>$ {\bfseries m\+\_\+keys\+\_\+pressed}
+\begin{DoxyCompactList}\small\item\em Bitset representing keys pressed in the current frame. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_keyboard_ae7191a2ab2f08e97155f564a8d3b5426}\label{classbe_1_1_keyboard_ae7191a2ab2f08e97155f564a8d3b5426} 
+std\+::bitset$<$ \mbox{\hyperlink{classbe_1_1_keyboard_a51be0a2bd90f516142d09ba3516c80b6}{key\+Codes}} $>$ {\bfseries m\+\_\+keys\+\_\+held}
+\begin{DoxyCompactList}\small\item\em Bitset representing keys that are being held down. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_keyboard_a51be0a2bd90f516142d09ba3516c80b6}\label{classbe_1_1_keyboard_a51be0a2bd90f516142d09ba3516c80b6} 
+static constexpr int {\bfseries key\+Codes} = 348
+\begin{DoxyCompactList}\small\item\em The number of key codes supported by the class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_keyboard_a553f958a25683445088050a69d3de8e9}\label{classbe_1_1_keyboard_a553f958a25683445088050a69d3de8e9} 
+class {\bfseries Window}
+\item 
+\Hypertarget{classbe_1_1_keyboard_a11d10abe19f3a2ed1416a136277b9189}\label{classbe_1_1_keyboard_a11d10abe19f3a2ed1416a136277b9189} 
+void {\bfseries key\+Callback} (GLFWwindow \texorpdfstring{$\ast$}{*}glfwwindow, int key, int scancode, int action, int mods)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages the state of keyboard inputs for the "{}\+Main Platform Window"{} i.\+e. \doxylink{classbe_1_1_window}{Window} class. 
+
+The \doxylink{classbe_1_1_keyboard}{Keyboard} class tracks key press, hold, and release states. It interacts with GLFW through a callback to update key states, and provides methods to query whether keys are pressed or held. It uses a bitset to store the state of all keys. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbe_1_1_keyboard_a9ddca33c5dbf653a893271102af1ed74}\index{be::Keyboard@{be::Keyboard}!Held@{Held}}
+\index{Held@{Held}!be::Keyboard@{be::Keyboard}}
+\doxysubsubsection{\texorpdfstring{Held()}{Held()}}
+{\footnotesize\ttfamily \label{classbe_1_1_keyboard_a9ddca33c5dbf653a893271102af1ed74} 
+bool be\+::\+Keyboard\+::\+Held (\begin{DoxyParamCaption}\item[{int}]{key}{}\end{DoxyParamCaption}) const}
+
+
+
+Checks if a key is currently being held down. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key code to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the key is being held down, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_keyboard_aafdf7cfaa7cb27a275ce41ea05c376a1}\index{be::Keyboard@{be::Keyboard}!OnKeyHeld@{OnKeyHeld}}
+\index{OnKeyHeld@{OnKeyHeld}!be::Keyboard@{be::Keyboard}}
+\doxysubsubsection{\texorpdfstring{OnKeyHeld()}{OnKeyHeld()}}
+{\footnotesize\ttfamily \label{classbe_1_1_keyboard_aafdf7cfaa7cb27a275ce41ea05c376a1} 
+void be\+::\+Keyboard\+::\+On\+Key\+Held (\begin{DoxyParamCaption}\item[{int}]{key}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when a key is held. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key code that is being held. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_keyboard_a39d6eb975ef8deaf36fdf8b7a7ef0f38}\index{be::Keyboard@{be::Keyboard}!OnKeyPress@{OnKeyPress}}
+\index{OnKeyPress@{OnKeyPress}!be::Keyboard@{be::Keyboard}}
+\doxysubsubsection{\texorpdfstring{OnKeyPress()}{OnKeyPress()}}
+{\footnotesize\ttfamily \label{classbe_1_1_keyboard_a39d6eb975ef8deaf36fdf8b7a7ef0f38} 
+void be\+::\+Keyboard\+::\+On\+Key\+Press (\begin{DoxyParamCaption}\item[{int}]{key}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when a key is pressed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key code that was pressed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_keyboard_a75e7e173ba8ad66d9b8b2e49b0794bb7}\index{be::Keyboard@{be::Keyboard}!OnKeyRelease@{OnKeyRelease}}
+\index{OnKeyRelease@{OnKeyRelease}!be::Keyboard@{be::Keyboard}}
+\doxysubsubsection{\texorpdfstring{OnKeyRelease()}{OnKeyRelease()}}
+{\footnotesize\ttfamily \label{classbe_1_1_keyboard_a75e7e173ba8ad66d9b8b2e49b0794bb7} 
+void be\+::\+Keyboard\+::\+On\+Key\+Release (\begin{DoxyParamCaption}\item[{int}]{key}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when a key is released. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key code that was released. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_keyboard_a1ab5e3e15527a0081989125ed012ba43}\index{be::Keyboard@{be::Keyboard}!Pressed@{Pressed}}
+\index{Pressed@{Pressed}!be::Keyboard@{be::Keyboard}}
+\doxysubsubsection{\texorpdfstring{Pressed()}{Pressed()}}
+{\footnotesize\ttfamily \label{classbe_1_1_keyboard_a1ab5e3e15527a0081989125ed012ba43} 
+bool be\+::\+Keyboard\+::\+Pressed (\begin{DoxyParamCaption}\item[{int}]{key}{}\end{DoxyParamCaption}) const}
+
+
+
+Checks if a key was pressed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key} & The key code to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the key was pressed in the current frame, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_keyboard_a1eea9fd146c0f8270ee933f45d7ff191}\index{be::Keyboard@{be::Keyboard}!ResetKeysPressed@{ResetKeysPressed}}
+\index{ResetKeysPressed@{ResetKeysPressed}!be::Keyboard@{be::Keyboard}}
+\doxysubsubsection{\texorpdfstring{ResetKeysPressed()}{ResetKeysPressed()}}
+{\footnotesize\ttfamily \label{classbe_1_1_keyboard_a1eea9fd146c0f8270ee933f45d7ff191} 
+void be\+::\+Keyboard\+::\+Reset\+Keys\+Pressed (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Resets the state of keys that were pressed. 
+
+Clears the pressed keys bitset, effectively resetting the pressed state for all keys. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Input/Keyboard.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Input/Keyboard.\+cpp\end{DoxyCompactItemize}

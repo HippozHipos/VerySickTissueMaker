@@ -1,0 +1,43 @@
+\doxysection{be\+::Error Class Reference}
+\hypertarget{classbe_1_1_error}{}\label{classbe_1_1_error}\index{be::Error@{be::Error}}
+
+
+{\ttfamily \#include $<$Error.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_error_a7dcda38eddc73e6f07963a2fc411180e}\label{classbe_1_1_error_a7dcda38eddc73e6f07963a2fc411180e} 
+enum \{ {\bfseries WINDOW\+\_\+\+CONSTRUCTION\+\_\+\+FAILED}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_error_af8e6070b2f53fae76b196336048433b2}\label{classbe_1_1_error_af8e6070b2f53fae76b196336048433b2} 
+{\bfseries Error} (int error\+Code, const std\+::string \&desc)
+\item 
+\Hypertarget{classbe_1_1_error_a9fa3fc75cee16bbc863173c1a4ae3f95}\label{classbe_1_1_error_a9fa3fc75cee16bbc863173c1a4ae3f95} 
+int {\bfseries Errorcode} ()
+\item 
+\Hypertarget{classbe_1_1_error_a633903b262eaee7c667161fc85e9b67c}\label{classbe_1_1_error_a633903b262eaee7c667161fc85e9b67c} 
+std\+::string {\bfseries What} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_error_a81ff4bd63c9c297d282c6d08450f657d}\label{classbe_1_1_error_a81ff4bd63c9c297d282c6d08450f657d} 
+int {\bfseries error\+Code}
+\item 
+\Hypertarget{classbe_1_1_error_a293ba232debc1ee4c15c390d7bf7a7c0}\label{classbe_1_1_error_a293ba232debc1ee4c15c390d7bf7a7c0} 
+std\+::string {\bfseries what}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class represents application-\/breaking errors which if occur, the application needs to be terminated 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Diagnostics/Error.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Diagnostics/Error.\+cpp\end{DoxyCompactItemize}

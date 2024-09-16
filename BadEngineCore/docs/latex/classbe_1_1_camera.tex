@@ -1,0 +1,119 @@
+\doxysection{be\+::Camera Class Reference}
+\hypertarget{classbe_1_1_camera}{}\label{classbe_1_1_camera}\index{be::Camera@{be::Camera}}
+Inheritance diagram for be\+::Camera\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbe_1_1_camera}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_camera_a97bc23f79e0155deb80b74dc6f395254}\label{classbe_1_1_camera_a97bc23f79e0155deb80b74dc6f395254} 
+{\bfseries Camera} (float fovy, float aspect, float near, float far)
+\item 
+\Hypertarget{classbe_1_1_camera_a4927eb2da93fb3446a9a741bc7b3dcef}\label{classbe_1_1_camera_a4927eb2da93fb3446a9a741bc7b3dcef} 
+const glm\+::mat4 \& {\bfseries Get\+Projection\+Matrix} ()
+\item 
+\Hypertarget{classbe_1_1_camera_a54a1d670d680091f73d3f8b8e8e67dc8}\label{classbe_1_1_camera_a54a1d670d680091f73d3f8b8e8e67dc8} 
+glm\+::mat4 {\bfseries Get\+View\+Matrix} ()
+\item 
+\Hypertarget{classbe_1_1_camera_afd16ebd78955c6ed81af6d74e57e4e3b}\label{classbe_1_1_camera_afd16ebd78955c6ed81af6d74e57e4e3b} 
+void {\bfseries Set\+World\+Up} (const glm\+::vec3 \&up)
+\item 
+\Hypertarget{classbe_1_1_camera_a4afd58143afd86532194b09add54c59b}\label{classbe_1_1_camera_a4afd58143afd86532194b09add54c59b} 
+void {\bfseries Update} ()
+\item 
+\Hypertarget{classbe_1_1_camera_a7924c9a84bce360cdd002ab50156ac20}\label{classbe_1_1_camera_a7924c9a84bce360cdd002ab50156ac20} 
+const glm\+::vec3 \& {\bfseries Forward} ()
+\item 
+\Hypertarget{classbe_1_1_camera_aabf9674b4ec6719fe2cab143044d36cb}\label{classbe_1_1_camera_aabf9674b4ec6719fe2cab143044d36cb} 
+void {\bfseries Recalculate\+Projection\+Matrix} (float fovy, float aspect, float near, float far)
+\item 
+\Hypertarget{classbe_1_1_camera_a86df8bbc28c8a7a1f4111b2eb9d86642}\label{classbe_1_1_camera_a86df8bbc28c8a7a1f4111b2eb9d86642} 
+glm\+::vec3 {\bfseries Right} ()
+\item 
+\Hypertarget{classbe_1_1_camera_a1a3f5aa3ae59a957c404a988070dc952}\label{classbe_1_1_camera_a1a3f5aa3ae59a957c404a988070dc952} 
+glm\+::vec3 {\bfseries Up} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_object}{be\+::\+Scene\+Object}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Scene\+Object} ()
+\begin{DoxyCompactList}\small\item\em Constructor adds a \doxylink{structbe_1_1_transform}{Transform} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_container}{be\+::\+Scene\+Container}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Scene\+Container} ()
+\begin{DoxyCompactList}\small\item\em Constructor creates an entt\+::entity, which is the entity that identifies this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , class... Args$>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ac90d71a74d89b19906903f5462de30b9}{Add}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Adds an object to the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_abd87db14789f9fd4ddeedbdf9c69b056}{Get}} ()
+\begin{DoxyCompactList}\small\item\em Gets the object of given type from this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ad1126f3ce250f3db302315420a65df46}{Get\+Parent}} ()
+\begin{DoxyCompactList}\small\item\em Gets the parent container of this container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_camera_ac1a05bcb1feae67c964b95eddebed748}\label{classbe_1_1_camera_ac1a05bcb1feae67c964b95eddebed748} 
+glm\+::vec3 {\bfseries position} \{ 0.\+0f, 0.\+0f, -\/5.\+0f, \}
+\item 
+\Hypertarget{classbe_1_1_camera_a2d93eaa10026952e47f1710427991961}\label{classbe_1_1_camera_a2d93eaa10026952e47f1710427991961} 
+glm\+::vec3 {\bfseries rotation} \{ 0.\+0f, 0.\+0f, 90.\+0f \}
+\item 
+\Hypertarget{classbe_1_1_camera_a677a9ff671712d543cf250bb4bf5ac50}\label{classbe_1_1_camera_a677a9ff671712d543cf250bb4bf5ac50} 
+float {\bfseries movement\+\_\+speed} = 5
+\item 
+\Hypertarget{classbe_1_1_camera_a25296507fd9a8b46486a605f385e793d}\label{classbe_1_1_camera_a25296507fd9a8b46486a605f385e793d} 
+float {\bfseries mouse\+\_\+sensitivity} = 0.\+1f
+\item 
+\Hypertarget{classbe_1_1_camera_a352364ff86f498f2bde5d507dc93aabd}\label{classbe_1_1_camera_a352364ff86f498f2bde5d507dc93aabd} 
+std\+::string {\bfseries target\+\_\+viewport} = "{}Main Platform Window"{}
+\begin{DoxyCompactList}\small\item\em String specifying which viewport to render to. "{}\+Main Platform Window"{} by default. "{}\+Main Platform Window"{} renders to the main window created by the application. Apart from that, it can also be the name of any imgui window created. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_camera_ad8a7d161e06cc09d14f6cf737ec3310a}\label{classbe_1_1_camera_ad8a7d161e06cc09d14f6cf737ec3310a} 
+bool {\bfseries active} = true
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_camera_a02bc584d8275a6f67369a8f5f2101fd6}\label{classbe_1_1_camera_a02bc584d8275a6f67369a8f5f2101fd6} 
+glm\+::mat4 {\bfseries m\+\_\+position}
+\item 
+\Hypertarget{classbe_1_1_camera_a8136333d25f7ad4e734a56c5f3a67042}\label{classbe_1_1_camera_a8136333d25f7ad4e734a56c5f3a67042} 
+glm\+::mat4 {\bfseries m\+\_\+rotation}
+\item 
+\Hypertarget{classbe_1_1_camera_a9ee11e706af9ad3dd0bc6046b4bcd5f0}\label{classbe_1_1_camera_a9ee11e706af9ad3dd0bc6046b4bcd5f0} 
+glm\+::mat4 {\bfseries m\+\_\+projection}
+\item 
+\Hypertarget{classbe_1_1_camera_a65ede2d28ceb58efca0e5f20baa2b96f}\label{classbe_1_1_camera_a65ede2d28ceb58efca0e5f20baa2b96f} 
+glm\+::vec3 {\bfseries m\+\_\+world\+\_\+up} \{ 0.\+0f, 1.\+0f, 0.\+0f \}
+\item 
+\Hypertarget{classbe_1_1_camera_ac2160c6541df2460d40e9088d2a299ad}\label{classbe_1_1_camera_ac2160c6541df2460d40e9088d2a299ad} 
+glm\+::vec3 {\bfseries m\+\_\+right} \{ 0.\+0f, 0.\+0f, 0.\+0f \}
+\item 
+\Hypertarget{classbe_1_1_camera_aba48622f4be579c754cc6fc920c3eac8}\label{classbe_1_1_camera_aba48622f4be579c754cc6fc920c3eac8} 
+glm\+::vec3 {\bfseries m\+\_\+forward} \{ 0.\+0f, 0.\+0f, 0.\+0f \}
+\item 
+\Hypertarget{classbe_1_1_camera_aec6f98d591d3d1a20cc4a2b4a0c59728}\label{classbe_1_1_camera_aec6f98d591d3d1a20cc4a2b4a0c59728} 
+glm\+::vec3 {\bfseries m\+\_\+up} \{ 0.\+0f, 0.\+0f, 0.\+0f \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_object}{be\+::\+Scene\+Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbe_1_1_keyboard}{Keyboard}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a292cd4dd7cc64e324895abadfe45e4d1}{Get\+Keyboard}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_keyboard}{Keyboard}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_mouse}{Mouse}} \& \mbox{\hyperlink{classbe_1_1_scene_object_ae77cd6162f2761f0f9fb6ffffb0a0494}{Get\+Mouse}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_mouse}{Mouse}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_window}{Window}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a1b8aa38e3500b16d24c0ee2d854d2dd7}{Get\+Window}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{} i.\+e. the \doxylink{classbe_1_1_window}{Window} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_generic_timer}{Timer}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a34cbb316f1da7da243cfacfcf02f38c4}{Get\+Timer}} ()
+\begin{DoxyCompactList}\small\item\em Gets the Timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_renderer}{Renderer}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a4203c55e57c729c816f4cb83a95059f2}{Get\+Renderer}} ()
+\begin{DoxyCompactList}\small\item\em Gets the \doxylink{classbe_1_1_renderer}{Renderer}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Renderer/Camera.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Renderer/Camera.\+cpp\end{DoxyCompactItemize}

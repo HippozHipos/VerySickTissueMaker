@@ -1,0 +1,30 @@
+\doxysection{Model\+Loader.\+h}
+\hypertarget{_model_loader_8h_source}{}\label{_model_loader_8h_source}\index{C:/Dev/BadEngine/BadEngineCore/src/ResourceLoader/ModelLoader.h@{C:/Dev/BadEngine/BadEngineCore/src/ResourceLoader/ModelLoader.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}pch.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <assimp/Importer.hpp>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <assimp/scene.h>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <assimp/postprocess.h>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Renderer/MeshRenderer.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}Renderer/Texture.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{namespace\ }be\ \{}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbe_1_1_model_loader}{ModelLoader}}}
+\DoxyCodeLine{00014\ \ \ \ \ \{}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ Load(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ path,\ \mbox{\hyperlink{classbe_1_1_mesh_renderer}{MeshRenderer}}\&\ renderer,\ \mbox{\hyperlink{classbe_1_1_texture_manager}{TextureManager}}\&\ texmanager);}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ ProcessNode(aiNode*\ node,\ \textcolor{keyword}{const}\ aiScene*\ scene,\ \mbox{\hyperlink{classbe_1_1_mesh_renderer}{MeshRenderer}}\&\ renderer,\ \mbox{\hyperlink{classbe_1_1_texture_manager}{TextureManager}}\&\ texmanager);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ LoadTextures(\textcolor{keyword}{const}\ aiScene*\ scene,\ \textcolor{keyword}{const}\ aiMesh*\ assMesh,\ \mbox{\hyperlink{classbe_1_1_mesh_renderer}{MeshRenderer}}\&\ renderer,\ \mbox{\hyperlink{classbe_1_1_texture_manager}{TextureManager}}\&\ texmanager);}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{void}\ LoadTexture(\textcolor{keyword}{const}\ aiScene*\ scene,\ \textcolor{keyword}{const}\ aiMesh*\ assMesh,\ \mbox{\hyperlink{classbe_1_1_mesh_renderer}{MeshRenderer}}\&\ renderer,\ \mbox{\hyperlink{classbe_1_1_texture_manager}{TextureManager}}\&\ texmanager,\ aiTextureType\ type);}
+\DoxyCodeLine{00022\ \ \ \ \ \};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \}}
+
+\end{DoxyCode}

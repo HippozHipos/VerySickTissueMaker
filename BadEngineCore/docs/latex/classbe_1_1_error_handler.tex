@@ -1,0 +1,52 @@
+\doxysection{be\+::Error\+Handler Class Reference}
+\hypertarget{classbe_1_1_error_handler}{}\label{classbe_1_1_error_handler}\index{be::ErrorHandler@{be::ErrorHandler}}
+
+
+{\ttfamily \#include $<$Error.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_error_handler_a2e318c8bcf70b44369d2d024f899af6a}\label{classbe_1_1_error_handler_a2e318c8bcf70b44369d2d024f899af6a} 
+enum {\bfseries Action} \{ {\bfseries Terminate\+Application}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_error_handler_a1660c328649b255af71097e0dc93a4ab}\label{classbe_1_1_error_handler_a1660c328649b255af71097e0dc93a4ab} 
+static void {\bfseries Add\+Error} (int error\+Code, const std\+::string \&desc)
+\item 
+\Hypertarget{classbe_1_1_error_handler_a58a298425af2a7fc798cfae9d6019fb3}\label{classbe_1_1_error_handler_a58a298425af2a7fc798cfae9d6019fb3} 
+static void {\bfseries Handle} ()
+\item 
+\Hypertarget{classbe_1_1_error_handler_a26d0fc32b544544d5a5c1e3d75b5ce45}\label{classbe_1_1_error_handler_a26d0fc32b544544d5a5c1e3d75b5ce45} 
+static size\+\_\+t {\bfseries Num\+Actions} ()
+\item 
+\Hypertarget{classbe_1_1_error_handler_a36547d1e94c5de8fe383c771523a933e}\label{classbe_1_1_error_handler_a36547d1e94c5de8fe383c771523a933e} 
+static Action {\bfseries Get\+Action} (size\+\_\+t i)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_error_handler_a401b00a2c53a2263e97aa6796216cccb}\label{classbe_1_1_error_handler_a401b00a2c53a2263e97aa6796216cccb} 
+static void {\bfseries Window\+Construction\+Failed} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_error_handler_a84693e0975bc4ed2856afed57af27cbb}\label{classbe_1_1_error_handler_a84693e0975bc4ed2856afed57af27cbb} 
+static std\+::vector$<$ \mbox{\hyperlink{classbe_1_1_error}{Error}} $>$ {\bfseries m\+\_\+errors}
+\item 
+\Hypertarget{classbe_1_1_error_handler_ab2dbccc87488149f008193e15d43ca0f}\label{classbe_1_1_error_handler_ab2dbccc87488149f008193e15d43ca0f} 
+static std\+::vector$<$ Action $>$ {\bfseries m\+\_\+actions}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class handles any error that the \doxylink{classbe_1_1_error}{Error} class represents. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Diagnostics/Error.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Diagnostics/Error.\+cpp\end{DoxyCompactItemize}

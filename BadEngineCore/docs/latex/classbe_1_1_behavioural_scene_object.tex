@@ -1,0 +1,137 @@
+\doxysection{be\+::Behavioural\+Scene\+Object\texorpdfstring{$<$}{<} Derived \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classbe_1_1_behavioural_scene_object}{}\label{classbe_1_1_behavioural_scene_object}\index{be::BehaviouralSceneObject$<$ Derived $>$@{be::BehaviouralSceneObject$<$ Derived $>$}}
+
+
+Base class for objects in the scene with behaviour.  
+
+
+
+
+{\ttfamily \#include $<$Behavioural\+Scene\+Object.\+h$>$}
+
+Inheritance diagram for be\+::Behavioural\+Scene\+Object\texorpdfstring{$<$}{<} Derived \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbe_1_1_behavioural_scene_object}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_behavioural_scene_object_a78898efbb911d99eba97bb1338d06743}\label{classbe_1_1_behavioural_scene_object_a78898efbb911d99eba97bb1338d06743} 
+{\bfseries Behavioural\+Scene\+Object} ()
+\begin{DoxyCompactList}\small\item\em Registers the derived class objects behaviour with the behaviour manager. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_behavioural_scene_object_ae25a5aa0b7a5da43a5b2dfc742465e3e}\label{classbe_1_1_behavioural_scene_object_ae25a5aa0b7a5da43a5b2dfc742465e3e} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+Behavioural\+Scene\+Object} ()
+\begin{DoxyCompactList}\small\item\em Unregisters the derived class objects behaviour from the behaviour manager. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_object}{be\+::\+Scene\+Object}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Scene\+Object} ()
+\begin{DoxyCompactList}\small\item\em Constructor adds a \doxylink{structbe_1_1_transform}{Transform} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_container}{be\+::\+Scene\+Container}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Scene\+Container} ()
+\begin{DoxyCompactList}\small\item\em Constructor creates an entt\+::entity, which is the entity that identifies this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , class... Args$>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ac90d71a74d89b19906903f5462de30b9}{Add}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Adds an object to the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_abd87db14789f9fd4ddeedbdf9c69b056}{Get}} ()
+\begin{DoxyCompactList}\small\item\em Gets the object of given type from this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ad1126f3ce250f3db302315420a65df46}{Get\+Parent}} ()
+\begin{DoxyCompactList}\small\item\em Gets the parent container of this container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_object}{be\+::\+Scene\+Object}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbe_1_1_keyboard}{Keyboard}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a292cd4dd7cc64e324895abadfe45e4d1}{Get\+Keyboard}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_keyboard}{Keyboard}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_mouse}{Mouse}} \& \mbox{\hyperlink{classbe_1_1_scene_object_ae77cd6162f2761f0f9fb6ffffb0a0494}{Get\+Mouse}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_mouse}{Mouse}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_window}{Window}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a1b8aa38e3500b16d24c0ee2d854d2dd7}{Get\+Window}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{} i.\+e. the \doxylink{classbe_1_1_window}{Window} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_generic_timer}{Timer}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a34cbb316f1da7da243cfacfcf02f38c4}{Get\+Timer}} ()
+\begin{DoxyCompactList}\small\item\em Gets the Timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_renderer}{Renderer}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a4203c55e57c729c816f4cb83a95059f2}{Get\+Renderer}} ()
+\begin{DoxyCompactList}\small\item\em Gets the \doxylink{classbe_1_1_renderer}{Renderer}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename Derived$>$\newline
+class be\+::\+Behavioural\+Scene\+Object$<$ Derived $>$}
+Base class for objects in the scene with behaviour. 
+
+See Related \doxylink{classbe_1_1_behaviour_manager}{Behaviour\+Manager}
+
+This class can be inherited from by any class in the scene that has behaviour. Any classes that inherit from this class will be able to define the following methods that will be automatically called.
+
+
+\begin{DoxyEnumerate}
+\item Pre\+Start -\/ Called once when the object is created
+\item Start -\/ Called once after Pre\+Start
+\item Update -\/ Called once every frame
+\item UI -\/ Called once every frame. Any Im\+Gui calls need to be made in this function.
+\item End -\/ Called once when the object\textquotesingle{}s scope ends (i.\+e. when it\textquotesingle{}s deleted)
+\item Post\+End -\/ Called once after End. The object is destroyed after this.
+\end{DoxyEnumerate}
+
+The order in which methods are called depends on the order in which objects are created. Consider the code below\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keyword}{class\ }ThingWithBehaviour\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classbe_1_1_behavioural_scene_object_a78898efbb911d99eba97bb1338d06743}{BehaviouralSceneObject}}<ThingWithBehaviour>}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\textcolor{keyword}{public}:}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ PreStart()\ \{\}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ Start()\ \{\}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ Update()\ \{\}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ End()\ \{\}}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{class\ }NextThingWithBehaviour\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classbe_1_1_behavioural_scene_object_a78898efbb911d99eba97bb1338d06743}{BehaviouralSceneObject}}<NextThingWithBehaviour>}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\textcolor{keyword}{public}:}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ PreStart()\ \{\}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ Start()\ \{\}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ Update()\ \{\}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{void}\ End()\ \{\}}
+\DoxyCodeLine{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{class\ }Example}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\textcolor{keyword}{public}:}
+\DoxyCodeLine{\ \ \ \ Example()}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ThingWithBehaviour\ thing;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ NextThingWithBehaviour\ nextThing;}
+\DoxyCodeLine{\ \ \ \ ThingWithBehaviour\ thing1;}
+\DoxyCodeLine{\};}
+
+\end{DoxyCode}
+
+
+In the above code, when {\ttfamily Example} is instantiated, the following would be called in the order listed\+:
+\begin{DoxyEnumerate}
+\item next\+Thing.\+Pre\+Start() once
+\item thing1.\+Pre\+Start() once
+\item thing.\+Pre\+Start() once
+\item thing.\+End() once
+\item next\+Thing.\+Start() once
+\item thing1.\+Start() once
+\item next\+Thing.\+Update() every frame
+\item thing1.\+Update() every frame
+\item thing1.\+End() once
+\item next\+Thing.\+End() once
+\end{DoxyEnumerate}
+
+\begin{DoxyParagraph}{Note\+:}
+
+\begin{DoxyItemize}
+\item thing.\+Start() doesn\textquotesingle{}t get called because thing gets destroyed straight away.
+\item thing.\+Update() doesn\textquotesingle{}t get called because thing gets destroyed straight away. 
+\end{DoxyItemize}
+\end{DoxyParagraph}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+ECS/Behavioural\+Scene\+Object.\+h\end{DoxyCompactItemize}

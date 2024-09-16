@@ -1,0 +1,128 @@
+\doxysection{be\+::Scene\+Object Class Reference}
+\hypertarget{classbe_1_1_scene_object}{}\label{classbe_1_1_scene_object}\index{be::SceneObject@{be::SceneObject}}
+
+
+Represents an object in the scene.  
+
+
+
+
+{\ttfamily \#include $<$Scene\+Object.\+h$>$}
+
+Inheritance diagram for be\+::Scene\+Object\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbe_1_1_scene_object}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_scene_object_a1a5151b5b3a1fd6b90db5acdbfacdeb1}\label{classbe_1_1_scene_object_a1a5151b5b3a1fd6b90db5acdbfacdeb1} 
+{\bfseries Scene\+Object} ()
+\begin{DoxyCompactList}\small\item\em Constructor adds a \doxylink{structbe_1_1_transform}{Transform} object. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_container}{be\+::\+Scene\+Container}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Scene\+Container} ()
+\begin{DoxyCompactList}\small\item\em Constructor creates an entt\+::entity, which is the entity that identifies this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , class... Args$>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ac90d71a74d89b19906903f5462de30b9}{Add}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Adds an object to the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_abd87db14789f9fd4ddeedbdf9c69b056}{Get}} ()
+\begin{DoxyCompactList}\small\item\em Gets the object of given type from this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ad1126f3ce250f3db302315420a65df46}{Get\+Parent}} ()
+\begin{DoxyCompactList}\small\item\em Gets the parent container of this container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbe_1_1_keyboard}{Keyboard}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a292cd4dd7cc64e324895abadfe45e4d1}{Get\+Keyboard}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_keyboard}{Keyboard}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_mouse}{Mouse}} \& \mbox{\hyperlink{classbe_1_1_scene_object_ae77cd6162f2761f0f9fb6ffffb0a0494}{Get\+Mouse}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_mouse}{Mouse}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_window}{Window}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a1b8aa38e3500b16d24c0ee2d854d2dd7}{Get\+Window}} ()
+\begin{DoxyCompactList}\small\item\em Gets the "{}\+Main Platoform Window"{} i.\+e. the \doxylink{classbe_1_1_window}{Window} class. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_generic_timer}{Timer}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a34cbb316f1da7da243cfacfcf02f38c4}{Get\+Timer}} ()
+\begin{DoxyCompactList}\small\item\em Gets the Timer. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classbe_1_1_renderer}{Renderer}} \& \mbox{\hyperlink{classbe_1_1_scene_object_a4203c55e57c729c816f4cb83a95059f2}{Get\+Renderer}} ()
+\begin{DoxyCompactList}\small\item\em Gets the \doxylink{classbe_1_1_renderer}{Renderer}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Represents an object in the scene. 
+
+This class can be inherited from by any class that will be in the scene without any behaviour. It inherits from \doxylink{classbe_1_1_scene_container}{Scene\+Container} and provides access to the objects stored by \doxylink{structbe_1_1_application_container}{Application\+Container} on top of it.
+
+Each \doxylink{classbe_1_1_scene_object}{Scene\+Object} also has a \doxylink{structbe_1_1_transform}{Transform} object added to it by default. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbe_1_1_scene_object_a292cd4dd7cc64e324895abadfe45e4d1}\index{be::SceneObject@{be::SceneObject}!GetKeyboard@{GetKeyboard}}
+\index{GetKeyboard@{GetKeyboard}!be::SceneObject@{be::SceneObject}}
+\doxysubsubsection{\texorpdfstring{GetKeyboard()}{GetKeyboard()}}
+{\footnotesize\ttfamily \label{classbe_1_1_scene_object_a292cd4dd7cc64e324895abadfe45e4d1} 
+\mbox{\hyperlink{classbe_1_1_keyboard}{Keyboard}} \& be\+::\+Scene\+Object\+::\+Get\+Keyboard (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_keyboard}{Keyboard}. 
+
+\begin{DoxyReturn}{Returns}
+Reference to "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_keyboard}{Keyboard} stored by \doxylink{structbe_1_1_application_container}{Application\+Container}.. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_scene_object_ae77cd6162f2761f0f9fb6ffffb0a0494}\index{be::SceneObject@{be::SceneObject}!GetMouse@{GetMouse}}
+\index{GetMouse@{GetMouse}!be::SceneObject@{be::SceneObject}}
+\doxysubsubsection{\texorpdfstring{GetMouse()}{GetMouse()}}
+{\footnotesize\ttfamily \label{classbe_1_1_scene_object_ae77cd6162f2761f0f9fb6ffffb0a0494} 
+\mbox{\hyperlink{classbe_1_1_mouse}{Mouse}} \& be\+::\+Scene\+Object\+::\+Get\+Mouse (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Gets the "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_mouse}{Mouse}. 
+
+\begin{DoxyReturn}{Returns}
+Reference to "{}\+Main Platoform Window"{}\textquotesingle{}s \doxylink{classbe_1_1_mouse}{Mouse} stored by \doxylink{structbe_1_1_application_container}{Application\+Container}.. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_scene_object_a4203c55e57c729c816f4cb83a95059f2}\index{be::SceneObject@{be::SceneObject}!GetRenderer@{GetRenderer}}
+\index{GetRenderer@{GetRenderer}!be::SceneObject@{be::SceneObject}}
+\doxysubsubsection{\texorpdfstring{GetRenderer()}{GetRenderer()}}
+{\footnotesize\ttfamily \label{classbe_1_1_scene_object_a4203c55e57c729c816f4cb83a95059f2} 
+\mbox{\hyperlink{classbe_1_1_renderer}{Renderer}} \& be\+::\+Scene\+Object\+::\+Get\+Renderer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Gets the \doxylink{classbe_1_1_renderer}{Renderer}. 
+
+\begin{DoxyReturn}{Returns}
+Reference to \doxylink{classbe_1_1_renderer}{Renderer} stored by \doxylink{structbe_1_1_application_container}{Application\+Container}. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_scene_object_a34cbb316f1da7da243cfacfcf02f38c4}\index{be::SceneObject@{be::SceneObject}!GetTimer@{GetTimer}}
+\index{GetTimer@{GetTimer}!be::SceneObject@{be::SceneObject}}
+\doxysubsubsection{\texorpdfstring{GetTimer()}{GetTimer()}}
+{\footnotesize\ttfamily \label{classbe_1_1_scene_object_a34cbb316f1da7da243cfacfcf02f38c4} 
+\mbox{\hyperlink{classbe_1_1_generic_timer}{Timer}} \& be\+::\+Scene\+Object\+::\+Get\+Timer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Gets the Timer. 
+
+\begin{DoxyReturn}{Returns}
+Reference to Timer stored by \doxylink{structbe_1_1_application_container}{Application\+Container}. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_scene_object_a1b8aa38e3500b16d24c0ee2d854d2dd7}\index{be::SceneObject@{be::SceneObject}!GetWindow@{GetWindow}}
+\index{GetWindow@{GetWindow}!be::SceneObject@{be::SceneObject}}
+\doxysubsubsection{\texorpdfstring{GetWindow()}{GetWindow()}}
+{\footnotesize\ttfamily \label{classbe_1_1_scene_object_a1b8aa38e3500b16d24c0ee2d854d2dd7} 
+\mbox{\hyperlink{classbe_1_1_window}{Window}} \& be\+::\+Scene\+Object\+::\+Get\+Window (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+
+Gets the "{}\+Main Platoform Window"{} i.\+e. the \doxylink{classbe_1_1_window}{Window} class. 
+
+\begin{DoxyReturn}{Returns}
+Reference to "{}\+Main Platoform Window"{} i.\+e. the \doxylink{classbe_1_1_window}{Window} class stored by \doxylink{structbe_1_1_application_container}{Application\+Container}. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+ECS/Scene\+Object.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+ECS/Scene\+Object.\+cpp\end{DoxyCompactItemize}

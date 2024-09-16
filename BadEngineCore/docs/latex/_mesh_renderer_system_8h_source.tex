@@ -1,0 +1,42 @@
+\doxysection{Mesh\+Renderer\+System.\+h}
+\hypertarget{_mesh_renderer_system_8h_source}{}\label{_mesh_renderer_system_8h_source}\index{C:/Dev/BadEngine/BadEngineCore/src/ECSSystems/MeshRendererSystem.h@{C:/Dev/BadEngine/BadEngineCore/src/ECSSystems/MeshRendererSystem.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}ECS/ECS.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Renderer/Mesh.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Renderer/MeshRenderer.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}Renderer/buffers/FrameBuffer.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}UI/Imgui/BEImGuiViewport.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }be\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{struct\ }MainPlatformWindowRenderer;}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keyword}{struct\ }Camera;}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{struct\ }Transform;}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }Material;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structbe_1_1_mesh_renderer_system}{MeshRendererSystem}}}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structbe_1_1_mesh_renderer_system_a6debee3e7c365f321c30952ba14ed6a9}{MeshRendererSystem}}(std::unordered\_map<std::string,\ BEImGuiViewport>\&\ viewportMap,\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classbe_1_1_main_platform_window_renderer}{MainPlatformWindowRenderer}}\&\ mainWinRenderer);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structbe_1_1_mesh_renderer_system_a58cf7408a1a93b5d8bb505d0a12241a1}{Render}}();}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structbe_1_1_mesh_renderer_system_aa1d336ad4ff814b41e4a379b3d63398c}{ProcessLighting}}(\mbox{\hyperlink{classbe_1_1_mesh_renderer}{MeshRenderer}}\&\ renderer);}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{structbe_1_1_mesh_renderer_system_a8e5f5fbd81b62aae9a3249a4aeb09e77}{RenderMesh}}(\mbox{\hyperlink{classbe_1_1_camera}{Camera}}\&\ camera,\ \mbox{\hyperlink{classbe_1_1_mesh_renderer}{MeshRenderer}}\&\ renderer,\ \mbox{\hyperlink{structbe_1_1_transform}{Transform}}\&\ transform);}
+\DoxyCodeLine{00074\ \ \ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ std::unordered\_map<std::string,\ BEImGuiViewport>\&\ \mbox{\hyperlink{structbe_1_1_mesh_renderer_system_a61bbfb29f2060578b222deab714d1e13}{m\_viewport\_map}};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classbe_1_1_main_platform_window_renderer}{MainPlatformWindowRenderer}}\&\ \mbox{\hyperlink{structbe_1_1_mesh_renderer_system_a311763b5ca643532ee787e630f255a21}{m\_main\_window\_renderer}};}
+\DoxyCodeLine{00084\ \ \ \ \ \};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \}}
+
+\end{DoxyCode}

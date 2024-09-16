@@ -1,0 +1,37 @@
+\doxysection{Behavioural\+Scene\+Object.\+h}
+\hypertarget{_behavioural_scene_object_8h_source}{}\label{_behavioural_scene_object_8h_source}\index{C:/Dev/BadEngine/BadEngineCore/src/ECS/BehaviouralSceneObject.h@{C:/Dev/BadEngine/BadEngineCore/src/ECS/BehaviouralSceneObject.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}pch.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}SceneObject.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}BehaviourManager.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }be\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structbe_1_1_behaviour_manager_store}{BehaviourManagerStore}}}
+\DoxyCodeLine{00018\ \ \ \ \ \{\ \ \ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classbe_1_1_behaviour_manager}{BehaviourManager}}\&\ GetBehaviourManager()}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \mbox{\hyperlink{classbe_1_1_behaviour_manager}{BehaviourManager}}\ manager;}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ manager;}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Derived>}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbe_1_1_behavioural_scene_object}{BehaviouralSceneObject}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classbe_1_1_scene_object}{SceneObject}}}
+\DoxyCodeLine{00094\ \ \ \ \ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keyword}{public}:\ \ \ \ \ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classbe_1_1_behavioural_scene_object_a78898efbb911d99eba97bb1338d06743}{BehaviouralSceneObject}}()}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ BehaviourManagerStore::GetBehaviourManager().AddBehaviour<\mbox{\hyperlink{classbe_1_1_behavioural_scene_object_a78898efbb911d99eba97bb1338d06743}{BehaviouralSceneObject}},\ Derived>(\textcolor{keyword}{this});}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \}\ }
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classbe_1_1_behavioural_scene_object_ae25a5aa0b7a5da43a5b2dfc742465e3e}{\string~BehaviouralSceneObject}}()}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ BehaviourManagerStore::GetBehaviourManager().RemoveBehaviour<\mbox{\hyperlink{classbe_1_1_behavioural_scene_object_a78898efbb911d99eba97bb1338d06743}{BehaviouralSceneObject}},\ Derived>(\textcolor{keyword}{this});}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \};}
+\DoxyCodeLine{00112\ \}}
+
+\end{DoxyCode}

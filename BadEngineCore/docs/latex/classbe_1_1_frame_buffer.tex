@@ -1,0 +1,77 @@
+\doxysection{be\+::Frame\+Buffer Class Reference}
+\hypertarget{classbe_1_1_frame_buffer}{}\label{classbe_1_1_frame_buffer}\index{be::FrameBuffer@{be::FrameBuffer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a48f1cb594cf29f6d9099d6f8bdfc0235}\label{classbe_1_1_frame_buffer_a48f1cb594cf29f6d9099d6f8bdfc0235} 
+void {\bfseries Init} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_ac9affc751644a2b58c39a3f6d37a6cad}\label{classbe_1_1_frame_buffer_ac9affc751644a2b58c39a3f6d37a6cad} 
+void {\bfseries Bind} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a8bbc9aebcdb9d11cbf6e881c2ec106fa}\label{classbe_1_1_frame_buffer_a8bbc9aebcdb9d11cbf6e881c2ec106fa} 
+void {\bfseries Bind\+Render\+Buffer} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a5fd7af320e017d1cfcd08b20ce8dc07f}\label{classbe_1_1_frame_buffer_a5fd7af320e017d1cfcd08b20ce8dc07f} 
+void {\bfseries Destroy} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_ac6086438f9143998fe0f3e3ef0583914}\label{classbe_1_1_frame_buffer_ac6086438f9143998fe0f3e3ef0583914} 
+bool {\bfseries Has\+Texture\+Attachment} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_aaa37d62a80fae351982c7c33049852dd}\label{classbe_1_1_frame_buffer_aaa37d62a80fae351982c7c33049852dd} 
+void {\bfseries Create\+Attachments} (int width, int height)
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_ab10f24ba5369b46fc4ddbde35d9aad0c}\label{classbe_1_1_frame_buffer_ab10f24ba5369b46fc4ddbde35d9aad0c} 
+\mbox{\hyperlink{classbe_1_1_texture}{Texture}} {\bfseries Get\+Texture} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a2cfc2fd4512221b3f9f2fe799ff9c8f5}\label{classbe_1_1_frame_buffer_a2cfc2fd4512221b3f9f2fe799ff9c8f5} 
+int {\bfseries Get\+Width} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a043a115284968e15190bf5f53b89b6ae}\label{classbe_1_1_frame_buffer_a043a115284968e15190bf5f53b89b6ae} 
+int {\bfseries Get\+Height} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_aa103cd7d2d81ff6f7e96ac4dede68f2d}\label{classbe_1_1_frame_buffer_aa103cd7d2d81ff6f7e96ac4dede68f2d} 
+static void {\bfseries Bind\+Default} ()
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a1f24d9bd514059552e78a807bd489954}\label{classbe_1_1_frame_buffer_a1f24d9bd514059552e78a807bd489954} 
+static void {\bfseries Un\+Bind} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a993bd05df3e1f63673efc105eafe11d3}\label{classbe_1_1_frame_buffer_a993bd05df3e1f63673efc105eafe11d3} 
+void {\bfseries Create\+Texture\+Attachment} (int width, int height)
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a08928099516cc94ff00f636b2b88f8bf}\label{classbe_1_1_frame_buffer_a08928099516cc94ff00f636b2b88f8bf} 
+void {\bfseries Create\+Render\+Buffer\+Attachment} (int width, int height)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a617b3c9afa980b9332e96be6f959a997}\label{classbe_1_1_frame_buffer_a617b3c9afa980b9332e96be6f959a997} 
+\mbox{\hyperlink{classbe_1_1_texture}{Texture}} {\bfseries m\+\_\+texture\+\_\+attachment} \{\}
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_aded1cc2548f5b1b4a7a4b3e616500110}\label{classbe_1_1_frame_buffer_aded1cc2548f5b1b4a7a4b3e616500110} 
+\mbox{\hyperlink{classbe_1_1_render_buffer}{Render\+Buffer}} {\bfseries m\+\_\+render\+\_\+buffer} \{\}
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a9b193a4cdfab3de9ba9596405cb2c406}\label{classbe_1_1_frame_buffer_a9b193a4cdfab3de9ba9596405cb2c406} 
+bool {\bfseries m\+\_\+has\+\_\+render\+\_\+buffer\+\_\+attachment} = false
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a9df9b54ad2b9035914590faf60006627}\label{classbe_1_1_frame_buffer_a9df9b54ad2b9035914590faf60006627} 
+int {\bfseries m\+\_\+width} = 0
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_af67193e21dd518ac734ff3ac90032fda}\label{classbe_1_1_frame_buffer_af67193e21dd518ac734ff3ac90032fda} 
+int {\bfseries m\+\_\+height} = 0
+\item 
+\Hypertarget{classbe_1_1_frame_buffer_a987bd6bb6632bed38904616a427c2839}\label{classbe_1_1_frame_buffer_a987bd6bb6632bed38904616a427c2839} 
+unsigned int {\bfseries m\+\_\+buffer\+\_\+id} \{\}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Renderer/\+Buffers/Frame\+Buffer.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Renderer/\+Buffers/Frame\+Buffer.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,36 @@
+\doxysection{Opengl\+Error.\+h}
+\hypertarget{_opengl_error_8h_source}{}\label{_opengl_error_8h_source}\index{C:/Dev/BadEngine/BadEngineCore/src/Diagnostics/OpenglError.h@{C:/Dev/BadEngine/BadEngineCore/src/Diagnostics/OpenglError.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}pch.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <glad/glad.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}Diagnostics/Logger.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }be\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordtype}{void}\ GLAPIENTRY\ OpenglErrorMessageCallback(GLenum\ source,}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ GLenum\ type,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ GLuint\ \textcolor{keywordtype}{id},}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ GLenum\ severity,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ GLsizei\ length,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ GLchar*\ message,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ userParam);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifdef\ NDEBUG}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\ \ \ \ \#define\ CheckOpenGLError(msg)}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#elif\ defined\ (RELEASE\_WITH\_DEBUG)}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\ \ \ \ \#define\ CheckOpenGLError()\ MacroToCheckOpenGLError()}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\ \ \ \ \#define\ CheckOpenGLError()\ }}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ }
+
+\end{DoxyCode}

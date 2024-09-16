@@ -1,0 +1,51 @@
+\doxysection{Scene\+Container.\+h}
+\hypertarget{_scene_container_8h_source}{}\label{_scene_container_8h_source}\index{C:/Dev/BadEngine/BadEngineCore/src/ECS/SceneContainer.h@{C:/Dev/BadEngine/BadEngineCore/src/ECS/SceneContainer.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}pch.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}ECS.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Diagnostics/Logger.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }be\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbe_1_1_scene_container}{SceneContainer}}}
+\DoxyCodeLine{00088\ \ \ \ \ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classbe_1_1_scene_container_a37830f0d236cf7a98b14f3f3d50d591a}{SceneContainer}}();}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classbe_1_1_scene_container}{\string~SceneContainer}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{classbe_1_1_scene_container_ac90d71a74d89b19906903f5462de30b9}{Add}}(Args\&\&...\ args)}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ T\&\ ret\ =\ ECS::registry.emplace<std::decay\_t<T>>(\mbox{\hyperlink{classbe_1_1_scene_container_a32404ac76472023e953510f804eabc9d}{m\_entity}},\ std::forward<Args>(args)...);}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ ret.m\_parent\ =\ \mbox{\hyperlink{classbe_1_1_scene_container_a32404ac76472023e953510f804eabc9d}{m\_entity}};}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classbe_1_1_scene_container_a31dad2e20e3f0b919063addaa6dfe2a1}{m\_children}}.push\_back(ret.m\_entity);}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ret;}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{classbe_1_1_scene_container_abd87db14789f9fd4ddeedbdf9c69b056}{Get}}()}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ view\ =\ ECS::registry.view<std::decay\_t<T>>();}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ view.get<std::decay\_t<T>>(\mbox{\hyperlink{classbe_1_1_scene_container_a32404ac76472023e953510f804eabc9d}{m\_entity}});}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ T\&\ \mbox{\hyperlink{classbe_1_1_scene_container_ad1126f3ce250f3db302315420a65df46}{GetParent}}()}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ view\ =\ ECS::registry.view<std::decay\_t<T>>();}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ view.get<std::decay\_t<T>>(\mbox{\hyperlink{classbe_1_1_scene_container_a8e38e13319c55acbc64caabcfe21d3e1}{m\_parent}});}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ entt::entity\ \mbox{\hyperlink{classbe_1_1_scene_container_a32404ac76472023e953510f804eabc9d}{m\_entity}};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ entt::entity\ \mbox{\hyperlink{classbe_1_1_scene_container_a8e38e13319c55acbc64caabcfe21d3e1}{m\_parent}};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ std::vector<entt::entity>\ \mbox{\hyperlink{classbe_1_1_scene_container_a31dad2e20e3f0b919063addaa6dfe2a1}{m\_children}};}
+\DoxyCodeLine{00143\ \ \ \ \ \};}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00146\ \}}
+
+\end{DoxyCode}

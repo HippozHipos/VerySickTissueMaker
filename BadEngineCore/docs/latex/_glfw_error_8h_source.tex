@@ -1,0 +1,24 @@
+\doxysection{Glfw\+Error.\+h}
+\hypertarget{_glfw_error_8h_source}{}\label{_glfw_error_8h_source}\index{C:/Dev/BadEngine/BadEngineCore/src/Diagnostics/GlfwError.h@{C:/Dev/BadEngine/BadEngineCore/src/Diagnostics/GlfwError.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}pch.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//Reminder\ from\ docs:}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//Note}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//The\ error\ callback\ is\ called\ by\ the\ thread\ where\ the\ error\ was\ generated.}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//If\ you\ are\ using\ GLFW\ from\ multiple\ threads,\ your\ error\ callback\ needs\ to\ be\ written\ accordingly.}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//Because\ the\ description\ string\ provided\ to\ the\ callback\ may\ have\ been\ generated\ specifically\ for\ that\ error,}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//it\ is\ not\ guaranteed\ to\ be\ valid\ after\ the\ callback\ has\ returned.If\ you\ wish\ to\ use\ it\ after\ that,\ }}
+\DoxyCodeLine{00011\ \textcolor{comment}{//you\ need\ to\ make\ your\ own\ copy\ of\ it\ before\ returning.}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{namespace\ }be\ \{}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ LogGLFWErrorCallback(\textcolor{keywordtype}{int}\ errorCode,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ desc);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \}}
+\DoxyCodeLine{00021\ }
+
+\end{DoxyCode}

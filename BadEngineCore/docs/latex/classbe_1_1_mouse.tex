@@ -1,0 +1,330 @@
+\doxysection{be\+::Mouse Class Reference}
+\hypertarget{classbe_1_1_mouse}{}\label{classbe_1_1_mouse}\index{be::Mouse@{be::Mouse}}
+
+
+Manages the state of mouse inputs for "{}\+Main Platform Window"{} i.\+e. \doxylink{classbe_1_1_window}{Window} class.  
+
+
+
+
+{\ttfamily \#include $<$Mouse.\+h$>$}
+
+Inheritance diagram for be\+::Mouse\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classbe_1_1_mouse}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_mouse_a6474a0365c1b5a5418128dc8c1892adb}\label{classbe_1_1_mouse_a6474a0365c1b5a5418128dc8c1892adb} 
+{\bfseries Mouse} ()=default
+\begin{DoxyCompactList}\small\item\em Default constructor for the \doxylink{classbe_1_1_mouse}{Mouse} class. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_mouse_ad649152395c67ba29dc5cf09c407937d}\label{classbe_1_1_mouse_ad649152395c67ba29dc5cf09c407937d} 
+{\bfseries \texorpdfstring{$\sim$}{\string~}\+Mouse} ()=default
+\begin{DoxyCompactList}\small\item\em Default destructor for the \doxylink{classbe_1_1_mouse}{Mouse} class. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classbe_1_1_mouse_afe799cd51a328018c725c1256ad8e8ea}{Pressed}} (int button)
+\begin{DoxyCompactList}\small\item\em Checks if a mouse button was pressed. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classbe_1_1_mouse_a197ef302f044a74e1d80163ec1f63da9}{Held}} (int button)
+\begin{DoxyCompactList}\small\item\em Checks if a mouse button is being held down. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classbe_1_1_mouse_aaf0b6405b0373e4c93e398e50223194f}{GetX}} () const
+\begin{DoxyCompactList}\small\item\em Gets the current X position of the mouse. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classbe_1_1_mouse_a9e06a798fd44c7b0e6b32b585520fbd4}{GetY}} () const
+\begin{DoxyCompactList}\small\item\em Gets the current Y position of the mouse. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classbe_1_1_mouse_af0a76a87affc8049f2c8d7102be6a645}{ChangeX}} () const
+\begin{DoxyCompactList}\small\item\em Gets the change in X position since the last update. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classbe_1_1_mouse_a5aacf54067a010a8ae8ec3e8a0e9faa3}{ChangeY}} () const
+\begin{DoxyCompactList}\small\item\em Gets the change in Y position since the last update. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classbe_1_1_mouse_a5cc92630a014a951d1fae3296abcac6d}{ScrollX}} ()
+\begin{DoxyCompactList}\small\item\em Gets the horizontal scroll value. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classbe_1_1_mouse_aa410801c44efb4c815f06eae3ae60168}{ScrollY}} ()
+\begin{DoxyCompactList}\small\item\em Gets the vertical scroll value. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_mouse_ac5afeab15fa59b0306abcdef34818db6}\label{classbe_1_1_mouse_ac5afeab15fa59b0306abcdef34818db6} 
+void {\bfseries Update} ()
+\begin{DoxyCompactList}\small\item\em Updates the mouse state, including movement and button states. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbe_1_1_scene_container}{be\+::\+Scene\+Container}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Scene\+Container} ()
+\begin{DoxyCompactList}\small\item\em Constructor creates an entt\+::entity, which is the entity that identifies this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T , class... Args$>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ac90d71a74d89b19906903f5462de30b9}{Add}} (Args \&\&... args)
+\begin{DoxyCompactList}\small\item\em Adds an object to the container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_abd87db14789f9fd4ddeedbdf9c69b056}{Get}} ()
+\begin{DoxyCompactList}\small\item\em Gets the object of given type from this container. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class T $>$ }\\T \& \mbox{\hyperlink{classbe_1_1_scene_container_ad1126f3ce250f3db302315420a65df46}{Get\+Parent}} ()
+\begin{DoxyCompactList}\small\item\em Gets the parent container of this container. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classbe_1_1_mouse_a87244fa7885860cb4fed3fefd41b35fa}{On\+Mouse\+Move}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when the mouse moves. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_mouse_a0fa09c0f3477fa935767604a1734c107}{On\+Mouse\+Scroll}} (int x, int y)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when the scroll wheel is used. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_mouse_a8f6024fdda326cb5dd85d802d2103440}{On\+Mouse\+Press}} (int button)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when a mouse button is pressed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_mouse_ab7a254929c268324e9fbf7bc55565ff4}{On\+Mouse\+Held}} (int button)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when a mouse button is held. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classbe_1_1_mouse_a8b33d6e25d3c9b6076b915eb1d75dceb}{On\+Mouse\+Release}} (int button)
+\begin{DoxyCompactList}\small\item\em Updates the internal state when a mouse button is released. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_mouse_a9e358cb0ba618e67a258a96cc73d7479}\label{classbe_1_1_mouse_a9e358cb0ba618e67a258a96cc73d7479} 
+float {\bfseries m\+\_\+mousex}
+\item 
+\Hypertarget{classbe_1_1_mouse_ab852e9c2c99053afcdb9363d6d9060b3}\label{classbe_1_1_mouse_ab852e9c2c99053afcdb9363d6d9060b3} 
+float {\bfseries m\+\_\+mousey} = 0
+\begin{DoxyCompactList}\small\item\em The current mouse X and Y coordinates. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_mouse_a5ba07b3a77df20bab36fb6edac1d8334}\label{classbe_1_1_mouse_a5ba07b3a77df20bab36fb6edac1d8334} 
+float {\bfseries m\+\_\+scrollx}
+\item 
+\Hypertarget{classbe_1_1_mouse_afe046a9d301e9f9b4ee75cbcbf7faf61}\label{classbe_1_1_mouse_afe046a9d301e9f9b4ee75cbcbf7faf61} 
+float {\bfseries m\+\_\+scrolly} = 0
+\begin{DoxyCompactList}\small\item\em The current scroll X and Y values. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_mouse_ad5bc1727f7119fea03b0b55042ff0afe}\label{classbe_1_1_mouse_ad5bc1727f7119fea03b0b55042ff0afe} 
+float {\bfseries m\+\_\+last\+\_\+mousex}
+\item 
+\Hypertarget{classbe_1_1_mouse_adea607966d947ed0da16cf3f9dc21cdb}\label{classbe_1_1_mouse_adea607966d947ed0da16cf3f9dc21cdb} 
+float {\bfseries m\+\_\+last\+\_\+mousey} = 0
+\begin{DoxyCompactList}\small\item\em The last recorded mouse X and Y coordinates. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_mouse_a7d21627b1b9b3afd3124e909e18be6ff}\label{classbe_1_1_mouse_a7d21627b1b9b3afd3124e909e18be6ff} 
+float {\bfseries m\+\_\+mouse\+\_\+changex}
+\item 
+\Hypertarget{classbe_1_1_mouse_ad23632ba9e5750f757a049d630a901ff}\label{classbe_1_1_mouse_ad23632ba9e5750f757a049d630a901ff} 
+float {\bfseries m\+\_\+mouse\+\_\+changey} = 0
+\begin{DoxyCompactList}\small\item\em The change in mouse X and Y coordinates. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_mouse_a4e18c885def3e66f1babd37e68fbb8a8}\label{classbe_1_1_mouse_a4e18c885def3e66f1babd37e68fbb8a8} 
+std\+::bitset$<$ \mbox{\hyperlink{classbe_1_1_mouse_a8a8d8704d9ca3957fb723ad625512145}{button\+Codes}} $>$ {\bfseries m\+\_\+mouse\+\_\+pressed}
+\begin{DoxyCompactList}\small\item\em Bitset representing mouse buttons pressed in the current frame. \end{DoxyCompactList}\item 
+\Hypertarget{classbe_1_1_mouse_ae325b0ff153c9f4af4a9df67c533f9ed}\label{classbe_1_1_mouse_ae325b0ff153c9f4af4a9df67c533f9ed} 
+std\+::bitset$<$ \mbox{\hyperlink{classbe_1_1_mouse_a8a8d8704d9ca3957fb723ad625512145}{button\+Codes}} $>$ {\bfseries m\+\_\+mouse\+\_\+held}
+\begin{DoxyCompactList}\small\item\em Bitset representing mouse buttons being held down. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_mouse_a8a8d8704d9ca3957fb723ad625512145}\label{classbe_1_1_mouse_a8a8d8704d9ca3957fb723ad625512145} 
+static constexpr int {\bfseries button\+Codes} = 5
+\begin{DoxyCompactList}\small\item\em The number of mouse buttons supported by the class. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classbe_1_1_mouse_a553f958a25683445088050a69d3de8e9}\label{classbe_1_1_mouse_a553f958a25683445088050a69d3de8e9} 
+class {\bfseries Window}
+\item 
+\Hypertarget{classbe_1_1_mouse_a3cf186b62db94b7b8f091f0021b3b1d2}\label{classbe_1_1_mouse_a3cf186b62db94b7b8f091f0021b3b1d2} 
+void {\bfseries mouse\+Button\+Callback} (GLFWwindow \texorpdfstring{$\ast$}{*}glfwwindow, int button, int action, int mods)
+\item 
+\Hypertarget{classbe_1_1_mouse_a9550acebb815b5df7a4b7f57c6355e4d}\label{classbe_1_1_mouse_a9550acebb815b5df7a4b7f57c6355e4d} 
+void {\bfseries mouse\+Position\+Callback} (GLFWwindow \texorpdfstring{$\ast$}{*}glfwwindow, double xpos, double ypos)
+\item 
+\Hypertarget{classbe_1_1_mouse_a9c74a082e710a2836b2a606b113352ac}\label{classbe_1_1_mouse_a9c74a082e710a2836b2a606b113352ac} 
+void {\bfseries scroll\+Wheel\+Callback} (GLFWwindow \texorpdfstring{$\ast$}{*}glfwwindow, double xoffset, double yoffset)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Manages the state of mouse inputs for "{}\+Main Platform Window"{} i.\+e. \doxylink{classbe_1_1_window}{Window} class. 
+
+The \doxylink{classbe_1_1_mouse}{Mouse} class tracks mouse button presses, holds, and movement. It interacts with GLFW to handle mouse position, button states, and scroll wheel movements. The class provides methods to query the mouse state and update internal data accordingly. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbe_1_1_mouse_af0a76a87affc8049f2c8d7102be6a645}\index{be::Mouse@{be::Mouse}!ChangeX@{ChangeX}}
+\index{ChangeX@{ChangeX}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{ChangeX()}{ChangeX()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_af0a76a87affc8049f2c8d7102be6a645} 
+float be\+::\+Mouse\+::\+ChangeX (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Gets the change in X position since the last update. 
+
+\begin{DoxyReturn}{Returns}
+The change in the X coordinate of the mouse. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_mouse_a5aacf54067a010a8ae8ec3e8a0e9faa3}\index{be::Mouse@{be::Mouse}!ChangeY@{ChangeY}}
+\index{ChangeY@{ChangeY}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{ChangeY()}{ChangeY()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a5aacf54067a010a8ae8ec3e8a0e9faa3} 
+float be\+::\+Mouse\+::\+ChangeY (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Gets the change in Y position since the last update. 
+
+\begin{DoxyReturn}{Returns}
+The change in the Y coordinate of the mouse. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_mouse_aaf0b6405b0373e4c93e398e50223194f}\index{be::Mouse@{be::Mouse}!GetX@{GetX}}
+\index{GetX@{GetX}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{GetX()}{GetX()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_aaf0b6405b0373e4c93e398e50223194f} 
+float be\+::\+Mouse\+::\+GetX (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Gets the current X position of the mouse. 
+
+\begin{DoxyReturn}{Returns}
+The current X coordinate of the mouse. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_mouse_a9e06a798fd44c7b0e6b32b585520fbd4}\index{be::Mouse@{be::Mouse}!GetY@{GetY}}
+\index{GetY@{GetY}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{GetY()}{GetY()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a9e06a798fd44c7b0e6b32b585520fbd4} 
+float be\+::\+Mouse\+::\+GetY (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Gets the current Y position of the mouse. 
+
+\begin{DoxyReturn}{Returns}
+The current Y coordinate of the mouse. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_mouse_a197ef302f044a74e1d80163ec1f63da9}\index{be::Mouse@{be::Mouse}!Held@{Held}}
+\index{Held@{Held}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{Held()}{Held()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a197ef302f044a74e1d80163ec1f63da9} 
+bool be\+::\+Mouse\+::\+Held (\begin{DoxyParamCaption}\item[{int}]{button}{}\end{DoxyParamCaption})}
+
+
+
+Checks if a mouse button is being held down. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & The button code to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the button is being held down, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_mouse_ab7a254929c268324e9fbf7bc55565ff4}\index{be::Mouse@{be::Mouse}!OnMouseHeld@{OnMouseHeld}}
+\index{OnMouseHeld@{OnMouseHeld}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{OnMouseHeld()}{OnMouseHeld()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_ab7a254929c268324e9fbf7bc55565ff4} 
+void be\+::\+Mouse\+::\+On\+Mouse\+Held (\begin{DoxyParamCaption}\item[{int}]{button}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when a mouse button is held. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & The button code that is being held down. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_mouse_a87244fa7885860cb4fed3fefd41b35fa}\index{be::Mouse@{be::Mouse}!OnMouseMove@{OnMouseMove}}
+\index{OnMouseMove@{OnMouseMove}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{OnMouseMove()}{OnMouseMove()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a87244fa7885860cb4fed3fefd41b35fa} 
+void be\+::\+Mouse\+::\+On\+Mouse\+Move (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when the mouse moves. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The new X coordinate of the mouse. \\
+\hline
+{\em y} & The new Y coordinate of the mouse. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_mouse_a8f6024fdda326cb5dd85d802d2103440}\index{be::Mouse@{be::Mouse}!OnMousePress@{OnMousePress}}
+\index{OnMousePress@{OnMousePress}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{OnMousePress()}{OnMousePress()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a8f6024fdda326cb5dd85d802d2103440} 
+void be\+::\+Mouse\+::\+On\+Mouse\+Press (\begin{DoxyParamCaption}\item[{int}]{button}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when a mouse button is pressed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & The button code that was pressed. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_mouse_a8b33d6e25d3c9b6076b915eb1d75dceb}\index{be::Mouse@{be::Mouse}!OnMouseRelease@{OnMouseRelease}}
+\index{OnMouseRelease@{OnMouseRelease}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{OnMouseRelease()}{OnMouseRelease()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a8b33d6e25d3c9b6076b915eb1d75dceb} 
+void be\+::\+Mouse\+::\+On\+Mouse\+Release (\begin{DoxyParamCaption}\item[{int}]{button}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when a mouse button is released. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & The button code that was released. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_mouse_a0fa09c0f3477fa935767604a1734c107}\index{be::Mouse@{be::Mouse}!OnMouseScroll@{OnMouseScroll}}
+\index{OnMouseScroll@{OnMouseScroll}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{OnMouseScroll()}{OnMouseScroll()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a0fa09c0f3477fa935767604a1734c107} 
+void be\+::\+Mouse\+::\+On\+Mouse\+Scroll (\begin{DoxyParamCaption}\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Updates the internal state when the scroll wheel is used. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & The horizontal scroll amount. \\
+\hline
+{\em y} & The vertical scroll amount. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classbe_1_1_mouse_afe799cd51a328018c725c1256ad8e8ea}\index{be::Mouse@{be::Mouse}!Pressed@{Pressed}}
+\index{Pressed@{Pressed}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{Pressed()}{Pressed()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_afe799cd51a328018c725c1256ad8e8ea} 
+bool be\+::\+Mouse\+::\+Pressed (\begin{DoxyParamCaption}\item[{int}]{button}{}\end{DoxyParamCaption})}
+
+
+
+Checks if a mouse button was pressed. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em button} & The button code to check. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the button was pressed in the current frame, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_mouse_a5cc92630a014a951d1fae3296abcac6d}\index{be::Mouse@{be::Mouse}!ScrollX@{ScrollX}}
+\index{ScrollX@{ScrollX}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{ScrollX()}{ScrollX()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_a5cc92630a014a951d1fae3296abcac6d} 
+float be\+::\+Mouse\+::\+ScrollX (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Gets the horizontal scroll value. 
+
+\begin{DoxyReturn}{Returns}
+The current scroll X value. 
+\end{DoxyReturn}
+\Hypertarget{classbe_1_1_mouse_aa410801c44efb4c815f06eae3ae60168}\index{be::Mouse@{be::Mouse}!ScrollY@{ScrollY}}
+\index{ScrollY@{ScrollY}!be::Mouse@{be::Mouse}}
+\doxysubsubsection{\texorpdfstring{ScrollY()}{ScrollY()}}
+{\footnotesize\ttfamily \label{classbe_1_1_mouse_aa410801c44efb4c815f06eae3ae60168} 
+float be\+::\+Mouse\+::\+ScrollY (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Gets the vertical scroll value. 
+
+\begin{DoxyReturn}{Returns}
+The current scroll Y value. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Input/Mouse.\+h\item 
+C\+:/\+Dev/\+Bad\+Engine/\+Bad\+Engine\+Core/src/\+Input/Mouse.\+cpp\end{DoxyCompactItemize}

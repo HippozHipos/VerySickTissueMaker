@@ -1,0 +1,56 @@
+\doxysection{Mouse.\+h}
+\hypertarget{_mouse_8h_source}{}\label{_mouse_8h_source}\index{C:/Dev/BadEngine/BadEngineCore/src/Input/Mouse.h@{C:/Dev/BadEngine/BadEngineCore/src/Input/Mouse.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}pch.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}ECS/SceneContainer.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{class\ }GLFWwindow;}
+\DoxyCodeLine{00007\ \textcolor{keyword}{namespace\ }be\ \{}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbe_1_1_mouse}{Mouse}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classbe_1_1_scene_container}{SceneContainer}}}
+\DoxyCodeLine{00018\ \ \ \ \ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbe_1_1_window}{Window}};}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{void}\ mouseButtonCallback(GLFWwindow*,\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{int},\ \textcolor{keywordtype}{int});}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{void}\ mousePositionCallback(GLFWwindow*,\ \textcolor{keywordtype}{double},\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{void}\ scrollWheelCallback(GLFWwindow*,\ \textcolor{keywordtype}{double},\ \textcolor{keywordtype}{double});}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classbe_1_1_mouse_a6474a0365c1b5a5418128dc8c1892adb}{Mouse}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classbe_1_1_mouse_ad649152395c67ba29dc5cf09c407937d}{\string~Mouse}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classbe_1_1_mouse_afe799cd51a328018c725c1256ad8e8ea}{Pressed}}(\textcolor{keywordtype}{int}\ button);}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classbe_1_1_mouse_a197ef302f044a74e1d80163ec1f63da9}{Held}}(\textcolor{keywordtype}{int}\ button);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classbe_1_1_mouse_aaf0b6405b0373e4c93e398e50223194f}{GetX}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classbe_1_1_mouse_a9e06a798fd44c7b0e6b32b585520fbd4}{GetY}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classbe_1_1_mouse_af0a76a87affc8049f2c8d7102be6a645}{ChangeX}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classbe_1_1_mouse_a5aacf54067a010a8ae8ec3e8a0e9faa3}{ChangeY}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classbe_1_1_mouse_a5cc92630a014a951d1fae3296abcac6d}{ScrollX}}();}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{classbe_1_1_mouse_aa410801c44efb4c815f06eae3ae60168}{ScrollY}}();}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classbe_1_1_mouse_ac5afeab15fa59b0306abcdef34818db6}{Update}}();}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classbe_1_1_mouse_a87244fa7885860cb4fed3fefd41b35fa}{OnMouseMove}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classbe_1_1_mouse_a0fa09c0f3477fa935767604a1734c107}{OnMouseScroll}}(\textcolor{keywordtype}{int}\ x,\ \textcolor{keywordtype}{int}\ y);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classbe_1_1_mouse_a8f6024fdda326cb5dd85d802d2103440}{OnMousePress}}(\textcolor{keywordtype}{int}\ button);}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classbe_1_1_mouse_ab7a254929c268324e9fbf7bc55565ff4}{OnMouseHeld}}(\textcolor{keywordtype}{int}\ button);}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classbe_1_1_mouse_a8b33d6e25d3c9b6076b915eb1d75dceb}{OnMouseRelease}}(\textcolor{keywordtype}{int}\ button);}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m\_mousex,\ \mbox{\hyperlink{classbe_1_1_mouse_ab852e9c2c99053afcdb9363d6d9060b3}{m\_mousey}}\ =\ 0;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m\_scrollx,\ \mbox{\hyperlink{classbe_1_1_mouse_afe046a9d301e9f9b4ee75cbcbf7faf61}{m\_scrolly}}\ =\ 0;}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m\_last\_mousex,\ \mbox{\hyperlink{classbe_1_1_mouse_adea607966d947ed0da16cf3f9dc21cdb}{m\_last\_mousey}}\ =\ 0;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{float}\ m\_mouse\_changex,\ \mbox{\hyperlink{classbe_1_1_mouse_ad23632ba9e5750f757a049d630a901ff}{m\_mouse\_changey}}\ =\ 0;}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{classbe_1_1_mouse_a8a8d8704d9ca3957fb723ad625512145}{buttonCodes}}\ =\ 5;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ std::bitset<buttonCodes>\ \mbox{\hyperlink{classbe_1_1_mouse_a4e18c885def3e66f1babd37e68fbb8a8}{m\_mouse\_pressed}};}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ std::bitset<buttonCodes>\ \mbox{\hyperlink{classbe_1_1_mouse_ae325b0ff153c9f4af4a9df67c533f9ed}{m\_mouse\_held}};}
+\DoxyCodeLine{00134\ \ \ \ \ \};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \}}
+
+\end{DoxyCode}
