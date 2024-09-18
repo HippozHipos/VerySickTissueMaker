@@ -2,7 +2,8 @@
 
 namespace bee {
 
-	EditorSceneObject::EditorSceneObject(const char* path)
+	EditorSceneObject::EditorSceneObject(const char* name, const char* path) :
+		m_name{ name }, m_path{path}
 	{
 		glm::vec3& pos = Get<be::Transform>().position;
 		pos.x = 0; pos.y = 0; pos.z = 0;
@@ -12,6 +13,21 @@ namespace bee {
 		{
 			mesh.SetupMesh();
 		}
+	}
+
+	const char* EditorSceneObject::GetName() const
+	{
+		return m_name.c_str();
+	}
+
+	const char* EditorSceneObject::GetPath() const
+	{
+		return m_path.c_str();
+	}
+
+	void EditorSceneObject::SetName(const char* name)
+	{
+		m_name = name;
 	}
 
 }
