@@ -10,12 +10,12 @@
 [submodule "3rdparty/stb"]
 	path = 3rdparty/stb
 	url = https://github.com/nothings/stb.git
-[submodule "vstmr/3rdparty/assimp"]
-	path = vstmr/3rdparty/assimp
+[submodule "BadEngineCore/3rdparty/assimp"]
+	path = BadEngineCore/3rdparty/assimp
 	url = https://github.com/assimp/assimp.git
-[submodule "vstmr/3rdparty/entt"]
-	path = vstmr/3rdparty/entt
+[submodule "BadEngineCore/3rdparty/entt"]
+	path = BadEngineCore/3rdparty/entt
 	url = https://github.com/skypjack/entt.git
-[submodule "vstmr/3rdparty/imgui"]
-	path = vstmr/3rdparty/imgui
+[submodule "BadEngineCore/3rdparty/imgui"]
+	path = BadEngineCore/3rdparty/imgui
 	url = https://github.com/PencilPushr/imgui.git

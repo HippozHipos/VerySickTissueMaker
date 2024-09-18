@@ -27,6 +27,11 @@ namespace be {
 		glm::vec3 rotation{ 0.0f, 0.0f, 90.0f };
 		float movement_speed = 5;
 		float mouse_sensitivity = 0.1f;
+		/*! \brief String specifying which viewport to render to. 
+		* "Main Platform Window" by default.
+		* "Main Platform Window" renders to the main window created by the application. i
+		* It can also be the name of any imgui window.
+		*/
 		std::string target_viewport = "Main Platform Window";
 		bool active = true;
 

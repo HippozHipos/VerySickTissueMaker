@@ -41,7 +41,7 @@ namespace be {
 			{
 				case Error::WINDOW_CONSTRUCTION_FAILED: WindowConstructionFailed();
 			}
-			BDLOG_CD_ERR("Error code : {} Error description: {}", error.Errorcode(), error.What());
+			BELOG_CD_ERR("Error code : {} Error description: {}", error.Errorcode(), error.What());
 		}
 		m_errors.clear();
 	}

@@ -30,7 +30,7 @@ namespace be {
         std::ifstream file("BEApplicationConfig.txt");
         if (!file.is_open())
         {
-            BDLOG_CD_ERR("ResourcePathHanlder expecs a BEApplicationConfig.txt file in the same directory as the excecutable");
+            BELOG_CD_ERR("ResourcePathHanlder expecs a BEApplicationConfig.txt file in the same directory as the excecutable");
             return "";
         }
 
@@ -56,14 +56,14 @@ namespace be {
 
                     if (key == "ResourcePath")
                     {
-                        BDLOG_CD_ERR(value);
+                        BELOG_CD_ERR(value);
                         return value;
                     }
                 }
             }
         }
 
-        BDLOG_CD_ERR("Config.txt does not contain ResourcePath");
+        BELOG_CD_ERR("Config.txt does not contain ResourcePath");
         return "";
     }
 

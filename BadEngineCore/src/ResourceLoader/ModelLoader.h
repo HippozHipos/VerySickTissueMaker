@@ -13,12 +13,12 @@ namespace be {
 	class ModelLoader
 	{
 	public:
-		static void Load(const char* path, MeshRenderer& renderer, TextureManager& texmanager);
+		static void Load(const char* path, MeshRenderer& renderer);
 
 	private:
-		static void ProcessNode(aiNode* node, const aiScene* scene, MeshRenderer& renderer, TextureManager& texmanager);
-		static void LoadTextures(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager);
-		static void LoadTexture(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager, aiTextureType type);
+		static void ProcessNode(aiNode* node, const aiScene* scene, MeshRenderer& renderer);
+		static void LoadTextures(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer);
+		static void LoadTexture(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, aiTextureType type);
 	};
 
 }

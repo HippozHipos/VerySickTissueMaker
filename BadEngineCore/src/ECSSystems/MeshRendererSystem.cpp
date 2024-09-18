@@ -7,7 +7,7 @@
 
 #include "MeshRendererSystem.h"
 
-#include "Renderer/MeshComponent.h"
+#include "Renderer/Mesh.h"
 #include "Renderer/MeshRenderer.h"
 #include "Diagnostics/OpenglError.h"
 #include "Renderer/Camera.h"
@@ -20,7 +20,7 @@
 
 namespace be {
 
-	MeshRendererSystem::MeshRendererSystem(std::unordered_map<std::string, VstmrImGuiViewport>& viewportMap, 
+	MeshRendererSystem::MeshRendererSystem(std::unordered_map<std::string, BEImGuiViewport>& viewportMap, 
 		MainPlatformWindowRenderer& mainWinRenderer) :
 		m_viewport_map{ viewportMap }, m_main_window_renderer{ mainWinRenderer }
 	{
@@ -38,7 +38,7 @@ namespace be {
 				bool isMainPlatformWindow = camera.target_viewport == "Main Platform Window";
 				if (it == m_viewport_map.end() && !isMainPlatformWindow)
 				{
-					BDLOG_CD_ERR("Trying to render to viewport that doesn't exist: {}", camera.target_viewport.c_str());
+					BELOG_CD_ERR("Trying to render to viewport that doesn't exist: {}", camera.target_viewport.c_str());
 					return;
 				}
 				if (isMainPlatformWindow)
@@ -109,7 +109,7 @@ namespace be {
 		Graphics::SetPolygonDrawMode(renderer.draw_mode);
 		
 		int i = 0;
-		for (MeshComponent& mesh : renderer.meshes)
+		for (Mesh& mesh : renderer.meshes)
 		{
 			mesh.vertex_array.Bind();
 			mesh.index_buffer.Bind();
@@ -119,8 +119,11 @@ namespace be {
 			renderer.material.shaders.SetMat4f("view", camera.GetViewMatrix());
 			renderer.material.shaders.SetVec3f("materialColor", renderer.material.color);
 
-			Graphics::SetActiveTextureSlot(GL_TEXTURE0);
-			renderer.material.textures[i++].Bind();
+			if (i < renderer.material.textures.size())
+			{
+				Graphics::SetActiveTextureSlot(GL_TEXTURE0);
+				renderer.material.textures[i++].Bind();
+			}
 
 			Graphics::DrawIndexedTraingles(mesh.index_data.size());
 		}

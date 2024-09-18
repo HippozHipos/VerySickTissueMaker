@@ -12,7 +12,10 @@
 
 namespace be {
 
-	void LogGLFWError(int errorCode, const char* desc);
+	/*!
+	 *	Error callback function for glfw
+	 */
+	void LogGLFWErrorCallback(int errorCode, const char* desc);
 
 }
 

@@ -3,6 +3,9 @@
 
 namespace be {
 
+	/*!
+	 *	This class represents application-breaking errors which if occur, the application needs to be terminated
+	 */
 	class Error
 	{
 	public:
@@ -23,6 +26,9 @@ namespace be {
 		std::string what;
 	};
 
+	/*!
+	 *	This class handles any error that the Error class represents. 
+	 */
 	class ErrorHandler
 	{
 	public:

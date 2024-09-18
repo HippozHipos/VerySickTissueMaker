@@ -12,6 +12,9 @@
 
 namespace be {
 
+	/*!
+	 * 
+	 */
 	struct ApplicationContainer : public SceneContainer
 	{
 		ApplicationContainer();

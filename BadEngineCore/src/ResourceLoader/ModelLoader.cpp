@@ -1,50 +1,54 @@
 #include "ModelLoader.h"
 #include "Diagnostics/Logger.h"
 #include "ResourcePathHandler.h"
+#include "ResourceLoader/TextureManager.h"
 
 namespace be {
 
-	void ModelLoader::Load(const char* path, MeshRenderer& renderer, TextureManager& texmanager)
+	void ModelLoader::Load(const char* path, MeshRenderer& renderer)
 	{
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(path, aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(path, 
+            aiProcess_JoinIdenticalVertices | aiProcess_Triangulate | aiProcess_FlipUVs);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-            BDLOG_CD_ERR("Mesh loading error", importer.GetErrorString());
+            BELOG_CD_ERR("Mesh loading error", importer.GetErrorString());
 			return;
 		}
 
-		ProcessNode(scene->mRootNode, scene, renderer, texmanager);
-        if (renderer.material.textures.size() > renderer.meshes.size())
-            assert(false && "Mesh loading failed due to incorrect data");
+		ProcessNode(scene->mRootNode, scene, renderer);
+        //if (renderer.material.textures.size() > renderer.meshes.size())
+            //assert(false && "Mesh loading failed due to incorrect data");
 
         int missing = renderer.meshes.size() - renderer.material.textures.size();
-        BDLOG_CD_ERR("{} default textures used for the model", missing);
+        BELOG_CD_ERR("{} default textures used for the model", missing);
         for (int i = 0; i < missing; i++)
         {
-            renderer.material.textures.push_back(texmanager.Get("default"));
+            renderer.material.textures.push_back(TextureManager::Get("default"));
         }
 	}
 
-    void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, MeshRenderer& renderer, TextureManager& texmanager)
+    void ModelLoader::ProcessNode(aiNode* node, const aiScene* scene, MeshRenderer& renderer)
     {
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
-            MeshComponent mesh;
+            Mesh mesh;
             aiMesh* assMesh = scene->mMeshes[node->mMeshes[i]];
 
             mesh.vertex_data.reserve(assMesh->mNumVertices);
             for (unsigned int j = 0; j < assMesh->mNumVertices; j++)
             {
-                MeshComponent::VertexData vd;
+                Mesh::VertexData vd;
                 vd.vertices = glm::vec3(assMesh->mVertices[j].x, assMesh->mVertices[j].y, assMesh->mVertices[j].z);
 
                 if (assMesh->mNormals)
                 {
                     vd.normals = glm::vec3(assMesh->mNormals[j].x, assMesh->mNormals[j].y, assMesh->mNormals[j].z);
                 }
-
+                //todo: aiScene::GetEmbeddedTexture returns if texture is embedded in file model format itself. get textures
+                //from aiScene::mTextures if aiScene::GetEmbeddedTexture is not null otherwise continue to search files as done
+                //bellow
                 if (assMesh->mTextureCoords[0])
                 {
                     vd.texture = glm::vec2(assMesh->mTextureCoords[0][j].x, assMesh->mTextureCoords[0][j].y);
@@ -71,34 +75,38 @@ namespace be {
             {
                 renderer.meshes.push_back(std::move(mesh));
             }
+            else
+            {
+                BELOG_CD_ERR("Model cannot have empty vertex or index data");
+            }
 
             if (assMesh->mMaterialIndex >= 0)
             {
-                LoadTextures(scene, assMesh, renderer, texmanager);
+                LoadTextures(scene, assMesh, renderer);
             }
         }
 
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
-            ProcessNode(node->mChildren[i], scene, renderer, texmanager);
+            ProcessNode(node->mChildren[i], scene, renderer);
         }
     }
 
-    void ModelLoader::LoadTextures(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager)
+    void ModelLoader::LoadTextures(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer)
     {
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_DIFFUSE);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_SPECULAR);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_NORMALS);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_AMBIENT);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_HEIGHT);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_EMISSIVE);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_OPACITY);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_METALNESS);
-        LoadTexture(scene, assMesh, renderer, texmanager, aiTextureType_DIFFUSE_ROUGHNESS);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_DIFFUSE);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_SPECULAR);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_NORMALS);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_AMBIENT);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_HEIGHT);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_EMISSIVE);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_OPACITY);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_METALNESS);
+        LoadTexture(scene, assMesh, renderer, aiTextureType_DIFFUSE_ROUGHNESS);
     }
 
 
-    void ModelLoader::LoadTexture(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, TextureManager& texmanager, aiTextureType type)
+    void ModelLoader::LoadTexture(const aiScene* scene, const aiMesh* assMesh, MeshRenderer& renderer, aiTextureType type)
     {
         aiMaterial* material = scene->mMaterials[assMesh->mMaterialIndex];
         if (!material) return;
@@ -109,12 +117,12 @@ namespace be {
             if (material->GetTexture(type, j, &path) == AI_SUCCESS)
             {
                 std::string fullpath = ResourcePathHandler().GetTexturesPath() + path.C_Str();
-                Texture texture = texmanager.Load(fullpath, fullpath, true); // Use path as texture name
+                Texture texture = TextureManager::Load(fullpath, fullpath, true); // Use path as texture name
                 renderer.material.textures.push_back(texture);
             }
             else
             {
-                BDLOG_CD_ERR("Failed to get texture of type", static_cast<int>(type), "for material index", assMesh->mMaterialIndex);
+                BELOG_CD_ERR("Failed to get texture of type", static_cast<int>(type), "for material index", assMesh->mMaterialIndex);
             }
         }
     }

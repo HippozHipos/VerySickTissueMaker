@@ -23,9 +23,15 @@ namespace be {
 		CheckOpenGLError();
 	}
 
-	void Renderer::CreateViewport(const char* name)
+	std::unordered_map<std::string, BEImGuiViewport>::iterator Renderer::CreateViewport(const char* name)
 	{
-		m_viewport_map.insert(std::pair<const char*, VstmrImGuiViewport>(name, VstmrImGuiViewport{ name }));
+		m_viewport_map.insert(std::pair<const char*, BEImGuiViewport>(name, BEImGuiViewport{ name }));
+		return m_viewport_map.find(name);
+	}
+
+	std::unordered_map<std::string, BEImGuiViewport>::iterator Renderer::GetViewport(const char* name)
+	{
+		return m_viewport_map.find(name);
 	}
 
 	void Renderer::RenderImGuiViewport()

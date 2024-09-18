@@ -6,27 +6,8 @@
 
 namespace be {
 
-	class Texture;
-	class TextureManager
-	{
-	public:
-		TextureManager() = default;
-
-	public:
-		void Init();
-		Texture Load(const std::string& name, const std::string& path, bool genMipmap);
-		Texture Get(const std::string& name);
-		void Delete(const std::string& name);
-		Texture HardCopy(const std::string& name, const Texture& other);
-		Texture HardCopy(const std::string& name, const std::string& other);
-
-	private:
-		std::unordered_map<std::string, std::shared_ptr<Texture>> m_texture_map;
-	};
-
 	class Texture
 	{
-		friend Texture TextureManager::HardCopy(const std::string& name, const Texture& other);
 	public:
 		Texture();
 		Texture(const std::string& path, bool genMipmap = true);
@@ -34,9 +15,6 @@ namespace be {
 
 		Texture(const Texture& other);
 		Texture operator=(const Texture& other);
-
-		//Texture(Texture&& other) noexcept;
-		//Texture& operator=(Texture&& other) noexcept;
 
 		~Texture() = default;
 
@@ -78,4 +56,5 @@ namespace be {
 	private:
 		GLuint m_texture_id{};
 	};
+
 }

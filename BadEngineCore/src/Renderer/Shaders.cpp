@@ -36,7 +36,7 @@ namespace be {
 
 		if (!inStream.is_open()) 
 		{
-			BDLOG_CD_ERR("Error opening file : {} Error code : {} Error description : {}", path, errno, strerror(errno));
+			BELOG_CD_ERR("Error opening file : {} Error code : {} Error description : {}", path, errno, strerror(errno));
 			return;
 		}
 
@@ -96,8 +96,8 @@ namespace be {
 		if (!success) {
 			GLchar infoLog[512];
 			glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-			BDLOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
-			BDLOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
+			BELOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
+			BELOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
 		}
 		CheckOpenGLError();
 		return shader;
@@ -124,8 +124,8 @@ namespace be {
 		if (!success)
 		{
 			GLchar infoLog[512];
-			BDLOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
-			BDLOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
+			BELOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
+			BELOG_CD_ERR("Error code: {} Error description: {}", 0, infoLog);
 		}
 
 		glDeleteShader(vertexShader);

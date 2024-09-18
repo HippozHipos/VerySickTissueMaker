@@ -69,11 +69,11 @@ namespace be {
 		m_keyboard{ keyboard }, m_mouse{ mouse },
 		m_width{ width }, m_height{ height }
 	{
-		BDLOG_TRC_INFO("Window constructed");
+		BELOG_TRC_INFO("Window constructed");
 		;
 		if (!glfwInit())
 		{
-			BDLOG_CD_ERR("GLFW initialization failed");
+			BELOG_CD_ERR("GLFW initialization failed");
 			ErrorHandler::AddError(Error::WINDOW_CONSTRUCTION_FAILED, "Couldn't initialize glfw");
 			glfwTerminate();
 			return;
@@ -148,7 +148,7 @@ namespace be {
 		glfwMakeContextCurrent(m_pwindow);
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
-			BDLOG_CD_ERR("Failed to initialize glad\n");
+			BELOG_CD_ERR("Failed to initialize glad\n");
 			return;
 		}
 		glViewport(0, 0, width, height);

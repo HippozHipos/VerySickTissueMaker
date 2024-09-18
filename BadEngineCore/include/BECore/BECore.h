@@ -1,31 +1,32 @@
 #pragma once
 
 #include <imgui.h>
-#include <ui/imgui/imgui_impl_glfw.h>
-#include <ui/imgui/imgui_impl_opengl3.h>
+#include "Src/UI/Imgui/imgui_impl_glfw.h"
+#include "Src/UI/Imgui/imgui_impl_opengl3.h"
 
-#include "src/renderer/Renderer.h"
-#include "src/renderer/Texture.h"
-#include "src/window/Window.h"
-#include "src/Main/Application.h"
+#include "Src/Renderer/Renderer.h"
+#include "Src/Renderer/Texture.h"
+#include "Src/Window/Window.h"
+#include "Src/Main/Application.h"
 
-#include "src/ECS/SceneContainer.h"
-#include "src/ECS/SceneObject.h"
-#include "src/ECS/BehaviouralSceneObject.h"
+#include "Src/ECS/SceneContainer.h"
+#include "Src/ECS/SceneObject.h"
+#include "Src/ECS/Behaviour/BehaviourObject.h"
+#include "Src/ECS/Behaviour/BehaviourSceneObject.h"
 
-#include "src/renderer/Material.h"
-#include "src/renderer/MeshComponent.h"
-#include "src/renderer/MeshRenderer.h"
-#include "src/renderer/Quad.h"
+#include "Src/Renderer/Material.h"
+#include "Src/Renderer/Mesh.h"
+#include "Src/Renderer/MeshRenderer.h"
+#include "Src/Renderer/Quad.h"
 
-#include "src/renderer/PointLight.h"
+#include "Src/Renderer/PointLight.h"
 
-#include "src/ResourceLoader/ModelLoader.h"
+#include "Src/ResourceLoader/ModelLoader.h"
 
-#include "Diagnostics/Logger.h"
-#include "ResourceLoader/ResourcePathHandler.h"
+#include "Src/Diagnostics/Logger.h"
 
-#include "renderer/Camera.h"
-#include "renderer/Graphics.h"
-
-#include "src/Main/EntryPoint.h"
+#include "Src/ResourceLoader/ResourcePathHandler.h"
+#include "Src/ResourceLoader/TextureManager.h"
+		
+#include "Src/Renderer/Camera.h"
+#include "Src/Renderer/Graphics.h"

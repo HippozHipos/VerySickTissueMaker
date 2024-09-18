@@ -1,6 +1,6 @@
 #include "OurImGui.h"
 #include "UI/Imgui/ImGuiDarkTheme.h"
-#include "ECS/BehaviouralSceneObject.h"
+#include "ECS/Behaviour/BehaviourObject.h"
 
 #include "Renderer/Graphics.h"
 #include "Main/Application.h"
@@ -42,9 +42,6 @@ namespace be {
 		ImGui::NewFrame();
 		if (config_flag & Application::SETUP_MAIN_WINDOW_AS_DOCKSPACE)
 			ImGui::DockSpaceOverViewport(ImGui::GetID("Main dockspace"), ImGui::GetMainViewport());
-
-		ImGui::ShowDemoWindow();
-		ImGui::ShowMetricsWindow();
 
 		BehaviourManagerStore::GetBehaviourManager().CallAllUIFunctions();
 		renderer.RenderImGuiViewport();

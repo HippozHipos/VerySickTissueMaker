@@ -13,7 +13,7 @@ namespace be {
     {
         if (type == GL_DEBUG_TYPE_ERROR)
         {
-            BDLOG_CD_ERR(
+            BELOG_CD_ERR(
                 "[GL Callback]: Type = {}, severity = {}, message = {}\n",
                 type,
                 severity,
@@ -22,7 +22,7 @@ namespace be {
         }
         else
         {
-            BDLOG_TRC_INFO(
+            BELOG_TRC_INFO(
                 "[GL Callback]: Type = {}, severity = {}, message = {}\n",
                 type,
                 severity,

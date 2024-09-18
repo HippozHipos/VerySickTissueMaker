@@ -6,12 +6,11 @@
 #include "Diagnostics/Error.h"
 #include "Timer/timer.h"
 #include "ResourceLoader/ModelLoader.h"
-#include "ECS/BehaviouralSceneObject.h"
+#include "ECS/Behaviour/BehaviourObject.h"
+#include "ResourceLoader/TextureManager.h"
 
 namespace be {
 
-	//This just makes everything super convenient since it makes these things 
-	//readily available within any scene object
 	ApplicationContainer::ApplicationContainer() :
 		keyboard{ Add<Keyboard>() },
 		mouse{ Add<Mouse>() },
@@ -29,11 +28,11 @@ namespace be {
 
 	void Application::Start()
 	{
+		be::TextureManager::Init();
 		m_imgui.Start(m_container.window.GetGLFWWindow(), config_flag);
 		m_container.renderer.Init();
 		ErrorHandler::Handle();
 		HandleErrorActions();
-		BehaviourManagerStore::GetBehaviourManager().CallAllStartFunctions();
 	}
 
 	void Application::Run()

@@ -22,6 +22,8 @@ file (GLOB SOURCE_FILES CMAKE_CONFIGURE_DEPENDS
 		src/*.cpp
 			src/ECS/*.h
 			src/ECS/*.cpp
+			src/ECS/Behaviour/*.h
+			src/ECS/Behaviour/*.cpp
 			src/Diagnostics/*.h
 			src/Diagnostics/*.cpp
 			src/Input/*.h
@@ -86,12 +88,12 @@ set(INTERNAL_AND_EXTERNAL_INCLUDES
     ${THIRD_PARTY_PATH}/glm
 	${THIRD_PARTY_PATH}/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/build/3rdparty/assimp/include
-    ${CMAKE_CURRENT_LIST_DIR}/src
     ${CMAKE_CURRENT_LIST_DIR}
+	${CMAKE_CURRENT_LIST_DIR}/src
 )
 
 #includes only used by engine
-set(INTERNAL_ONLY_INCLUDES
+set(INTERNAL_ONLY_INCLUDES	
 	${THIRD_PARTY_PATH}/imgui/backends
     ${THIRD_PARTY_PATH}/spdlog/include
     ${THIRD_PARTY_PATH}/stb

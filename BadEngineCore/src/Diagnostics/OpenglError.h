@@ -6,6 +6,10 @@
 
 namespace be {
 
+    /*!
+     *	Opengl error message callback function.
+     */
+
     void GLAPIENTRY OpenglErrorMessageCallback(GLenum source,
         GLenum type,
         GLuint id,

@@ -1,6 +1,6 @@
 #include "SceneContainer.h"
 #include "Diagnostics/Logger.h"
-#include "BehaviouralSceneObject.h"
+#include "Behaviour/BehaviourObject.h"
 
 namespace be {
 

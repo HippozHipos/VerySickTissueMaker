@@ -9,6 +9,10 @@
 
 namespace be {
 
+	/*!
+	 *	Creates a pop-up message box with the given title and text.
+	 */
+
 	void ErrorMessasgeBox(const std::string& title, const std::string& text);
 
 }

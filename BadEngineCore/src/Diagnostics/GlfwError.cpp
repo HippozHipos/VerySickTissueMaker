@@ -3,7 +3,7 @@
 
 namespace be {
 
-	void LogGLFWError(int errorCode, const char* desc)
+	void LogGLFWErrorCallback(int errorCode, const char* desc)
 	{
 		static int lastError = -1;
 		static int count = 0;
@@ -25,11 +25,11 @@ namespace be {
 		int maxLogs = 10;
 		if (count < maxLogs + 1)
 		{
-			BDLOG_CD_ERR("[glfw error]\nError code: {}\nError description: {}", errorCode, desc);
+			BELOG_CD_ERR("[glfw error]\nError code: {}\nError description: {}", errorCode, desc);
 		}
 		else if (count == maxLogs + 1)
 		{
-			BDLOG_CD_ERR("Log omitted because above error occurred more than 10 times");
+			BELOG_CD_ERR("Log omitted because above error occurred more than 10 times");
 		}
 		lastError = errorCode;
 	}

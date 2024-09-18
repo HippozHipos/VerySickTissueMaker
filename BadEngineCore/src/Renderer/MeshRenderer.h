@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
 #include "ECS/SceneContainer.h"
-#include "MeshComponent.h"
+#include "Mesh.h"
 #include "Material.h"
 
 namespace be {
@@ -13,7 +13,7 @@ namespace be {
 
 	public:
 		Material material;
-		std::vector<MeshComponent> meshes;
+		std::vector<Mesh> meshes;
 		int draw_mode = GL_FILL;
 	};
 
