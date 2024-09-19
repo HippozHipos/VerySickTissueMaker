@@ -1,9 +1,11 @@
 #include "EditorMainViewportWindow.h"
 #include <imgui_internal.h>
+#include "UtilWidgets.h"
+#include "NotificationManager.h"
 
 namespace bee {
 
-	EditorMainViewportWindow::EditorMainViewportWindow(std::unordered_map<std::string, std::pair<EditorSceneObject, int>>& editorSceneObjects) :
+	EditorMainViewportWindow::EditorMainViewportWindow(std::unordered_map<std::string, EditorSceneObject>& editorSceneObjects) :
         m_editor_scene_objects{ editorSceneObjects }
 	{
 		GetRenderer().CreateViewport(m_name);
@@ -18,56 +20,120 @@ namespace bee {
 
 	void EditorMainViewportWindow::UI()
 	{
+
         ImGuiWindowFlags flags = GetRenderer().GetViewport(m_name)->second.GetFlags();
         if (ImGui::Begin(m_name, nullptr, flags))
         {
             float aspect = ImGui::GetWindowWidth() / ImGui::GetWindowHeight();
             Get<be::Camera>().RecalculateProjectionMatrix(glm::radians(90.0f), aspect, 0.01f, 10000.0f);
-            AcceptDragDropPayloadFromResourcePannel();
 
+            //imgui drag drop doesnt work with Begin() and End() since they are
+            //only used for setting up the actual window, like window size, so
+            //it needs something that can register the drop, in this case InvisibleButton.
+            ImGuiWindow* window = ImGui::GetCurrentWindow();
+            if (window->SkipItems)
+                return;
+            ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+            ImVec2 dropAreaSize = ImGui::GetContentRegionAvail();
+            ImVec2 dropAreaEndPos = ImVec2(cursorPos.x + dropAreaSize.x, cursorPos.y + dropAreaSize.y);
+            ImGui::ItemAdd({ cursorPos , dropAreaEndPos }, window->GetID("DropArea"));
+            
+            //AcceptDragDropPointLightPayload();
+            auto pair = AcceptDragDropPayloadFromResourcePannel("MODEL_FILE_PATH");
+            if (pair.first)
+            {
+                AddEditorSceneObject(pair.first);
+            }
+                
             ProcessKeyboardMovement();
             ProcessMouseMovement();
             ImGui::End();
         }
 	}
 
-	void EditorMainViewportWindow::AcceptDragDropPayloadFromResourcePannel()
+    void EditorMainViewportWindow::AddEditorSceneObject(const char* name)
+    {
+        auto it = m_editor_scene_objects.find(std::string{ name });
+         if (it == m_editor_scene_objects.end())
+         {
+             m_editor_scene_objects.insert(
+                 std::pair<std::string, EditorSceneObject>{ name, EditorSceneObject{ name } }
+             );
+             std::string msg = std::string{ "New object " } + name + "added";
+             NotificationManager::AddNotification(msg, 3);
+         }
+         else
+         {
+             //cant add duplicates for now
+         }
+    }
+
+    std::pair<char*, std::string> EditorMainViewportWindow::AcceptDragDropPayloadFromResourcePannel(const char* payloadid)
 	{
-        //imgui drag drop doesnt work with Begin() and End() since they are
-        //only used for setting up the actual window, like window size, so
-        //it needs something that can register the drop, in this case InvisibleButton.
-        ImGuiWindow* window = ImGui::GetCurrentWindow();
-        if (window->SkipItems)
-            return;
-
-        ImVec2 cursorPos = ImGui::GetCursorScreenPos();
-        ImVec2 dropAreaSize = ImGui::GetContentRegionAvail();
-        ImVec2 dropAreaEndPos = ImVec2(cursorPos.x + dropAreaSize.x, cursorPos.y + dropAreaSize.y);
-        ImGui::ItemAdd({ cursorPos , dropAreaEndPos }, window->GetID("DropArea"));
-
-        if (ImGui::IsItemHovered() && ImGui::BeginDragDropTarget())
+        static bool openPopup = false;  
+        static std::string path;
+        if (ImGui::BeginDragDropTarget())
         {
-            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("FILE_PATH"))
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(payloadid))
             {
-                std::string path{ static_cast<char*>(payload->Data) };
-                auto it = m_editor_scene_objects.find(path.c_str());
-                if (it == m_editor_scene_objects.end()) //add new with 1 count if doesnt exist
-                {
-                    std::string filename = std::filesystem::path{ path }.filename().string();
-                    std::string withoutExtention = filename.substr(0, filename.find_last_of("."));
-                    std::pair<EditorSceneObject, int> objectWithCount{ EditorSceneObject{ withoutExtention.c_str(), path.c_str()}, 1};
-                    m_editor_scene_objects.insert(
-                        std::pair<std::string, std::pair<EditorSceneObject, int>>{ path.c_str(), objectWithCount }
-                    );
-                }
-                else
-                {
-                    //cant add duplicates for now
-                }
+                openPopup = true;
+                path = static_cast<char*>(payload->Data);
             }
             ImGui::EndDragDropTarget();
         }
+
+        if (openPopup)
+        {
+            ImGui::OpenPopup("Enter object name");
+            openPopup = false;  
+        }
+
+        if (ImGui::BeginPopupModal("Enter object name", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            static char name[32] = "";
+            ImGui::Text("Object name");
+            ImGui::InputText("##textInput", name, IM_ARRAYSIZE(name));
+            if (ImGui::Button("OK", ImVec2(120, 0)))
+            {
+                ImGui::CloseCurrentPopup();
+                ImGui::EndPopup();
+                return { name, path };
+            }
+
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel", ImVec2(120, 0)))
+            {
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+        }          
+        return { nullptr, {} };
 	}
+
+    void EditorMainViewportWindow::AcceptDragDropPointLightPayload()
+    {
+        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("POINT_LIGHT"))
+        {
+            
+            //const char* name = "Point Light";
+            //auto it = m_editor_scene_objects.find(name);
+            //if (it == m_editor_scene_objects.end()) //add new with 1 count if doesnt exist
+            //{
+            //    std::string lightModelPath = be::ResourcePathHandler::GetModelsPath() + "SimpleShapes/cube.obj";
+            //    EditorSceneObject object{ name, lightModelPath.c_str() };
+            //    be::PointLight& light = object.Add<be::PointLight>();
+            //    light.color = object.Get<be::MeshRenderer>().material.color;
+            //    std::pair<EditorSceneObject, int> objectWithCount{ object , 1 };
+            //    m_editor_scene_objects.insert(
+            //        std::pair<std::string, std::pair<EditorSceneObject, int>>{ name, objectWithCount }
+            //    );
+            //}
+            //else
+            //{
+            //    //cant add duplicates for now
+            //}
+        }
+    }
 
     void EditorMainViewportWindow::ProcessKeyboardMovement()
     {

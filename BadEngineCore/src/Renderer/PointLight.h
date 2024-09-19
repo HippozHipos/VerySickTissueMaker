@@ -2,14 +2,14 @@
 #include "pch.h"
 #include <glm/glm.hpp>
 
-#include "ECS/SceneContainer.h"
+#include "ECS/SceneObject.h"
 
 namespace be {
 
-	class PointLight : public SceneContainer
+	class PointLight : public SceneObject
 	{
 	public:
-		PointLight() = default;
+		PointLight(const char* path = nullptr);
 
 	public:
 		glm::vec3 color{};

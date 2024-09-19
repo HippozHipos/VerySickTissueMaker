@@ -1,4 +1,5 @@
 #include "EditorMainAssetsPannel.h"
+#include "EditorFonts.h"
 
 namespace bee {
 
@@ -35,10 +36,14 @@ namespace bee {
             {
                 // Render folder buttons
                 ImGui::SameLine();
-                if (ImGui::Button(path.path().filename().string().c_str(), ImVec2{ 100, 100 }))
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(30, 10));
+                ImGui::PushFont(EditorFonts::roboto_bold);
+                if (ImGui::Button(path.path().filename().string().c_str()))
                 {
                     m_current_path = path.path();
                 }
+                ImGui::PopStyleVar();
+                ImGui::PopFont();
             }
             else
             {
@@ -57,8 +62,7 @@ namespace bee {
 
             if (ImGui::BeginDragDropSource())
             {
-                m_dragged_file = pair.second;
-                ImGui::SetDragDropPayload("FILE_PATH", m_dragged_file.c_str(), m_dragged_file.size() + 1);
+                ImGui::SetDragDropPayload("MODEL_FILE_PATH", pair.second.c_str(), pair.second.size() + 1);
                 ImGui::Text(pair.first.c_str());
                 ImGui::EndDragDropSource();
             }

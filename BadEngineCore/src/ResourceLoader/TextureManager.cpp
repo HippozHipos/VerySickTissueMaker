@@ -11,7 +11,7 @@ namespace be {
 		unsigned char* defaultColor = (unsigned char*)malloc(sizeof(unsigned char) * 4);
 		if (defaultColor)
 		{
-			defaultColor[0] = 255; defaultColor[1] = 0;
+			defaultColor[0] = 255; defaultColor[1] = 255;
 			defaultColor[2] = 255; defaultColor[3] = 255;
 			Texture* defaulttex = new Texture{ defaultColor, 1, 1, 4, false };
 			m_texture_map.insert(

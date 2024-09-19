@@ -119,11 +119,9 @@ namespace be {
 			renderer.material.shaders.SetMat4f("view", camera.GetViewMatrix());
 			renderer.material.shaders.SetVec3f("materialColor", renderer.material.color);
 
-			if (i < renderer.material.textures.size())
-			{
-				Graphics::SetActiveTextureSlot(GL_TEXTURE0);
-				renderer.material.textures[i++].Bind();
-			}
+
+			Graphics::SetActiveTextureSlot(GL_TEXTURE0);
+			renderer.material.textures[i++].Bind();
 
 			Graphics::DrawIndexedTraingles(mesh.index_data.size());
 		}

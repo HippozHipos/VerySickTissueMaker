@@ -7,5 +7,8 @@
 
 namespace be {
 
+	PointLight::PointLight(const char* path)
+	{
 
+	}
 }

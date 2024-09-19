@@ -3,7 +3,7 @@
 
 namespace bee {
 
-    bee::EditorMainSceneViewPannel::EditorMainSceneViewPannel(std::unordered_map<std::string, std::pair<EditorSceneObject, int>>& editorSceneObjects) :
+    bee::EditorMainSceneViewPannel::EditorMainSceneViewPannel(std::unordered_map<std::string, EditorSceneObject>& editorSceneObjects) :
         m_editor_scene_objects{ editorSceneObjects }
     {
     }
@@ -14,7 +14,7 @@ namespace bee {
         {
             for (auto& pair : m_editor_scene_objects)
             {
-                EditorSceneObject& object = pair.second.first;
+                EditorSceneObject& object = pair.second;
                 ShowMeshRenderer(object);
             }
             ImGui::End();
@@ -39,7 +39,7 @@ namespace bee {
         ImGui::PushFont(EditorFonts::roboto_bold);
         ImGui::Text("Transform");
         ImGui::PopFont();
-        ImGui::DragFloat3("Position", &transform.position[0]);
+        ImGui::DragFloat3("Position", &transform.position[0], 0.2f);
         ImGui::DragFloat3("Rotation", &transform.rotation[0]);
         ImGui::DragFloat3("Scale", &transform.scale[0]);
     }
@@ -49,7 +49,7 @@ namespace bee {
         ImGui::PushFont(EditorFonts::roboto_bold);
         ImGui::Text("Material");
         ImGui::PopFont();
-        ImGui::DragFloat3("Color", &material.color[0]);
+        ImGui::DragFloat3("Color", &material.color[0], 0.001f, 0.0f, 1.0f);
     }
 
     void EditorMainSceneViewPannel::ShowMeshRendererDrawModeDropdown(be::MeshRenderer& renderer)

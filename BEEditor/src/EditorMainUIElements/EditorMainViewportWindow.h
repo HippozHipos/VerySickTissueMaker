@@ -8,7 +8,7 @@ namespace bee {
     class EditorMainViewportWindow : public be::BehaviourSceneObject<EditorMainViewportWindow>
     {
     public:
-        EditorMainViewportWindow(std::unordered_map<std::string, std::pair<EditorSceneObject, int>>& editorSceneObjects);
+        EditorMainViewportWindow(std::unordered_map<std::string, EditorSceneObject>& m_objects_map);
 
     public:
         void Update();
@@ -17,11 +17,14 @@ namespace bee {
         void UI();
 
     private:
-        void AcceptDragDropPayloadFromResourcePannel();
+        void AddEditorSceneObject(const char* name);
+
+        std::pair<char*, std::string> AcceptDragDropPayloadFromResourcePannel(const char* payloadid);
+        void AcceptDragDropPointLightPayload();
 
     private:
         const char* m_name = "Scene";
-        std::unordered_map<std::string, std::pair<EditorSceneObject, int>>& m_editor_scene_objects;
+        std::unordered_map<std::string, EditorSceneObject>& m_editor_scene_objects;
     };
 
 }
