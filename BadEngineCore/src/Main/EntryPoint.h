@@ -16,6 +16,6 @@ int main()
 	be::Logger::Init();
 	be::ResourcePathHandler::Init();
 	be::Application* app = be::CreateApplication();
-	app->Run();
+	app->EngineRun();
 	delete app;
 }

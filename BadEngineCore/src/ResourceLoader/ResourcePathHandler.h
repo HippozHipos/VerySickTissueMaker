@@ -16,6 +16,7 @@ namespace be {
         static std::string GetModelsPath();
         static std::string GetTexturesPath();
         static std::string GetShadersPath();
+        static std::string GetFontsPath();
 
 	private:
         static std::string LoadResourcePathFromConfigFile();

@@ -14,7 +14,7 @@ namespace be {
 	ApplicationContainer::ApplicationContainer() :
 		keyboard{ Add<Keyboard>() },
 		mouse{ Add<Mouse>() },
-		window{ Add<Window>(600, 600, "Very sick tissue maker", keyboard, mouse) },
+		window{ Add<Window>(1200, 800, "Very sick tissue maker", keyboard, mouse) },
 		renderer{ Add<Renderer>(window.GetWidth(), window.GetHeight()) },
 		timer{ Add<Timer>() }
 	{
@@ -26,18 +26,19 @@ namespace be {
 		glfwTerminate();
 	}
 
-	void Application::Start()
+	void Application::EngineStart()
 	{
 		be::TextureManager::Init();
 		m_imgui.Start(m_container.window.GetGLFWWindow(), config_flag);
 		m_container.renderer.Init();
 		ErrorHandler::Handle();
 		HandleErrorActions();
+		Init();
 	}
 
-	void Application::Run()
+	void Application::EngineRun()
 	{
-		Start();
+		EngineStart();
 		while (!m_container.window.IsClosed() && m_running)
 		{
 			//frame start
@@ -51,6 +52,8 @@ namespace be {
 			glfwPollEvents();
 		}
 	}
+
+	void Application::Init() {}
 
 	void Application::HandleErrorActions()
 	{

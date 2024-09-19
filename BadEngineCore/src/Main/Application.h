@@ -33,8 +33,12 @@ namespace be {
 
 	public:
 		void HandleErrorActions();
-		void Start();
-		void Run();
+		void EngineStart();
+		void EngineRun();
+
+		//intended to be used by user application in case anything that depends on the engine to be 
+		//initialized first, needs to be initialized (example: imgui fonts)
+		virtual void Init();
 
 	public:
 		static constexpr int SETUP_MAIN_WINDOW_AS_DOCKSPACE = 1 << 0;
@@ -45,7 +49,7 @@ namespace be {
 
 	private:
 		ApplicationContainer m_container;
-		OurImGui m_imgui{};
+		BEImGui m_imgui{};
 		bool m_running = true;
 	};
 

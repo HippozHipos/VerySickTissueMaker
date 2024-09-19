@@ -9,7 +9,7 @@
 class GLFWwindow;
 namespace be {
 
-	class OurImGui
+	class BEImGui
 	{
 	public:
 		void Start(GLFWwindow* window, int config_flag);

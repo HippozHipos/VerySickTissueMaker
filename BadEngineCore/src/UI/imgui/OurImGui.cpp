@@ -7,7 +7,7 @@
 
 namespace be {
 
-	void OurImGui::Start(GLFWwindow* window, int config_flag)
+	void BEImGui::Start(GLFWwindow* window, int config_flag)
 	{
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
@@ -35,7 +35,7 @@ namespace be {
 		ImGui_ImplOpenGL3_Init(glsl_version);
 	}
 
-	void OurImGui::Render(GLFWwindow* window, Renderer& renderer, int config_flag)
+	void BEImGui::Render(GLFWwindow* window, Renderer& renderer, int config_flag)
 	{	
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -58,7 +58,7 @@ namespace be {
 		}
 	}
 
-	void OurImGui::Destroy()
+	void BEImGui::Destroy()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();

@@ -16,6 +16,7 @@ namespace bee {
     private:
         void ShowMeshRenderer(EditorSceneObject& object);
         void ShowMeshTransform(be::Transform& transform);
+        void ShowMaterialColor(be::Material& material);
         void ShowMeshRendererDrawModeDropdown(be::MeshRenderer& renderer);
 
     private:

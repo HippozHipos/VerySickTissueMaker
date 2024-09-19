@@ -25,6 +25,11 @@ namespace be {
         return m_resource_path + "/Shaders/";
     }
 
+    std::string ResourcePathHandler::GetFontsPath()
+    {
+        return m_resource_path + "/Fonts/";
+    }
+
     std::string ResourcePathHandler::LoadResourcePathFromConfigFile()
     {
         std::ifstream file("BEApplicationConfig.txt");

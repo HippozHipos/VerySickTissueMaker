@@ -1,4 +1,5 @@
 #include "EditorMainSceneViewPannel.h"
+#include "EditorFonts.h"
 
 namespace bee {
 
@@ -27,6 +28,7 @@ namespace bee {
             be::MeshRenderer& renderer = object.Get<be::MeshRenderer>();
             ShowMeshTransform(object.Get<be::Transform>());
             ShowMeshRendererDrawModeDropdown(renderer);
+            ShowMaterialColor(renderer.material);
 
             ImGui::TreePop();
         }
@@ -34,10 +36,20 @@ namespace bee {
 
     void EditorMainSceneViewPannel::ShowMeshTransform(be::Transform& transform)
     {
+        ImGui::PushFont(EditorFonts::roboto_bold);
         ImGui::Text("Transform");
+        ImGui::PopFont();
         ImGui::DragFloat3("Position", &transform.position[0]);
         ImGui::DragFloat3("Rotation", &transform.rotation[0]);
         ImGui::DragFloat3("Scale", &transform.scale[0]);
+    }
+
+    void EditorMainSceneViewPannel::ShowMaterialColor(be::Material& material)
+    {
+        ImGui::PushFont(EditorFonts::roboto_bold);
+        ImGui::Text("Material");
+        ImGui::PopFont();
+        ImGui::DragFloat3("Color", &material.color[0]);
     }
 
     void EditorMainSceneViewPannel::ShowMeshRendererDrawModeDropdown(be::MeshRenderer& renderer)
@@ -55,12 +67,12 @@ namespace bee {
             }
         }
 
+        ImGui::PushFont(EditorFonts::roboto_bold);
         ImGui::Text("Draw Mode");
+        ImGui::PopFont();
         if (ImGui::Combo("Draw Mode", &currentModeIndex, drawModes.data(), drawModes.size()))
         {
             renderer.draw_mode = glModes[currentModeIndex];
         }
     }
-
-
 }
