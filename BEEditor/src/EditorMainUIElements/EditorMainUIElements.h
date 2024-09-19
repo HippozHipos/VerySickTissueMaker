@@ -5,16 +5,15 @@
 #include "EditorMainAssetsPannel.h"
 #include "EditorMainSceneViewPannel.h"
 #include "EditorMainCreationPannel.h"
-#include "NotificationManager.h"
 
 namespace bee {
 
-    class EditorMainUIElements : public be::BehaviourObject<EditorMainUIElements>
+    class EditorMainUIElements 
     {
     public:
         void UI()
         {
-            NotificationManager::ShowNotifications();
+            
         }
 
     public:
@@ -25,6 +24,6 @@ namespace bee {
         EditorMainCreationPannel creation_pannel;
 
     private:
-        std::unordered_map<std::string, EditorSceneObject> m_objects_map;
+        std::unordered_map<std::string, SceneObjectHolder> m_objects_map;
     };
 }

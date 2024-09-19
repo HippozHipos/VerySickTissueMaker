@@ -12,6 +12,12 @@ namespace be {
 		MeshRenderer() = default;
 
 	public:
+		int GetVertexCount();
+		int GetIndexCount();
+
+	public:
+		std::string model_path;
+		std::string model_name = "No Model";
 		Material material;
 		std::vector<Mesh> meshes;
 		int draw_mode = GL_FILL;

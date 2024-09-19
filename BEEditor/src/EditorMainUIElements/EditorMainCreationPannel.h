@@ -10,6 +10,7 @@ namespace bee {
         void UI();
 
     private:
+        void ShowSceneObject();
         void ShowPointLight();
 
     private:

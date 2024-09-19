@@ -19,6 +19,9 @@ namespace be {
 		return sizeof(VertexData);
 	}
 
+	//WARNING: WE NEED TO MAKE THIS MORE FLEXIBLE.
+	//NEEDS TO BE ABLE TO HANDLE BEING CALLED MULTIPLE
+	//TIMES 
 	void Mesh::SetupMesh()
 	{
 		vertex_array.Init();

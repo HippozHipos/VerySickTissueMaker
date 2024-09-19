@@ -26,7 +26,7 @@ namespace bee {
                 ImGui::SetNextWindowBgAlpha(0.7f);
                 ImGui::SetNextWindowPos(ImVec2(10, 10 + i * 50), ImGuiCond_Always);
 
-                ImGui::Begin("##Notification", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize |
+                ImGui::Begin("Notification", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize |
                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing |
                     ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove);
                 ImGui::Text("%s", notification.message.c_str());

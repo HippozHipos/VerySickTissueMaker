@@ -1,14 +1,14 @@
 #pragma once
 
 #include <BECore/BECore.h>
-#include "EditorSceneObject.h"
+#include "SceneObjectHolder.h"
 
 namespace bee {
 
     class EditorMainViewportWindow : public be::BehaviourSceneObject<EditorMainViewportWindow>
     {
     public:
-        EditorMainViewportWindow(std::unordered_map<std::string, EditorSceneObject>& m_objects_map);
+        EditorMainViewportWindow(std::unordered_map<std::string, SceneObjectHolder>& m_objects_map);
 
     public:
         void Update();
@@ -18,13 +18,15 @@ namespace bee {
 
     private:
         void AddEditorSceneObject(const char* name);
-
+        void AddPointLight(const char* name);
         std::pair<char*, std::string> AcceptDragDropPayloadFromResourcePannel(const char* payloadid);
-        void AcceptDragDropPointLightPayload();
+        char* AcceptDragDropPayloadFromCreationPannel(const char* payloadid, const char* title, const char* msg);
+
+        void AcceptFromCreationPannel();
 
     private:
         const char* m_name = "Scene";
-        std::unordered_map<std::string, EditorSceneObject>& m_editor_scene_objects;
+        std::unordered_map<std::string, SceneObjectHolder>& m_editor_scene_objects;
     };
 
 }

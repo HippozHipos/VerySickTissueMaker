@@ -6,7 +6,7 @@
 
 namespace be {
 
-	class PointLight : public SceneObject
+	class PointLight : public SceneContainer
 	{
 	public:
 		PointLight(const char* path = nullptr);

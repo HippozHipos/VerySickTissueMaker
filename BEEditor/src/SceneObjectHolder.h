@@ -4,10 +4,10 @@
 
 namespace bee {
 
-    class EditorSceneObject : public be::BehaviourSceneObject<EditorSceneObject>
+    class SceneObjectHolder : public be::BehaviourSceneObject<SceneObjectHolder>
     {
     public:
-        EditorSceneObject(const char* name);
+        SceneObjectHolder(const char* name);
 
     public:
         const char* GetName() const;

@@ -7,7 +7,7 @@
 
 namespace be {
 
-	class Camera : public SceneObject
+	class Camera : public SceneContainer
 	{
 	public:
 		Camera(float fovy, float aspect, float near, float far);

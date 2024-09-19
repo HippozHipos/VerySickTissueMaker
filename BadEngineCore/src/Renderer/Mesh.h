@@ -2,15 +2,13 @@
 #include "pch.h"
 #include <glm/glm.hpp>
 
-#include "ECS/SceneContainer.h"
-
 #include "renderer/buffers/VertexArray.h"
 #include "renderer/buffers/VertexBuffer.h"
 #include "renderer/buffers/IndexBuffer.h"
 
 namespace be {
 	
-	struct Mesh : public SceneContainer
+	struct Mesh //: public SceneContainer
 	{
 		struct VertexData
 		{

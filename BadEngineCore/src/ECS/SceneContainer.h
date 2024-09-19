@@ -120,8 +120,25 @@ namespace be {
 		template<class T>
 		T& Get()
 		{
-			auto view = ECS::registry.view<std::decay_t<T>>();
-			return view.get<std::decay_t<T>>(m_entity);
+			//auto view = ECS::registry.view<std::decay_t<T>>();
+			return ECS::registry.get<std::decay_t<T>>(m_entity);
+		}
+
+		template<class T>
+		bool Has()
+		{
+			return ECS::registry.all_of<T>(m_entity);
+		}
+
+		/*!
+		 * \brief Gets the object of given type from this container if it exists.
+		 * \tparam T Object that is to be retrieved.
+		 * \return Object of type T* if it exists otherwise nullptr.
+		 */
+		template<class T>
+		T* TryGet()
+		{
+			return ECS::registry.try_get<std::decay_t<T>>(m_entity);
 		}
 
 		/*!
@@ -132,8 +149,7 @@ namespace be {
 		template<class T>
 		T& GetParent()
 		{
-			auto view = ECS::registry.view<std::decay_t<T>>();
-			return view.get<std::decay_t<T>>(m_parent);
+			return ECS::registry.get<std::decay_t<T>>(m_parent);
 		}
 
 	private:

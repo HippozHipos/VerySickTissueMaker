@@ -5,7 +5,7 @@
 
 namespace bee {
 
-	EditorMainViewportWindow::EditorMainViewportWindow(std::unordered_map<std::string, EditorSceneObject>& editorSceneObjects) :
+	EditorMainViewportWindow::EditorMainViewportWindow(std::unordered_map<std::string, SceneObjectHolder>& editorSceneObjects) :
         m_editor_scene_objects{ editorSceneObjects }
 	{
 		GetRenderer().CreateViewport(m_name);
@@ -38,12 +38,7 @@ namespace bee {
             ImVec2 dropAreaEndPos = ImVec2(cursorPos.x + dropAreaSize.x, cursorPos.y + dropAreaSize.y);
             ImGui::ItemAdd({ cursorPos , dropAreaEndPos }, window->GetID("DropArea"));
             
-            //AcceptDragDropPointLightPayload();
-            auto pair = AcceptDragDropPayloadFromResourcePannel("MODEL_FILE_PATH");
-            if (pair.first)
-            {
-                AddEditorSceneObject(pair.first);
-            }
+            AcceptFromCreationPannel();
                 
             ProcessKeyboardMovement();
             ProcessMouseMovement();
@@ -53,19 +48,38 @@ namespace bee {
 
     void EditorMainViewportWindow::AddEditorSceneObject(const char* name)
     {
-        auto it = m_editor_scene_objects.find(std::string{ name });
+         auto it = m_editor_scene_objects.find(std::string{ name });
          if (it == m_editor_scene_objects.end())
          {
              m_editor_scene_objects.insert(
-                 std::pair<std::string, EditorSceneObject>{ name, EditorSceneObject{ name } }
+                 std::pair<std::string, SceneObjectHolder>{ name, SceneObjectHolder{ name } }
              );
-             std::string msg = std::string{ "New object " } + name + "added";
-             NotificationManager::AddNotification(msg, 3);
+             std::string msg = std::string{ "New object " } + name + " added";
+             BELOG_CD_INFO(msg.c_str());
          }
          else
          {
              //cant add duplicates for now
          }
+    }
+
+    void EditorMainViewportWindow::AddPointLight(const char* name)
+    {
+        auto it = m_editor_scene_objects.find(std::string{ name });
+        if (it == m_editor_scene_objects.end())
+        {
+            SceneObjectHolder object{ name };
+            object.Add<be::PointLight>();
+            m_editor_scene_objects.insert(
+                std::pair<std::string, SceneObjectHolder>{ name, object }
+            );
+            std::string msg = std::string{ "New point light " } + name + " added";
+            BELOG_CD_INFO(msg.c_str());
+        }
+        else
+        {
+            //cant add duplicates for now
+        }
     }
 
     std::pair<char*, std::string> EditorMainViewportWindow::AcceptDragDropPayloadFromResourcePannel(const char* payloadid)
@@ -84,11 +98,11 @@ namespace bee {
 
         if (openPopup)
         {
-            ImGui::OpenPopup("Enter object name");
+            ImGui::OpenPopup("Create new scene object");
             openPopup = false;  
         }
 
-        if (ImGui::BeginPopupModal("Enter object name", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+        if (ImGui::BeginPopupModal("Create new scene object", nullptr, ImGuiWindowFlags_AlwaysAutoResize))
         {
             static char name[32] = "";
             ImGui::Text("Object name");
@@ -110,29 +124,53 @@ namespace bee {
         return { nullptr, {} };
 	}
 
-    void EditorMainViewportWindow::AcceptDragDropPointLightPayload()
+    char* EditorMainViewportWindow::AcceptDragDropPayloadFromCreationPannel(const char* payloadid, const char* title, const char* msg)
     {
-        if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("POINT_LIGHT"))
+        static bool openPopup = false;
+        if (ImGui::BeginDragDropTarget())
         {
-            
-            //const char* name = "Point Light";
-            //auto it = m_editor_scene_objects.find(name);
-            //if (it == m_editor_scene_objects.end()) //add new with 1 count if doesnt exist
-            //{
-            //    std::string lightModelPath = be::ResourcePathHandler::GetModelsPath() + "SimpleShapes/cube.obj";
-            //    EditorSceneObject object{ name, lightModelPath.c_str() };
-            //    be::PointLight& light = object.Add<be::PointLight>();
-            //    light.color = object.Get<be::MeshRenderer>().material.color;
-            //    std::pair<EditorSceneObject, int> objectWithCount{ object , 1 };
-            //    m_editor_scene_objects.insert(
-            //        std::pair<std::string, std::pair<EditorSceneObject, int>>{ name, objectWithCount }
-            //    );
-            //}
-            //else
-            //{
-            //    //cant add duplicates for now
-            //}
+            if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(payloadid))
+            {
+                openPopup = true;
+            }
+            ImGui::EndDragDropTarget();
         }
+
+        if (openPopup)
+        {
+            ImGui::OpenPopup(title);
+            openPopup = false;
+        }
+
+        if (ImGui::BeginPopupModal(title, nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+        {
+            static char name[32] = "";
+            ImGui::Text(msg);
+            ImGui::InputText("##textInput", name, IM_ARRAYSIZE(name));
+            if (ImGui::Button("OK", ImVec2(120, 0)))
+            {
+                ImGui::CloseCurrentPopup();
+                ImGui::EndPopup();
+                return name;
+            }
+
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel", ImVec2(120, 0)))
+            {
+                ImGui::CloseCurrentPopup();
+            }
+            ImGui::EndPopup();
+        }
+        return nullptr;
+    }
+
+    void EditorMainViewportWindow::AcceptFromCreationPannel()
+    {
+        char* scname = AcceptDragDropPayloadFromCreationPannel("CREATE_SCENE_OBJECT", "Create New Scene Object", "Enter Scene Object Name");
+        if (scname) AddEditorSceneObject(scname);
+
+        char* plname = AcceptDragDropPayloadFromCreationPannel("CREATE_POINT_LIGHT", "Create New Point Light", "Enter Point Light Name");
+        if (plname) AddPointLight(plname);
     }
 
     void EditorMainViewportWindow::ProcessKeyboardMovement()
