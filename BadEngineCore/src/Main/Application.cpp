@@ -14,7 +14,7 @@ namespace be {
 	ApplicationContainer::ApplicationContainer() :
 		keyboard{ Add<Keyboard>() },
 		mouse{ Add<Mouse>() },
-		window{ Add<Window>(1200, 800, "Very sick tissue maker", keyboard, mouse) },
+		window{ Add<MainPlatformWindow>(1200, 800, "Very sick tissue maker", keyboard, mouse) },
 		renderer{ Add<Renderer>(window.GetWidth(), window.GetHeight()) },
 		timer{ Add<Timer>() }
 	{

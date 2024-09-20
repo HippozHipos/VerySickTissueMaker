@@ -6,6 +6,7 @@
 
 #include "Src/Renderer/Renderer.h"
 #include "Src/Renderer/Texture.h"
+#include "Src/Window/MainPlatformWindow.h"
 #include "Src/Window/Window.h"
 #include "Src/Main/Application.h"
 

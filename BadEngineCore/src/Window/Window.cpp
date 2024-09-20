@@ -1,164 +1,69 @@
-#include <glad/glad.h>
-
 #include "Window.h"
-#include "Diagnostics/Error.h"
-#include "Diagnostics/Openglerror.h"
-#include "Diagnostics/Logger.h"
+#include <imgui.h>
 
 namespace be {
 
-	// Callbacks
-	void keyCallback(GLFWwindow* glfwwindow, int key, int scancode, int action, int mods)
-	{
-		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
-		if (window && action == GLFW_PRESS)
-		{
-			window->m_keyboard.OnKeyPress(key);
-			window->m_keyboard.OnKeyHeld(key);
-		}
-		else if (window && action == GLFW_RELEASE)
-		{
-			window->m_keyboard.OnKeyRelease(key);
-		}
-	}
+    void Window::DisableCursor()
+    {
+        m_is_cursor_disabled = true;
+        if (m_needs_mouse_capture)
+        {
+            m_needs_mouse_capture = false;
+            glfwGetCursorPos(m_current_context, &m_mouse_capture_pos_x, &m_mouse_capture_pos_y);
+        }
 
-	void mouseButtonCallback(GLFWwindow* glfwwindow, int button, int action, int mods)
-	{
-		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
-		if (window && action == GLFW_PRESS)
-		{
-			window->m_mouse.OnMousePress(button);
-			window->m_mouse.OnMouseHeld(button);
-		}
-		else if (window && action == GLFW_RELEASE)
-		{
-			window->m_mouse.OnMouseRelease(button);
-		}
-	}
+        glfwSetInputMode(m_current_context, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+        if (ImGui::GetCurrentContext())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+        }
+    }
 
-	void mousePositionCallback(GLFWwindow* glfwwindow, double xpos, double ypos)
-	{
-		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
-		if (window)
-		{
-			window->m_mouse.OnMouseMove(xpos, ypos);
-		}
-	}
+    void Window::DefaultCursor()
+    {
+        glfwSetInputMode(m_current_context, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        if (ImGui::GetCurrentContext())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+        }
+        m_needs_mouse_capture = true;
+        m_is_cursor_disabled = false;
+    }
 
-	void scrollWheelCallback(GLFWwindow* glfwwindow, double xoffset, double yoffset)
-	{
-		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
-		if (window)
-		{
-			window->m_mouse.OnMouseScroll(xoffset, yoffset);
-		}
-	}
+    void Window::Update()
+    {
+        //do normal mouse delta calculation if cursor isnt disabled, if it 
+        if (!m_is_cursor_disabled)
+        {
+            glfwGetCursorPos(m_current_context, &m_mouse_capture_pos_x, &m_mouse_capture_pos_y);
+        }
+        double currentx, currenty;
+        glfwGetCursorPos(m_current_context, &currentx, &currenty);
+        m_delta_x = static_cast<float>(currentx - m_mouse_capture_pos_x);
+        m_delta_y = static_cast<float>(currenty - m_mouse_capture_pos_y);
+    }
 
-	void frameBufferSizeCallback(GLFWwindow* glfwwindow, int width, int height)
-	{
-		be::Window* window = reinterpret_cast<be::Window*>(glfwGetWindowUserPointer(glfwwindow));
-		glViewport(0,0, width, height);
-		window->m_width = width;
-		window->m_height = height;
-	}
+    void Window::SetCurrentContext(GLFWwindow* context)
+    {
+        if (m_current_context)
+        {
+            m_last_context = m_current_context;
+        }
+        else
+        {
+            m_last_context = context;
+        }
+        m_current_context = context;
 
-    //Window functions
-
-	Window::Window(int width, int height, const char* title, Keyboard& keyboard, Mouse& mouse,
-		GLFWmonitor* monitor, GLFWwindow* share) :
-		m_keyboard{ keyboard }, m_mouse{ mouse },
-		m_width{ width }, m_height{ height }
-	{
-		BELOG_TRC_INFO("Window constructed");
-		;
-		if (!glfwInit())
-		{
-			BELOG_CD_ERR("GLFW initialization failed");
-			ErrorHandler::AddError(Error::WINDOW_CONSTRUCTION_FAILED, "Couldn't initialize glfw");
-			glfwTerminate();
-			return;
-		}
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-		m_pwindow = glfwCreateWindow(width, height, title, monitor, share);
-
-		if (m_pwindow == nullptr)
-		{
-			ErrorHandler::AddError(Error::WINDOW_CONSTRUCTION_FAILED, "Couldn't construct window");
-			glfwTerminate();
-			return;
-		}
-
-		glfwSetWindowUserPointer(m_pwindow, reinterpret_cast<void*>(this));
-		glfwSetKeyCallback(m_pwindow, keyCallback);
-		glfwSetMouseButtonCallback(m_pwindow, mouseButtonCallback);
-		glfwSetCursorPosCallback(m_pwindow, mousePositionCallback);
-		glfwSetScrollCallback(m_pwindow, scrollWheelCallback);
-		glfwSetFramebufferSizeCallback(m_pwindow, frameBufferSizeCallback);
-
-		InitOpengl(width, height);
-	}
-
-	void Window::Update()
-	{
-		m_keyboard.ResetKeysPressed();
-		m_mouse.Update();
-		glfwSwapBuffers(m_pwindow);
-	}
-
-	void Window::SetFocus()
-	{
-		glfwFocusWindow(m_pwindow);
-	}
-
-	bool Window::IsClosed()
-	{
-		return glfwWindowShouldClose(m_pwindow);
-	}
-
-	float Window::GetWidth()
-	{
-		return m_width;
-	}
-
-	float Window::GetHeight()
-	{
-		return m_height;
-	}
-
-	void Window::SetCursorPos(float x, float y)
-	{
-		glfwSetCursorPos(m_pwindow, static_cast<double>(x), static_cast<double>(y));
-	}
-
-	void Window::DisableCursor()
-	{
-		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	}
-
-	void Window::DefaultCursor()
-	{
-		glfwSetInputMode(m_pwindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	}
-
-	void Window::InitOpengl(int width, int height)
-	{
-		glfwMakeContextCurrent(m_pwindow);
-		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
-			BELOG_CD_ERR("Failed to initialize glad\n");
-			return;
-		}
-		glViewport(0, 0, width, height);
-		glEnable(GL_DEBUG_OUTPUT);
-		glDebugMessageCallback(OpenglErrorMessageCallback, 0);
-		CheckOpenGLError();
-	}
-
-	GLFWwindow* Window::GetGLFWWindow() 
-	{ 
-		return m_pwindow; 
-	}
+        //we have changed context
+        if (m_last_context != m_current_context)
+        {
+            m_needs_mouse_capture = true;
+            m_is_cursor_disabled = false;
+            m_delta_x = 0;
+            m_delta_y = 0;
+            m_mouse_capture_pos_x = 0;
+            m_mouse_capture_pos_y = 0;
+        }
+    }
 }

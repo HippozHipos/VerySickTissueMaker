@@ -2,13 +2,14 @@
 #include "pch.h"
 #include "Renderer/Renderer.h"
 #include "Window/Window.h"
+#include "Window/MainPlatformWindow.h"
 #include "Renderer/Texture.h"
 #include "Timer/Timer.h"
 
 #include "Input/Keyboard.h" 
 #include "Input/Mouse.h"
 
-#include "UI/Imgui/OurImGui.h"
+#include "UI/Imgui/BEImGui.h"
 
 namespace be {
 
@@ -20,7 +21,7 @@ namespace be {
 		ApplicationContainer();
 		Keyboard& keyboard;
 		Mouse& mouse;
-		Window& window;
+		MainPlatformWindow& window;
 		Renderer& renderer;
 		Timer& timer;
 	};

@@ -1,4 +1,4 @@
-#include "EditorMainViewportWindow.h"
+#include "EditorViewportWindow.h"
 #include <imgui_internal.h>
 #include "UtilWidgets.h"
 #include "NotificationManager.h"
@@ -41,7 +41,6 @@ namespace bee {
             AcceptFromCreationPannel();
                 
             ProcessKeyboardMovement();
-            ProcessMouseMovement();
         }
         ImGui::End();
 	}
@@ -180,34 +179,64 @@ namespace bee {
     {
         be::Camera& camera = Get<be::Camera>();
         ImGuiIO& io = ImGui::GetIO();
+        static double pressposcaturex = 0;
+        static double pressposcaturey = 0;
+        static bool needpressposcature = true;
+        // Get the viewport of the hovered window
+        ImGuiViewport* viewport = ImGui::GetWindowViewport();
+        if (viewport)
+        {
+            GLFWwindow* glfwWindow = (GLFWwindow*)viewport->PlatformHandle;
+            if (glfwWindow)
+            {
+                if (ImGui::IsWindowHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Right))
+                {
+                    if (needpressposcature)
+                    {
+                        needpressposcature = false;
+                        glfwGetCursorPos(glfwWindow, &pressposcaturex, &pressposcaturey);
+                    }
+                    // Set the mouse cursor to None
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_None);
+                    glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+                    // Get the current mouse position
+                    double mouseX, mouseY;
+                    glfwGetCursorPos(glfwWindow, &mouseX, &mouseY);
 
-        if (ImGui::IsMouseDown(ImGuiMouseButton_Right))
-        {
-            io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
-            ImGui::SetMouseCursor(ImGuiMouseCursor_None);
-            //NOTE: This locking only works if editor is fully inside the main main window.
-            //need to find a solution that makes it work with imgui
-            GetWindow().DisableCursor();
-            glfwSetInputMode(glfwGetCurrentContext(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-            float velocity = camera.movement_speed * GetTimer().GetDeltaTime();
-            if (ImGui::IsKeyDown(ImGuiKey_W))
-                camera.position += camera.Forward() * velocity;
-            if (ImGui::IsKeyDown(ImGuiKey_S))
-                camera.position -= camera.Forward() * velocity;
-            if (ImGui::IsKeyDown(ImGuiKey_A))
-                camera.position -= camera.Right() * velocity;
-            if (ImGui::IsKeyDown(ImGuiKey_D))
-                camera.position += camera.Right() * velocity;
-            if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
-                camera.position -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
-            if (ImGui::IsKeyDown(ImGuiKey_Space))
-                camera.position += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
-        }
-        else
-        {
-            io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
-            ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
-            GetWindow().DefaultCursor();
+                    // Set the cursor position to the center
+                    glfwSetCursorPos(glfwWindow, pressposcaturex, pressposcaturey);
+
+                    // Calculate mouse delta
+                    float deltaX = static_cast<float>(mouseX - pressposcaturex);
+                    float deltaY = static_cast<float>(mouseY - pressposcaturey);
+
+                    // Update camera rotation based on mouse delta
+                    camera.rotation.z += deltaX * camera.mouse_sensitivity;
+                    camera.rotation.y -= deltaY * camera.mouse_sensitivity;
+                    camera.rotation.y = std::clamp(camera.rotation.y, -89.0f, 89.0f);
+
+                    // Camera movement logic
+                    float velocity = camera.movement_speed * GetTimer().GetDeltaTime();
+                    if (ImGui::IsKeyDown(ImGuiKey_W))
+                        camera.position += camera.Forward() * velocity;
+                    if (ImGui::IsKeyDown(ImGuiKey_S))
+                        camera.position -= camera.Forward() * velocity;
+                    if (ImGui::IsKeyDown(ImGuiKey_A))
+                        camera.position -= camera.Right() * velocity;
+                    if (ImGui::IsKeyDown(ImGuiKey_D))
+                        camera.position += camera.Right() * velocity;
+                    if (ImGui::IsKeyDown(ImGuiKey_LeftCtrl))
+                        camera.position -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
+                    if (ImGui::IsKeyDown(ImGuiKey_Space))
+                        camera.position += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
+                }
+                else
+                {
+                    needpressposcature = true;
+                    glfwSetInputMode(glfwWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+                    ImGui::SetMouseCursor(ImGuiMouseCursor_Arrow);
+                }
+            }
         }
     }
 

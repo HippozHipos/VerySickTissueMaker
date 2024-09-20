@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EditorMainTitleBar.h"
-#include "EditorMainViewportWindow.h"
+#include "EditorViewportWindow.h"
 #include "EditorMainAssetsPannel.h"
 #include "EditorMainSceneViewPannel.h"
 #include "EditorMainCreationPannel.h"

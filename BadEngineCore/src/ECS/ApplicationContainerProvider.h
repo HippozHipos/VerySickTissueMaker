@@ -1,11 +1,10 @@
 #pragma once
 #include "pch.h"
-#include "ECS/SceneContainer.h"
-#include "Renderer/Transform.h"
+#include "ECS/ApplicationContainerProvider.h"
+#include "SceneContainer.h"
 
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
-#include "Window/Window.h"
 #include "Window/MainPlatformWindow.h"
 #include "Timer/Timer.h"
 #include "Renderer/Renderer.h"
@@ -13,22 +12,22 @@
 namespace be {
 
 	/*!
-	 *  \class SceneObject
-	 *  \brief Represents an object in the scene. 
+	 *  \class ApplicationContainerProvider
+	 *  \brief Represents an object in the scene.
 	 *
 	 *  This class can be inherited from by any class that will be in the scene without any behaviour.
 	 *  It inherits from SceneContainer and provides access to the objects stored by ApplicationContainer
 	 *  on top of it.
-	 * 
+	 *
 	 *  Each SceneObject also has a Transform object added to it by default.
 	 */
-	class SceneObject : public SceneContainer
+	class ApplicationContainerProvider : public SceneContainer
 	{
 	public:
 		/*!
 		* \brief Constructor adds a Transform object
 		*/
-		SceneObject();
+		ApplicationContainerProvider() = default;
 
 	protected:
 		/*!
@@ -37,7 +36,7 @@ namespace be {
 		 */
 		Keyboard& GetKeyboard()
 		{
-			return ECS::registry.get<Keyboard>(entt::entity(0));
+			return ECS::registry.get<Keyboard>((entt::entity)0);
 		}
 
 		/*!
@@ -46,27 +45,17 @@ namespace be {
 		 */
 		Mouse& GetMouse()
 		{
-			return ECS::registry.get<Mouse>(entt::entity(0));
-		}
-
-		/*!
-		 * \brief Gets the "Main Platoform Window" i.e. the MainPlatformWindow class.
-		 * \return Reference to "Main Platoform Window" i.e. the MainPlatformWindow class stored by ApplicationContainer.
-		 */
-		MainPlatformWindow& GetMainPlatformWindow()
-		{
-			return ECS::registry.get<MainPlatformWindow>(entt::entity(0));
+			return ECS::registry.get<Mouse>((entt::entity)0);
 		}
 
 		/*!
 		 * \brief Gets the "Main Platoform Window" i.e. the Window class.
 		 * \return Reference to "Main Platoform Window" i.e. the Window class stored by ApplicationContainer.
 		 */
-		//Window& GetWindow()
-		//{
-		//	auto view = ECS::registry.view<Window>();
-		//	return view.get<Window>(entt::entity(0));
-		//}
+		MainPlatformWindow& GetWindow()
+		{
+			return ECS::registry.get<MainPlatformWindow>((entt::entity)0);
+		}
 
 		/*!
 		 * \brief Gets the Timer.
@@ -74,7 +63,7 @@ namespace be {
 		 */
 		Timer& GetTimer()
 		{
-			return ECS::registry.get<Timer>(entt::entity(0));
+			return ECS::registry.get<Timer>((entt::entity)0);
 		}
 
 		/*!
@@ -83,7 +72,7 @@ namespace be {
 		 */
 		Renderer& GetRenderer()
 		{
-			return ECS::registry.get<Renderer>(entt::entity(0));
+			return ECS::registry.get<Renderer>((entt::entity)0);
 		}
 	};
 

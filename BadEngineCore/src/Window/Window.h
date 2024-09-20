@@ -1,56 +1,36 @@
 #pragma once
 #include "pch.h"
-
 #ifndef GLFW_INCLUDE_NONE 
-	#define GLFW_INCLUDE_NONE 
+    #define GLFW_INCLUDE_NONE 
 #endif
 #include <glfw/glfw3.h>
+#include "ECS/Behaviour/BehaviourObject.h"
 
-#include "ECS/SceneContainer.h"
-
-#include "Input/Keyboard.h"
-#include "Input/Mouse.h"
 
 namespace be {
 
-	class Window : public SceneContainer
-	{
-		friend void keyCallback(GLFWwindow*, int, int, int, int);
-		friend void mouseButtonCallback(GLFWwindow*, int, int, int);
-		friend void mousePositionCallback(GLFWwindow*, double, double);
-		friend void scrollWheelCallback(GLFWwindow*, double, double);
-		friend void frameBufferSizeCallback(GLFWwindow*, int, int);
-	public:
-		Window() = default;
-		Window(int width, int height, const char* title, Keyboard& keyboard, Mouse& mouse,
-			GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
+    class Window : public SceneContainer
+    {
+    public:
+        Window() = default;
 
-	public:
-		void Update();
-		void SetFocus();
-		bool IsClosed();
+    public:
+        void DisableCursor();
+        void DefaultCursor();
+        void Update();
 
-		float GetWidth();
-		float GetHeight();
+        void SetCurrentContext(GLFWwindow* context);
 
-		void SetCursorPos(float x, float y);
+    private:
+        bool m_needs_mouse_capture = true;
+        bool m_is_cursor_disabled = false;
+        float m_delta_x = 0;
+        float m_delta_y = 0;
+        double m_mouse_capture_pos_x = 0;
+        double m_mouse_capture_pos_y = 0;
 
-		void DisableCursor();
-		void DefaultCursor();
-
-		GLFWwindow* GetGLFWWindow();
-
-	private:
-		void InitOpengl(int width, int height);
-
-	private:
-		Keyboard& m_keyboard;
-		Mouse& m_mouse;
-
-		int m_width;
-		int m_height;
-
-		GLFWwindow* m_pwindow;
-	};
+        GLFWwindow* m_current_context; //NOTE: EVENTALLY, WE WANT TO DETECT AND HANDLE IT THROUGH THIS CLASS
+        GLFWwindow* m_last_context; //NOTE: EVENTALLY, WE WANT TO DETECT AND HANDLE IT THROUGH THIS CLASS
+    };
 
 }
