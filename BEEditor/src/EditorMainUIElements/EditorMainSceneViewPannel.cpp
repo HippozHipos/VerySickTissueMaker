@@ -14,10 +14,11 @@ namespace bee {
         if (ImGui::Begin(m_name))
         {
             ShowPointLights();
+            DrawSeperator(1);
             ShowMeshRenderer();
-            DrawThickSeperator();
-            ImGui::End();
+            DrawSeperator(1);
         }
+        ImGui::End();
     }
 
     void EditorMainSceneViewPannel::ShowMeshRenderer()

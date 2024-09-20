@@ -42,8 +42,8 @@ namespace bee {
                 
             ProcessKeyboardMovement();
             ProcessMouseMovement();
-            ImGui::End();
         }
+        ImGui::End();
 	}
 
     void EditorMainViewportWindow::AddEditorSceneObject(const char* name)

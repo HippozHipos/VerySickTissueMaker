@@ -14,8 +14,8 @@ namespace bee {
 		if (ImGui::Begin(m_name))
 		{
 			ShowResourcePannelFileExploer();
-			ImGui::End();
 		}
+        ImGui::End();
 	}
 
     void EditorMainAssetsPannel::ShowResourcePannelFileExploer()

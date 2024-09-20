@@ -9,8 +9,8 @@ namespace bee {
 		{
 			ShowSceneObject();
 			ShowPointLight();
-			ImGui::End();
 		}
+		ImGui::End();
 	}
 
 	void EditorMainCreationPannel::ShowSceneObject()

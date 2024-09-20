@@ -32,12 +32,12 @@ namespace bee {
         }
 	}
 
-    void DrawThickSeperator()
+    void DrawSeperator(int thickness)
     {
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         ImVec2 p1 = ImGui::GetCursorScreenPos();  
         ImVec2 p2 = ImVec2(p1.x + ImGui::GetContentRegionAvail().x, p1.y);  
-        draw_list->AddLine(p1, p2, IM_COL32(255, 255, 255, 100), 1.0f); 
+        draw_list->AddLine(p1, p2, IM_COL32(255, 255, 255, 100), thickness);
     }
 
 }
