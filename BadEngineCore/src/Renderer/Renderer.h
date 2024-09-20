@@ -11,7 +11,7 @@
 
 namespace be {
 
-	class Window;
+	class MainPlatformWindow;
 	class Renderer : public SceneContainer
 	{
 	public:

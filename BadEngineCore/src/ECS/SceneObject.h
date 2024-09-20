@@ -5,7 +5,7 @@
 
 #include "Input/Keyboard.h"
 #include "Input/Mouse.h"
-#include "Window/Window.h"
+#include "Src/Window/Window.h"
 #include "Window/MainPlatformWindow.h"
 #include "Timer/Timer.h"
 #include "Renderer/Renderer.h"
@@ -58,15 +58,14 @@ namespace be {
 			return ECS::registry.get<MainPlatformWindow>(entt::entity(0));
 		}
 
-		/*!
+		 /*!
 		 * \brief Gets the "Main Platoform Window" i.e. the Window class.
 		 * \return Reference to "Main Platoform Window" i.e. the Window class stored by ApplicationContainer.
 		 */
-		//Window& GetWindow()
-		//{
-		//	auto view = ECS::registry.view<Window>();
-		//	return view.get<Window>(entt::entity(0));
-		//}
+		Window& GetWindow()
+		{
+
+		}
 
 		/*!
 		 * \brief Gets the Timer.

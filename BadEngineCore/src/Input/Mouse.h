@@ -16,7 +16,7 @@ namespace be {
 	 */
 	class Mouse : public SceneContainer
 	{
-		friend class Window;
+		//friend class MainPlatformWindow;
 		friend void mouseButtonCallback(GLFWwindow*, int, int, int);
 		friend void mousePositionCallback(GLFWwindow*, double, double);
 		friend void scrollWheelCallback(GLFWwindow*, double, double);

@@ -15,7 +15,7 @@ namespace be {
 	 */
 	class Keyboard : public SceneContainer
 	{
-		friend class Window;
+		//friend class MainPlatformWindow;
 		friend void keyCallback(GLFWwindow*, int, int, int, int);
 	public:
 		/**

@@ -21,7 +21,8 @@ namespace be {
 		ApplicationContainer();
 		Keyboard& keyboard;
 		Mouse& mouse;
-		MainPlatformWindow& window;
+		MainPlatformWindow& main_platform_window;
+		Window& window;
 		Renderer& renderer;
 		Timer& timer;
 	};

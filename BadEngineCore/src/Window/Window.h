@@ -4,8 +4,7 @@
     #define GLFW_INCLUDE_NONE 
 #endif
 #include <glfw/glfw3.h>
-#include "ECS/Behaviour/BehaviourObject.h"
-
+#include "ECS/SceneContainer.h"
 
 namespace be {
 

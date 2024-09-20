@@ -14,8 +14,9 @@ namespace be {
 	ApplicationContainer::ApplicationContainer() :
 		keyboard{ Add<Keyboard>() },
 		mouse{ Add<Mouse>() },
-		window{ Add<MainPlatformWindow>(1200, 800, "Very sick tissue maker", keyboard, mouse) },
-		renderer{ Add<Renderer>(window.GetWidth(), window.GetHeight()) },
+		main_platform_window{ Add<MainPlatformWindow>(1200, 800, "Very sick tissue maker", keyboard, mouse) },
+		window{ Add<Window>() },
+		renderer{ Add<Renderer>(main_platform_window.GetWidth(), main_platform_window.GetHeight()) },
 		timer{ Add<Timer>() }
 	{
 	}
@@ -29,8 +30,9 @@ namespace be {
 	void Application::EngineStart()
 	{
 		be::TextureManager::Init();
-		m_imgui.Start(m_container.window.GetGLFWWindow(), config_flag);
+		m_imgui.Start(m_container.main_platform_window.GetGLFWWindow(), config_flag);
 		m_container.renderer.Init();
+		m_container.window.SetCurrentContext(m_container.main_platform_window.GetGLFWWindow());
 		ErrorHandler::Handle();
 		HandleErrorActions();
 		Init();
@@ -39,15 +41,15 @@ namespace be {
 	void Application::EngineRun()
 	{
 		EngineStart();
-		while (!m_container.window.IsClosed() && m_running)
+		while (!m_container.main_platform_window.IsClosed() && m_running)
 		{
 			//frame start
 			BehaviourManagerStore::GetBehaviourManager().CallAllUpdateFunctions();
 			m_container.renderer.Render();
-			m_imgui.Render(m_container.window.GetGLFWWindow(), m_container.renderer, config_flag);
+			m_imgui.Render(m_container.main_platform_window.GetGLFWWindow(), m_container.renderer, config_flag);
 
 			//frame end
-			m_container.window.Update();
+			m_container.main_platform_window.Update();
 			m_container.timer.UpdateDeltaTime();
 			glfwPollEvents();
 		}
