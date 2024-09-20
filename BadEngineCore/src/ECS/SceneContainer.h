@@ -87,6 +87,13 @@ namespace be {
 	class SceneContainer
 	{
 	public:
+		//base data members that every object in the scene will have
+		struct ObjectData
+		{
+			std::string name;
+		};
+
+	public:
 		/*!
 		* \brief Constructor creates an entt::entity, which is the entity that identifies this container.
 		*/
@@ -142,9 +149,9 @@ namespace be {
 		}
 
 		/*!
-		 * \brief Gets the parent container of this container.
-		 * \tparam T Type of the parent container.
-		 * \return The parent container of this object.
+		 * \brief Gets T held my parent container of this container.
+		 * \tparam T Type of the container to be retrieved from parent container.
+		 * \return Object of type T held by the parent.
 		 */
 		template<class T>
 		T& GetParent()

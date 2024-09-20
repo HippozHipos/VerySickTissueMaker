@@ -4,7 +4,7 @@
 
 namespace bee {
 
-    class SceneObjectHolder : public be::BehaviourSceneObject<SceneObjectHolder>
+ /*   class SceneObjectHolder : public be::BehaviourSceneObject<SceneObjectHolder>
     {
     public:
         SceneObjectHolder(const char* name);
@@ -15,6 +15,6 @@ namespace bee {
 
     private:
         std::string m_name;
-    };
+    };*/
 
 }

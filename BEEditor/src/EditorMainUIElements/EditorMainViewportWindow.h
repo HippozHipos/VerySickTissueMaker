@@ -8,7 +8,7 @@ namespace bee {
     class EditorMainViewportWindow : public be::BehaviourSceneObject<EditorMainViewportWindow>
     {
     public:
-        EditorMainViewportWindow(std::unordered_map<std::string, SceneObjectHolder>& m_objects_map);
+        EditorMainViewportWindow(std::unordered_map<std::string, SceneObject>& m_objects_map);
 
     public:
         void Update();
@@ -26,7 +26,7 @@ namespace bee {
 
     private:
         const char* m_name = "Scene";
-        std::unordered_map<std::string, SceneObjectHolder>& m_editor_scene_objects;
+        std::unordered_map<std::string, SceneObject>& m_editor_scene_objects;
     };
 
 }

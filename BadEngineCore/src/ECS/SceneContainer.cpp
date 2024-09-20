@@ -7,6 +7,7 @@ namespace be {
 	SceneContainer::SceneContainer() 
 	{
 		m_entity = ECS::registry.create();
+		ECS::registry.emplace<ObjectData>(m_entity);
 	}
 
 }

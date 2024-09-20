@@ -5,7 +5,7 @@
 
 namespace bee {
 
-	EditorMainViewportWindow::EditorMainViewportWindow(std::unordered_map<std::string, SceneObjectHolder>& editorSceneObjects) :
+	EditorMainViewportWindow::EditorMainViewportWindow(std::unordered_map<std::string, SceneObject>& editorSceneObjects) :
         m_editor_scene_objects{ editorSceneObjects }
 	{
 		GetRenderer().CreateViewport(m_name);
@@ -51,8 +51,10 @@ namespace bee {
          auto it = m_editor_scene_objects.find(std::string{ name });
          if (it == m_editor_scene_objects.end())
          {
+             SceneObject object{};
+             object.Get<ObjectData>().name = name;
              m_editor_scene_objects.insert(
-                 std::pair<std::string, SceneObjectHolder>{ name, SceneObjectHolder{ name } }
+                 std::pair<std::string, SceneObject>{ name, object }
              );
              std::string msg = std::string{ "New object " } + name + " added";
              BELOG_CD_INFO(msg.c_str());
@@ -68,10 +70,11 @@ namespace bee {
         auto it = m_editor_scene_objects.find(std::string{ name });
         if (it == m_editor_scene_objects.end())
         {
-            SceneObjectHolder object{ name };
+            SceneObject object{};
+            object.Get<ObjectData>().name = name;
             object.Add<be::PointLight>();
             m_editor_scene_objects.insert(
-                std::pair<std::string, SceneObjectHolder>{ name, object }
+                std::pair<std::string, SceneObject>{ name, object }
             );
             std::string msg = std::string{ "New point light " } + name + " added";
             BELOG_CD_INFO(msg.c_str());

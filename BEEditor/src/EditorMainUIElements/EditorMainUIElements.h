@@ -24,6 +24,6 @@ namespace bee {
         EditorMainCreationPannel creation_pannel;
 
     private:
-        std::unordered_map<std::string, SceneObjectHolder> m_objects_map;
+        std::unordered_map<std::string, be::SceneObject> m_objects_map;
     };
 }

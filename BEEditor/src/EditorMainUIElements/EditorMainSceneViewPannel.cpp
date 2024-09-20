@@ -4,7 +4,7 @@
 
 namespace bee {
 
-    bee::EditorMainSceneViewPannel::EditorMainSceneViewPannel(std::unordered_map<std::string, SceneObjectHolder>& editorSceneObjects) :
+    bee::EditorMainSceneViewPannel::EditorMainSceneViewPannel(std::unordered_map<std::string, be::SceneObject>& editorSceneObjects) :
         m_editor_scene_objects{ editorSceneObjects }
     {
     }
@@ -28,7 +28,7 @@ namespace bee {
             ImGui::PopFont();
             for (auto& pair : m_editor_scene_objects)
             {
-                if (ImGui::TreeNode(pair.second.GetName()))
+                if (ImGui::TreeNode(pair.second.Get<ObjectData>().name.c_str()))
                 {
                     ShowMeshTransform(pair.second.Get<be::Transform>());
                     if (be::MeshRenderer* renderer = pair.second.TryGet<be::MeshRenderer>())
@@ -95,7 +95,7 @@ namespace bee {
         ImGui::ColorPicker3("Color", &material.color[0]);
     }
 
-    void EditorMainSceneViewPannel::ShowComponentAdder(SceneObjectHolder& object)
+    void EditorMainSceneViewPannel::ShowComponentAdder(be::SceneObject& object)
     {
         if (ImGui::Button("Add Component")) 
         {
@@ -183,7 +183,11 @@ namespace bee {
             {
                 if (be::PointLight* light = pair.second.TryGet<be::PointLight>())
                 {
-                     ImGui::ColorPicker3("Color", &light->color[0]);
+                    if (ImGui::TreeNode(light->GetParent<ObjectData>().name.c_str()))
+                    {
+                        ImGui::ColorPicker3("Color", &light->color[0]);
+                        ImGui::TreePop();
+                    }
                 }
             }
             ImGui::TreePop();
