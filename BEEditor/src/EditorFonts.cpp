@@ -8,7 +8,7 @@ namespace bee {
 	void EditorFonts::Init()
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		int size = 18;
+		int size = 16;
 
 		std::string roboto = be::ResourcePathHandler::GetFontsPath() + "roboto/";
 
